@@ -1,0 +1,27 @@
+/* src/assets/styles/Navbar.css */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+  }
+  
+  .navbar-logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+  }
+  
+  .navbar-login a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+  .navbar-login .fa-user-circle {
+    color: white;
+    cursor: pointer;
+  }
+  
