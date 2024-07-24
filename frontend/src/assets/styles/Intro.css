@@ -4,6 +4,8 @@
     align-items: center;
     justify-content: center;
     padding: 2rem;
+    width: 85%;
+    margin:auto;
     background-color: #ffffff; /* Light background color */
     flex-wrap: wrap; /* Allow items to wrap on smaller screens */
   }

@@ -5,7 +5,8 @@
     padding: 2rem;
     background-color: #ffffff; /* Light background color */
     flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-    margin: 1rem 0;
+    margin:auto;
+    width: 85%;
   }
   
   .content-text {

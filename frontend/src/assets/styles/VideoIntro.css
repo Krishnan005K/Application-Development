@@ -5,7 +5,8 @@
     padding: 2rem;
     background-color: #ffffff; /* White background color */
     flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-    margin: 1rem 0;
+    width: 85%;
+    margin:auto;
   }
   
   .video-intro-content {
