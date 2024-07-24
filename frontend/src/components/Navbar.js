@@ -1,30 +1,27 @@
 // src/components/Navbar.js
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import '../assets/styles/Navbar.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import '../assets/styles/Navbar.css';
 
-const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
-
+const Navbar = ({ setShowLogin }) => {
   return (
-    <nav className="navbar">
-      <div className="navbar-logo">
-        <Link to="/">MyApp</Link>
+    <div className='navbar'>
+      <div className='navbar-left'>
+        <div className='hamburger-menu'>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <Link to="/">
+          <img src='/path/to/logo.png' alt="My Interview Practice" className='logo' />
+        </Link>
       </div>
-      <div className="navbar-login">
-        {isLoggedIn ? (
-          <FontAwesomeIcon icon={faUserCircle} size="2x" />
-        ) : (
-          <Link to="/login" onClick={handleLogin}>Login</Link>
-        )}
+
+      <div className='navbar-right'>
+        
+        <button onClick={() => setShowLogin(true)} className='signup-button'>Sign Up</button>
       </div>
-    </nav>
+    </div>
   );
 };
 
