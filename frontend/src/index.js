@@ -3,11 +3,19 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { AuthProvider } from './contexts/AuthContext';
+import { MockInterviewProvider } from './contexts/MockInterviewContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <MockInterviewProvider>
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+    </MockInterviewProvider>
+    
+   
   </React.StrictMode>
 );
 

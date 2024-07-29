@@ -1,0 +1,173 @@
+/* Register Page Background Wrapper */
+.background-wrapper {
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Container for Register Page */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+    background-color: rgba(109, 105, 105, 0.258); /* White background with 80% opacity */
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative; /* Positioning context for pseudo-element */
+    flex-direction: row;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Animated Border Line */
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px; /* Same as the container */
+    border: 3px solid; /* Thickness of the border line */
+    border-image-slice: 1;
+    animation: borderAnimation 5s infinite linear;
+    pointer-events: none; /* Ignore pointer events */
+    box-sizing: border-box; /* Ensure border is included in element's dimensions */
+}
+
+@keyframes borderAnimation {
+    0% {
+        border-image-source: linear-gradient(90deg, rgba(140, 14, 14, 0.5), rgba(240, 96, 96, 0.5), rgba(249, 212, 67, 0.5), rgba(246, 226, 122, 0.5), rgba(78, 205, 196, 0.5), rgba(85, 98, 112, 0.5));
+    }
+    50% {
+        border-image-source: linear-gradient(270deg, rgba(140, 14, 14, 0.5), rgba(240, 96, 96, 0.5), rgba(249, 212, 67, 0.5), rgba(246, 226, 122, 0.5), rgba(78, 205, 196, 0.5), rgba(85, 98, 112, 0.5));
+    }
+    100% {
+        border-image-source: linear-gradient(90deg, rgba(140, 14, 14, 0.5), rgba(240, 96, 96, 0.5), rgba(249, 212, 67, 0.5), rgba(246, 226, 122, 0.5), rgba(78, 205, 196, 0.5), rgba(85, 98, 112, 0.5));
+    }
+}
+
+/* Flex Layout for Left and Right Halves */
+.whole {
+    display: flex;
+    width: 100%;
+}
+
+.left-half, .right-half {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Left Half Image Styling */
+.left-half img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Login Form Styling */
+.right-half .login-form {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Form Heading */
+.login-form h1 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+/* Input Fields */
+.login-form input, .login-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Error Messages */
+.login-form .error {
+    color: #ff0000;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+/* Submit Button */
+.login-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #2f65ad;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Button Hover Effect */
+.login-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Links Below Form */
+.login-form .links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* Links Styling */
+.login-form .links a {
+    color: #2f65ad;
+    text-decoration: none;
+}
+
+/* Link Hover Effect */
+.login-form .links a:hover {
+    text-decoration: none;
+    color: #0056b3;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design for Register Page */
+@media (max-width: 768px) {
+    .whole {
+        flex-direction: column;
+    }
+
+    .left-half, .right-half {
+        padding: 20px;
+    }
+
+    .left-half img {
+        max-height: 200px;
+    }
+}

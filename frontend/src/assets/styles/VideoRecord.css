@@ -1,0 +1,40 @@
+/* VideoRec.css */
+.video-rec-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.video-container {
+    width: 800px;
+    height: 500px;
+}
+
+.video-container.large {
+    width: 800px;
+    height: 500px;
+}
+
+.video-frame {
+    width: 100%;
+    height: 100%;
+}
+
+.question-popup {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+}

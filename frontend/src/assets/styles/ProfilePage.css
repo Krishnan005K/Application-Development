@@ -1,0 +1,109 @@
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.profile-page-title {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.profile-photo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-photo-preview {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.profile-cards {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.profile-card {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1;
+  text-align: center;
+  margin: 0 10px;
+}
+
+.profile-form {
+  width: 100%;
+  max-width: 800px;
+}
+
+.profile-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.profile-form-group-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-form-group-row .profile-form-group {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.profile-form-group-row .profile-form-group:last-child {
+  margin-right: 0;
+}
+
+.profile-form-group label {
+  margin-bottom: 5px;
+}
+
+.profile-form-group input,
+.profile-form-group textarea {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.profile-form-group input[type="file"] {
+  padding: 0;
+}
+
+.save-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
+
+.dashboard-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #2f65ad;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+}
