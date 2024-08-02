@@ -1,8 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';  // Adjust the path as necessary
 import '../assets/styles/VideoRecord.css';  // Import the CSS file for styling
-import record from '../assets/images/record.png';
-import end from '../assets/images/end.png';
 
 const mockQuestions = [
     "Tell me about yourself.",
@@ -13,14 +10,15 @@ const mockQuestions = [
 ];
 
 function VideoRec() {
-    const { isAuthenticated } = useAuth();
     const [recording, setRecording] = useState(false);
     const [videoURL, setVideoURL] = useState('');
     const [currentQuestion, setCurrentQuestion] = useState('');
     const [recordingCompleted, setRecordingCompleted] = useState(false);
+    const [transcription, setTranscription] = useState('');
     const videoRef = useRef(null);
     const mediaRecorderRef = useRef(null);
     const questionIndex = useRef(0);
+    const speechRecognitionRef = useRef(null);
 
     useEffect(() => {
         let questionInterval;
@@ -37,6 +35,34 @@ function VideoRec() {
         return () => clearInterval(questionInterval);
     }, [recording]);
 
+    useEffect(() => {
+        if ('webkitSpeechRecognition' in window) {
+            const SpeechRecognition = window.webkitSpeechRecognition;
+            speechRecognitionRef.current = new SpeechRecognition();
+            speechRecognitionRef.current.continuous = true;
+            speechRecognitionRef.current.interimResults = true;
+            speechRecognitionRef.current.lang = 'en-US';
+
+            speechRecognitionRef.current.onresult = (event) => {
+                let interimTranscription = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    if (event.results[i].isFinal) {
+                        setTranscription(prev => prev + event.results[i][0].transcript + ' ');
+                    } else {
+                        interimTranscription += event.results[i][0].transcript;
+                    }
+                }
+                setTranscription(prev => prev + interimTranscription);
+            };
+
+            speechRecognitionRef.current.onerror = (event) => {
+                console.error('Speech recognition error', event);
+            };
+        } else {
+            console.error('Speech Recognition API not supported in this browser.');
+        }
+    }, []);
+
     const startRecording = () => {
         navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
             videoRef.current.srcObject = stream;
@@ -49,6 +75,7 @@ function VideoRec() {
             };
             mediaRecorderRef.current.start();
             setRecording(true);
+            speechRecognitionRef.current.start();
         });
     };
 
@@ -57,30 +84,26 @@ function VideoRec() {
         videoRef.current.srcObject.getTracks().forEach(track => track.stop());
         setRecording(false);
         setRecordingCompleted(true);
+        speechRecognitionRef.current.stop();
     };
-
-    if (!isAuthenticated) {
-        return <p>You must be signed in to access this page.</p>;
-    }
 
     return (
         <div className="video-rec-container">
-            <h1 style={{ textAlign: "center", color: "#2f65ad" }}>Mock Interview</h1>
-            <br />
+            <h1>Mock Interview</h1>
             {!recordingCompleted ? (
                 <>
-                    <div className={`video-container ${currentQuestion ? 'large' : ''}`}>
-                        <video
-                            ref={videoRef}
-                            controls
+                    <div className={video-container `${currentQuestion ? 'large' : ''}`}>
+                        <video 
+                            ref={videoRef} 
+                            controls 
                             className="video-frame"
                         />
                     </div>
-                    <div>
+                    <div className="button-container">
                         {!recording ? (
-                            <button onClick={startRecording} style={{ border: "none" }}><img src={record} style={{ width: '40px', height: '40px' }} /></button>
+                            <button className="start-button" onClick={startRecording}>Start Recording</button>
                         ) : (
-                            <button onClick={stopRecording} style={{ border: "none" }}><img src={end} style={{ width: '40px', height: '40px' }} /></button>
+                            <button className="stop-button" onClick={stopRecording}>Stop Recording</button>
                         )}
                     </div>
                     {currentQuestion && (
@@ -89,15 +112,26 @@ function VideoRec() {
                             <p>{currentQuestion}</p>
                         </div>
                     )}
+                    {transcription && (
+                        <div className="transcription-container">
+                            <h2>Transcription:</h2>
+                            <p>{transcription}</p>
+                        </div>
+                    )}
                 </>
             ) : (
-                <div>
+                <div className="video-preview-container">
                     {videoURL && (
                         <>
                             <h2>Recorded Video:</h2>
-                            <br />
-                            <video src={videoURL} width="400" controls />
+                            <video src={videoURL} width="400" controls className="video-preview" />
                         </>
+                    )}
+                    {transcription && (
+                        <div className="transcription-container">
+                            <h2>Transcription:</h2>
+                            <p>{transcription}</p>
+                        </div>
                     )}
                 </div>
             )}

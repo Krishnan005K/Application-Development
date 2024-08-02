@@ -51,13 +51,13 @@ function Login() {
       const { email, password } = formData;
 
       // Static validation for the provided credentials
-      if (email === 'Admin@gmail.com' && password === 'Admin@123') {
+      if (email === 'admin@gmail.com' && password === 'admin@123') {
         login({ email, role: 'admin' });
         navigate('/admin-dashboard');
       } else if (email === 'Interviewer@gmail.com' && password === 'Interviewer@123') {
         login({ email, role: 'interviewer' });
         navigate('/interviewer-dashboard');
-      } else if (email === 'Coder@gmail.com' && password === 'Coder@123') {
+      } else if (email === 'user@gmail.com' && password === 'user@123') {
         login({ email, role: 'user' });
         navigate('/user-dashboard');
       } else {
