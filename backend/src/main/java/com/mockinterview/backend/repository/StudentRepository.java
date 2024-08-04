@@ -17,11 +17,12 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     List<Student> findByBatch(String batch);
 
+    
     List<Student> findByDeptAndBatchAndSection(String dept, String batch, String section);
 
     List<Student> findByMentor(Mentor mentor);
     List<Student> findByDeptAndBatch(String dept, String batch);
-    
+    List<Student> findByBatchAndDept(String batch, String dept);
 }
 
 

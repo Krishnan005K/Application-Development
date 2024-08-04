@@ -26,7 +26,7 @@ public class MentorController {
 
     @PostMapping
     public Mentor createMentor(@RequestBody Mentor mentor) {
-        return mentorService.createMentor(mentor);
+        return mentorService.addMentor(mentor);
     }
 
     @PutMapping("/{id}")

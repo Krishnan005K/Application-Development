@@ -3,7 +3,6 @@ package com.mockinterview.backend.service;
 import com.mockinterview.backend.model.Student;
 import com.mockinterview.backend.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,19 +12,19 @@ import java.util.Optional;
 public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    
 
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
+   
 
     public Student getStudentById(Long id) {
         return studentRepository.findById(id).orElse(null);
     }
 
     public Student addStudent(Student student) {
-        student.setPassword(passwordEncoder.encode(student.getPassword()));
+
         return studentRepository.save(student);
     }
 

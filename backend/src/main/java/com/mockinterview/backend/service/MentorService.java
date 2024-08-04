@@ -3,7 +3,6 @@ package com.mockinterview.backend.service;
 import com.mockinterview.backend.model.Mentor;
 import com.mockinterview.backend.repository.MentorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +11,7 @@ import java.util.Optional;
 @Service
 public class MentorService {
 
-     @Autowired
-    private PasswordEncoder passwordEncoder;
+
     @Autowired
     private MentorRepository mentorRepository;
 
@@ -26,7 +24,6 @@ public class MentorService {
     }
 
     public Mentor addMentor(Mentor mentor) {
-        mentor.setPassword(passwordEncoder.encode(mentor.getPassword()));
         return mentorRepository.save(mentor);
     }
 

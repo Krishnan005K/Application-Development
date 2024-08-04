@@ -2,6 +2,8 @@ package com.mockinterview.backend.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +24,7 @@ public class Head {
     private String email;
     private String department;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "head")
     private List<Mentor> mentors;
 

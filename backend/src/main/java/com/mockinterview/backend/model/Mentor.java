@@ -1,6 +1,8 @@
 package com.mockinterview.backend.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,7 +25,7 @@ public class Mentor {
     private String contact;
     private String dept;
     private String classBeingMentored;
-
+    @JsonIgnore
     @ManyToOne
     private Head head;
 

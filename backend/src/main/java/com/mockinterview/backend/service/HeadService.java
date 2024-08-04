@@ -7,7 +7,6 @@ import com.mockinterview.backend.repository.HeadRepository;
 import com.mockinterview.backend.repository.MentorRepository;
 import com.mockinterview.backend.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +15,7 @@ import java.util.Optional;
 @Service
 public class HeadService {
 
-     @Autowired
-    private PasswordEncoder passwordEncoder;
+    
     @Autowired
     private HeadRepository headRepository;
 
@@ -29,7 +27,6 @@ public class HeadService {
 
     // Add a new Head
     public Head addHead(Head head) {
-        head.setPassword(passwordEncoder.encode(head.getPassword()));
         return headRepository.save(head);
     }
 
