@@ -1,0 +1,79 @@
+.dashboard-page {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fc;
+    padding: 20px;
+    color: #333;
+  }
+  
+  .dashboard-title {
+    text-align: center;
+    color: #2f65ad;
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  .user-details, .dashboard-section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .user-details h2, .dashboard-section h2 {
+    color: #2f65ad;
+    margin-bottom: 10px;
+  }
+  
+  .user-details p, .dashboard-section p {
+    font-size: 1em;
+    margin: 10px 0;
+  }
+  
+  .insights-cards, .performance-details, .upcoming-interviews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .insights-card, .performance-card, .interview-card {
+    background-color: #f4f7fc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    padding: 20px;
+    min-width: 200px;
+    text-align: center;
+  }
+  
+  .insights-card h3, .performance-card h3, .interview-card h3 {
+    color: #2f65ad;
+    margin-bottom: 10px;
+  }
+  
+  .insights-card p, .performance-card p, .interview-card p {
+    font-size: 1.2em;
+    color: #333;
+  }
+  
+  .profile-button{
+    background-color: #2f65ad;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .attend-interview-button{
+    background-color: #2f65ad;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }

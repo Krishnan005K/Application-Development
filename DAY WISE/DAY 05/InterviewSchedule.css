@@ -1,0 +1,112 @@
+.interview-create {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.37);
+    border: 10px solid rgba(255, 255, 255, 0.5);
+  }
+  
+  .interview-create h2 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  .schedule-form,
+  .question-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .schedule-form input,
+  .schedule-form select,
+  .question-form select,
+  .question-form input,
+  .question-form textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin: 5px;
+    flex: 1 1 48%;
+  }
+  
+  .schedule-form input[readOnly] {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+  }
+  
+  .schedule-form button,
+  .question-form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2f65ad;
+    color: #fff;
+    cursor: pointer;
+    margin: 5px;
+    max-width: 180px; /* Slightly reduced the width */
+  }
+  
+  .options .option-input {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+  }
+  
+  .options .option-input input[type="text"] {
+    flex: 1;
+    margin-left: 10px; /* Space between button and text */
+  }
+  
+  .questions-list {
+    margin-top: 20px;
+  }
+  
+  .questions-list h3 {
+    color: #333;
+  }
+  
+  .questions-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .questions-list li {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .questions-list li ul {
+    padding-left: 20px;
+  }
+  
+  .questions-list li ul li {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    margin-bottom: 0;
+  }
+  
+  .option-display {
+    display: flex;
+    align-items: center;
+  }
+  
+  .option-display input {
+    margin-right: 10px; /* Space between button and text */
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

@@ -1,0 +1,138 @@
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+  background-color: #221b1b;
+  color: #ffffff;
+  font-color: #ffffff;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 90px;
+  padding: 0 2rem;
+}
+
+.navbar-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar-links-container {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links-container a {
+  margin-right: 3rem;
+  text-decoration: none;
+  color: rgb(85, 82, 82);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.primary-button {
+  padding: 0.9rem 1.75rem;
+  background-color: white;
+  outline: none;
+  border: none;
+  border-radius: 5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.primary-button:hover {
+  background-color: rgb(234, 234, 234);
+}
+
+.navbar-menu-container {
+  display: none;
+}
+
+.navbar-menu-container svg {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.navbar-avatar-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.navbar-dropdown {
+  position: absolute;
+  top: 40px; /* Adjust according to the size of the avatar */
+  right: 0;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.navbar-logout-button {
+  background: none;
+  border: none;
+  color: #333;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.navbar-profile-button {
+  background: none;
+  border: none;
+  color: #333;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.navbar-logout-button:hover {
+  background-color: #f2f2f2;
+}
+
+.navbar-avatar-container svg {
+  fill: #333;
+}
+
+.navbar-theme-toggle {
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+@media (max-width: 768px) {
+  .navbar-links-container {
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .navbar-menu-container {
+    display: block;
+  }
+
+  .navbar-links-container.open {
+    display: flex;
+  }
+
+  .navbar-links-container a {
+    margin: 1rem 0;
+    text-align: center;
+  }
+
+  .primary-button {
+    width: 100%;
+    text-align: center;
+  }
+}

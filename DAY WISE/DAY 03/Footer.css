@@ -1,0 +1,79 @@
+/* Footer styling */
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background-color: transparent; /* Keep background transparent or adjust as needed */
+  color: white;
+  padding: 4rem 0; /* Increase vertical padding to move content down */
+  margin-top: 2rem; /* Add margin at the top of the footer to move it down from any preceding content */
+}
+
+.footer-wave {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.f-content {
+  position: relative;
+  z-index: 1; /* Ensures content is above the wave image */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem; /* Space between items */
+  text-align: center; /* Center-align text for better readability */
+  padding: 2rem 1rem; /* Increased padding around content */
+}
+
+.f-contact-info {
+  font-size: 1rem; /* Base font size */
+  font-weight: 300; /* Light font weight for contact info */
+}
+
+.f-icons {
+  display: flex;
+  gap: 1.5rem; /* Space between social icons */
+  margin: 1rem 0; /* Margin around icons */
+}
+
+.f-copyright {
+  font-size: 0.875rem; /* Slightly smaller font size for copyright */
+  color: #ffffff; /* Lighter color for less emphasis */
+  margin-top: 2rem; /* Space above copyright text */
+  padding-top: 1rem; /* Padding above the text */
+  border-top: 1px solid #333; /* Subtle border for separation */
+}
+
+.f-icons > * {
+  transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.f-icons > *:hover {
+  color: #f5a623; /* Highlight color on hover */
+}
+
+@media screen and (max-width: 480px) {
+  .footer {
+    padding: 2rem 0; /* Adjust padding for mobile view */
+    margin-top: 1rem; /* Adjust margin for mobile view */
+  }
+
+  .f-content {
+    padding: 1rem;
+  }
+
+  .f-icons {
+    gap: 1rem;
+  }
+
+  .f-copyright {
+    font-size: 1rem; /* Increased font size for better readability on mobile */
+    margin-top: 1.5rem;
+  }
+}
