@@ -33,7 +33,9 @@ const App = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path='/admin-dashboard' element={<Admin />} />
           <Route path='/profile' element={<ProfilePage />} />
-          <Route path='/user-dashboard' element={<DashboardPage />} />  
+          <Route path='/user-dashboard' element={<DashboardPage />} /> 
+          <Route path='/head-dashboard' element={<DashboardPage />} /> 
+
           <Route path='/mock-interview' element={<VideoRec/>}/>
           <Route path='/interviewer-dashboard' element={<InterviewerDashboardPage />} />
           <Route path='/mock-interview-schedule' element={<InterviewCreate/>}/>

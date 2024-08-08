@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext'; // Adjust the import path accordingly
 import '../assets/styles/Login.css';
 import img from '../assets/images/loginImg.png';
+import axios from 'axios';
 
 function Login() {
   const { login } = useAuth();
@@ -25,11 +26,11 @@ function Login() {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email address is invalid';
-    }
+    // if (!formData.email) {
+    //   newErrors.email = 'Email is required';
+    // } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    //   newErrors.email = 'Email address is invalid';
+    // }
 
     if (!formData.password) {
       newErrors.password = 'Password is required';
@@ -40,7 +41,7 @@ function Login() {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
 
@@ -48,20 +49,46 @@ function Login() {
       setErrors(validationErrors);
     } else {
       setErrors({});
-      const { email, password } = formData;
-
-      // Static validation for the provided credentials
-      if (email === 'admin@gmail.com' && password === 'admin@123') {
-        login({ email, role: 'admin' });
-        navigate('/admin-dashboard');
-      } else if (email === 'Interviewer@gmail.com' && password === 'Interviewer@123') {
-        login({ email, role: 'interviewer' });
-        navigate('/interviewer-dashboard');
-      } else if (email === 'user@gmail.com' && password === 'user@123') {
-        login({ email, role: 'user' });
-        navigate('/user-dashboard');
-      } else {
-        setErrors({ email: 'Invalid email or password' });
+      try{
+        const response= await axios.post(
+          'http://127.0.0.1:8080/api/login',
+          formData
+        );
+        const{email}=formData
+        console.log(response);
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('role', response.data.role);
+        const role = localStorage.getItem('role');
+        if(role==='ROLE_ADMIN')
+        {
+          login({ email, role: 'ROLE_ADMIN' });
+          navigate("/admin-dashboard");
+        }
+        else if(role==='ROLE_STUDENT')
+        {
+          login({ email, role: 'ROLE_STUDENT' });
+          
+          navigate("/student-dashboard");
+        }
+        else if(role==='ROLE_MENTOR')
+        {
+          login({ email, role: 'ROLE_MENTOR' });
+          navigate("/mentor-dashboard");
+        }
+        else if(role==='ROLE_HEAD')
+        {
+          login({ email, role: 'ROLE_HEAD' });
+          navigate("/head-dashboard");
+        }
+        else if(role==='ROLE_INTERVIEWER')
+        {
+          login({ email, role: 'ROLE_INTERVIEWER' });
+          navigate("/interviewer-dashboard");
+        }
+       
+      }
+      catch(error){
+        console.log(error);
       }
     }
   };
