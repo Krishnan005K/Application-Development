@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext'; // Adjust the import path acc
 import '../assets/styles/ProfilePage.css';
 import defaultAvatar from '../assets/images/default-avatar.png';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
 const ProfilePage = () => {
   const { user, updateUser } = useAuth(); // Removed uploadUserPhoto as it's not defined
   const [formData, setFormData] = useState({
@@ -21,25 +21,32 @@ const ProfilePage = () => {
   });
   const [photoPreview, setPhotoPreview] = useState(defaultAvatar);
   const [photoFile, setPhotoFile] = useState(null); // To store the file for uploading
-
+  const [responseData,setresponseData]=useState(null);
   useEffect(() => {
-    if (user) {
-      setFormData({
-        email: user.email || '',
-        name: user.name || '',
-        photo: user.photo || defaultAvatar,
-        mobile: user.mobile || '',
-        degree: user.degree || '',
-        linkedin: user.linkedin || '',
-        github: user.github || '',
-        skills: user.skills?.join(', ') || '',
-        experience: user.experience || '',
-        certifications: user.certifications || '',
-        bio: user.bio || '',
-      });
-      setPhotoPreview(user.photo || defaultAvatar);
-    }
-  }, [user]);
+    const fetchData = async () => {
+      try{
+        const token=localStorage.getItem('token');
+        const config={
+          headers:{
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        };
+        const response=await axios.get(
+          "http://localhost:8080/students/all",
+          config
+        );
+        setresponseData(response.data);
+      }
+      catch(error)
+      {
+        console.log(error);
+      }  
+      };
+    fetchData();
+  },[]);
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

@@ -32,12 +32,7 @@ function Login() {
     //   newErrors.email = 'Email address is invalid';
     // }
 
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-    }
-
+   
     return newErrors;
   };
 
@@ -68,7 +63,7 @@ function Login() {
         {
           login({ email, role: 'ROLE_STUDENT' });
           
-          navigate("/student-dashboard");
+          navigate("/profile");
         }
         else if(role==='ROLE_MENTOR')
         {
