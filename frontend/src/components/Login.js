@@ -53,17 +53,19 @@ function Login() {
         console.log(response);
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('role', response.data.role);
+        localStorage.setItem('email', response.data.email);
+        localStorage.setItem('userId', response.data.userId);
         const role = localStorage.getItem('role');
         if(role==='ROLE_ADMIN')
         {
           login({ email, role: 'ROLE_ADMIN' });
-          navigate("/admin-dashboard");
+          navigate("/admindashboard");
         }
         else if(role==='ROLE_STUDENT')
         {
           login({ email, role: 'ROLE_STUDENT' });
           
-          navigate("/profile");
+          navigate("/mock-interview");
         }
         else if(role==='ROLE_MENTOR')
         {
@@ -78,7 +80,7 @@ function Login() {
         else if(role==='ROLE_INTERVIEWER')
         {
           login({ email, role: 'ROLE_INTERVIEWER' });
-          navigate("/interviewer-dashboard");
+          navigate("/interview-form");
         }
        
       }

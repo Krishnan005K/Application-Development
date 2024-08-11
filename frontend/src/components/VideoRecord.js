@@ -1,142 +1,261 @@
-// import React, { useState, useRef, useEffect } from 'react';
-// import '../assets/styles/VideoRecord.css';  // Import the CSS file for styling
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import '../assets/styles/VideoRecord.css';
+import MetricsChart from './MetricChart';
 
-// const mockQuestions = [
-//     "Tell me about yourself.",
-//     "Why do you want this job?",
-//     "What are your strengths and weaknesses?",
-//     "Describe a challenge you faced and how you handled it.",
-//     "Where do you see yourself in 5 years?"
-// ];
+const Demo = () => {
+    const [questions, setQuestions] = useState([]);
+    const [currentQuestion, setCurrentQuestion] = useState('');
+    const [keywords, setKeywords] = useState([]);
+    const [recording, setRecording] = useState(false);
+    const [videoURL, setVideoURL] = useState('');
+    const [recordingCompleted, setRecordingCompleted] = useState(false);
+    const [transcription, setTranscription] = useState('');
+    const [feedback, setFeedback] = useState('');
+    const [relevance, setRelevance] = useState(0);
+    const [accuracy, setAccuracy] = useState(0);
+    const [efficiency, setEfficiency] = useState(0);
+    const [tabSwitches, setTabSwitches] = useState(0);
 
-// function VideoRec() {
-//     const [recording, setRecording] = useState(false);
-//     const [videoURL, setVideoURL] = useState('');
-//     const [currentQuestion, setCurrentQuestion] = useState('');
-//     const [recordingCompleted, setRecordingCompleted] = useState(false);
-//     const [transcription, setTranscription] = useState('');
-//     const videoRef = useRef(null);
-//     const mediaRecorderRef = useRef(null);
-//     const questionIndex = useRef(0);
-//     const speechRecognitionRef = useRef(null);
+    const videoRef = useRef(null);
+    const mediaRecorderRef = useRef(null);
+    const questionIndex = useRef(0);
+    const speechRecognitionRef = useRef(null);
 
-//     useEffect(() => {
-//         let questionInterval;
-//         if (recording) {
-//             setCurrentQuestion(mockQuestions[questionIndex.current]);
-//             questionInterval = setInterval(() => {
-//                 questionIndex.current = (questionIndex.current + 1) % mockQuestions.length;
-//                 setCurrentQuestion(mockQuestions[questionIndex.current]);
-//             }, 10000);
-//         } else {
-//             setCurrentQuestion('');
-//             questionIndex.current = 0;
-//         }
-//         return () => clearInterval(questionInterval);
-//     }, [recording]);
+    // Fetch JWT token from local storage (or any other secure storage method you're using)
+    const jwtToken = localStorage.getItem('token');
+    const studentId = localStorage.getItem('userId');
 
-//     useEffect(() => {
-//         if ('webkitSpeechRecognition' in window) {
-//             const SpeechRecognition = window.webkitSpeechRecognition;
-//             speechRecognitionRef.current = new SpeechRecognition();
-//             speechRecognitionRef.current.continuous = true;
-//             speechRecognitionRef.current.interimResults = true;
-//             speechRecognitionRef.current.lang = 'en-US';
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8080/api/questions', {
+            headers: {
+                Authorization: `Bearer ${jwtToken}`
+            }
+        })
+            .then(response => {
+                const fetchedQuestions = response.data;
+                setQuestions(fetchedQuestions);
+                if (fetchedQuestions.length > 0) {
+                    setCurrentQuestion(fetchedQuestions[0].questionText);
+                    setKeywords(fetchedQuestions[0].keywords.split(','));
+                }
+            })
+            .catch(error => {
+                console.error("There was an error fetching the questions!", error);
+            });
+    }, [jwtToken]);
 
-//             speechRecognitionRef.current.onresult = (event) => {
-//                 let interimTranscription = '';
-//                 for (let i = event.resultIndex; i < event.results.length; i++) {
-//                     if (event.results[i].isFinal) {
-//                         setTranscription(prev => prev + event.results[i][0].transcript + ' ');
-//                     } else {
-//                         interimTranscription += event.results[i][0].transcript;
-//                     }
-//                 }
-//                 setTranscription(prev => prev + interimTranscription);
-//             };
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            if (document.hidden && recording) {
+                setTabSwitches(prev => {
+                    const newCount = prev + 1;
+                    if (newCount >= 3) {
+                        alert("Final tab switch count reached. The interview has ended.");
+                        stopRecording();
+                    } else {
+                        alert(`Tab switches: ${newCount}`);
+                    }
+                    return newCount;
+                });
+            }
+        };
 
-//             speechRecognitionRef.current.onerror = (event) => {
-//                 console.error('Speech recognition error', event);
-//             };
-//         } else {
-//             console.error('Speech Recognition API not supported in this browser.');
-//         }
-//     }, []);
+        document.addEventListener('visibilitychange', handleVisibilityChange);
 
-//     const startRecording = () => {
-//         navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
-//             videoRef.current.srcObject = stream;
-//             videoRef.current.play();
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
+    }, [recording]);
 
-//             mediaRecorderRef.current = new MediaRecorder(stream);
-//             mediaRecorderRef.current.ondataavailable = (event) => {
-//                 const blob = new Blob([event.data], { type: 'video/webm' });
-//                 setVideoURL(URL.createObjectURL(blob));
-//             };
-//             mediaRecorderRef.current.start();
-//             setRecording(true);
-//             speechRecognitionRef.current.start();
-//         });
-//     };
+    useEffect(() => {
+        if (recording) {
+            const questionInterval = setInterval(() => {
+                questionIndex.current = (questionIndex.current + 1) % questions.length;
+                setCurrentQuestion(questions[questionIndex.current].questionText);
+                setKeywords(questions[questionIndex.current].keywords.split(','));
+            }, 10000);
+            return () => clearInterval(questionInterval);
+        }
+    }, [recording, questions]);
 
-//     const stopRecording = () => {
-//         mediaRecorderRef.current.stop();
-//         videoRef.current.srcObject.getTracks().forEach(track => track.stop());
-//         setRecording(false);
-//         setRecordingCompleted(true);
-//         speechRecognitionRef.current.stop();
-//     };
+    useEffect(() => {
+        if ('webkitSpeechRecognition' in window) {
+            const SpeechRecognition = window.webkitSpeechRecognition;
+            speechRecognitionRef.current = new SpeechRecognition();
+            speechRecognitionRef.current.continuous = true;
+            speechRecognitionRef.current.interimResults = true;
+            speechRecognitionRef.current.lang = 'en-US';
 
-//     return (
-//         <div className="video-rec-container">
-//             <h1>Mock Interview</h1>
-//             {!recordingCompleted ? (
-//                 <>
-//                     <div className={video-container `${currentQuestion ? 'large' : ''}`}>
-//                         <video 
-//                             ref={videoRef} 
-//                             controls 
-//                             className="video-frame"
-//                         />
-//                     </div>
-//                     <div className="button-container">
-//                         {!recording ? (
-//                             <button className="start-button" onClick={startRecording}>Start Recording</button>
-//                         ) : (
-//                             <button className="stop-button" onClick={stopRecording}>Stop Recording</button>
-//                         )}
-//                     </div>
-//                     {currentQuestion && (
-//                         <div className="question-popup">
-//                             <h2>Current Question:</h2>
-//                             <p>{currentQuestion}</p>
-//                         </div>
-//                     )}
-//                     {transcription && (
-//                         <div className="transcription-container">
-//                             <h2>Transcription:</h2>
-//                             <p>{transcription}</p>
-//                         </div>
-//                     )}
-//                 </>
-//             ) : (
-//                 <div className="video-preview-container">
-//                     {videoURL && (
-//                         <>
-//                             <h2>Recorded Video:</h2>
-//                             <video src={videoURL} width="400" controls className="video-preview" />
-//                         </>
-//                     )}
-//                     {transcription && (
-//                         <div className="transcription-container">
-//                             <h2>Transcription:</h2>
-//                             <p>{transcription}</p>
-//                         </div>
-//                     )}
-//                 </div>
-//             )}
-//         </div>
-//     );
-// }
+            speechRecognitionRef.current.onresult = (event) => {
+                let interimTranscription = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    if (event.results[i].isFinal) {
+                        setTranscription(prev => prev + event.results[i][0].transcript + ' ');
+                    } else {
+                        interimTranscription += event.results[i][0].transcript;
+                    }
+                }
+                setTranscription(prev => prev + interimTranscription);
+            };
 
-// export default VideoRec;
+            speechRecognitionRef.current.onerror = (event) => {
+                console.error('Speech recognition error', event);
+            };
+        } else {
+            console.error('Speech Recognition API not supported in this browser.');
+        }
+    }, []);
+
+    useEffect(() => {
+        if (transcription) {
+            analyzeTranscription(transcription);
+        }
+    }, [transcription]);
+
+    const analyzeText = (text) => {
+        const answerKeywords = text.toLowerCase().split(' ');
+        const keywordMatch = keywords.filter(keyword => answerKeywords.includes(keyword)).length;
+        const totalKeywords = keywords.length;
+
+        let relevance = (keywordMatch / totalKeywords) * 100;
+        let accuracy = Math.min(100, Math.max(0, relevance));
+        let efficiency = Math.min(100, Math.max(0, keywordMatch));
+
+        setRelevance(relevance);
+        setAccuracy(accuracy);
+        setEfficiency(efficiency);
+
+        let feedbackMessage = '';
+        if (relevance > 50) {
+            feedbackMessage = 'Your answer is relevant to the question.';
+        } else {
+            feedbackMessage = 'Your answer may not be directly related to the question.';
+        }
+        setFeedback(feedbackMessage);
+    };
+
+    const analyzeTranscription = (transcription) => {
+        const answer = transcription.trim();
+        analyzeText(answer);
+    };
+
+    const startRecording = () => {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
+            videoRef.current.srcObject = stream;
+            videoRef.current.play();
+
+            mediaRecorderRef.current = new MediaRecorder(stream);
+            mediaRecorderRef.current.ondataavailable = (event) => {
+                const blob = new Blob([event.data], { type: 'video/webm' });
+                setVideoURL(URL.createObjectURL(blob));
+            };
+            mediaRecorderRef.current.start();
+            setRecording(true);
+            speechRecognitionRef.current.start();
+        });
+    };
+
+    const stopRecording = async() => {
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+            mediaRecorderRef.current.stop();
+        }
+        if (videoRef.current.srcObject) {
+            videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+        }
+        setRecording(false);
+        setRecordingCompleted(true);
+        speechRecognitionRef.current.stop();
+
+        // Post feedback to the backend
+        const feedbackData = {
+            feedback,
+            accuracy,
+            relevance,
+            efficiency,
+            rating: (accuracy + relevance + efficiency) / 3 
+        };
+
+        const newData = {
+            id: 0,
+          accuracy:feedbackData.accuracy,
+          efficiency:feedbackData.efficiency,
+          relevance:feedbackData.relevance,
+          rating:feedbackData.rating,
+          feedback:feedbackData.feedback
+        }
+        await axios.post(`http://127.0.0.1:8080/api/feedbacks/students/${studentId}`, newData, {
+            headers: {
+                Authorization: `Bearer ${jwtToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                console.log("Feedback saved successfully:", response.data);
+            })
+            .catch(error => {
+                console.log(feedbackData);
+                console.error("There was an error saving the feedback!", error);
+            });
+    };
+
+    return (
+        <div className="demo-container">
+            <h1>Mock Interview</h1>
+            {!recordingCompleted ? (
+                <>
+                    <div className={`video-container ${currentQuestion ? 'large' : ''}`}>
+                        <video ref={videoRef} className="video-frame" muted />
+                    </div>
+                    <div className="button-container">
+                        {!recording ? (
+                            <button className="start-button" onClick={startRecording}>Start Recording</button>
+                        ) : (
+                            <button className="stop-button" onClick={stopRecording}>Stop Recording</button>
+                        )}
+                    </div>
+                    {currentQuestion && (
+                        <div className="question-popup">
+                            <h2>Current Question:</h2>
+                            <p>{currentQuestion}</p>
+                        </div>
+                    )}
+                    {transcription && (
+                        <div className="transcription-container">
+                            <h2>Transcription:</h2>
+                            <p>{transcription}</p>
+                        </div>
+                    )}
+                </>
+            ) : (
+                <div className="video-preview-container">
+                    {videoURL && (
+                        <>
+                            <h2>Recorded Video:</h2>
+                            <video src={videoURL} width="400" controls className="video-preview" />
+                        </>
+                    )}
+                    {feedback && (
+                        <div className="feedback-container">
+                            <h2>Feedback:</h2>
+                            <p>{feedback}</p>
+                        </div>
+                    )}
+                    <div className="chart-container">
+                        <MetricsChart 
+                            relevance={relevance} 
+                            accuracy={accuracy} 
+                            efficiency={efficiency}
+                        />
+                    </div>
+                </div>
+            )}
+            <div className="tab-switches-count">
+                <h2>Tab Switches Count:</h2>
+                <p>{tabSwitches}</p>
+            </div>
+        </div>
+    );
+}
+
+export default Demo;

@@ -1,0 +1,145 @@
+/* Main Container */
+.feedback-admin-container {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.feedback-admin-container h2 {
+    color: #012740;
+}
+
+/* Filters */
+.feedback-admin-filters {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.feedback-admin-filters select {
+    padding: 10px;
+    border: 1px solid #d6d3cc;
+    border-radius: 5px;
+    background-color: #fafafa;
+    color: #012740;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.feedback-admin-filters select:hover {
+    background-color: #e9ecef;
+}
+
+/* Feedback Cards */
+.feedback-admin-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.feedback-admin-card {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInCard 0.6s ease-out, cardBounce 2s ease-in-out infinite;
+}
+
+.feedback-admin-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Header */
+.feedback-admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #02375a;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.feedback-admin-header h3 {
+    margin: 0;
+    color: #012740;
+    transition: color 0.3s ease;
+}
+
+.feedback-admin-header:hover h3 {
+    color: #02375a;
+}
+
+.feedback-admin-type {
+    background-color: #02375a;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.feedback-admin-type:hover {
+    background-color: #012740;
+}
+
+.feedback-admin-email {
+    color: #333333;
+    margin: 10px 0;
+    transition: color 0.3s ease;
+}
+
+.feedback-admin-email:hover {
+    color: #02375a;
+}
+
+.feedback-admin-comment {
+    color: #666666;
+    font-style: italic;
+    transition: color 0.3s ease;
+}
+
+.feedback-admin-comment:hover {
+    color: #333333;
+}
+
+.feedback-admin-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInCard {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}

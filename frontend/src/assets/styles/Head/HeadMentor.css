@@ -1,0 +1,92 @@
+.mentor-view {
+    padding: 20px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  .filters {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .add-mentor-button {
+    display: block;
+    width: 150px;
+    margin: 10px auto;
+    padding: 5px 10px;
+    background-color: #02375ab6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    animation: blink 2s infinite; /* Add zooming animation */
+  }
+  
+  .cancel-edit-button {
+    display: block;
+    width: 150px;
+    margin: 10px auto;
+    padding: 5px 10px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .mentor-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .mentor-form input {
+    width: 200px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+  }
+  
+  .mentor-table {
+    width: 100%;
+    border-collapse: collapse;
+    animation: slideUp 0.8s ease-out;
+  }
+  
+  .mentor-table th, .mentor-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .mentor-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .action-icon {
+    margin: 0 5px;
+    cursor: pointer;
+    color: #012740b6;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  /* Blinking animation without fading */
+  @keyframes blink {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+  

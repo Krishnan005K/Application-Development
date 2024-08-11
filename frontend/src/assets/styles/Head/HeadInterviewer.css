@@ -1,0 +1,116 @@
+.interviewer-view {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    animation: fadeIn 1s ease-in;
+  }
+  
+  .filters {
+    margin-bottom: 20px;
+    animation: slideIn 1s ease-out;
+  }
+  
+  .filters input {
+    padding: 8px;
+    width: 300px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .filters input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .interviewer-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-in;
+  }
+  
+  .interviewer-form input {
+    flex: 1 1 200px;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .interviewer-form input:focus {
+    border-color: #007bff;
+  }
+  
+  .add-interviewer-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    width: 170px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    animation: blink 2s infinite;
+  }
+  
+  .add-interviewer-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  .add-interviewer-button:active {
+    background-color: #004080;
+    transform: scale(0.95);
+  }
+  
+  .add-interviewer-button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .interviewer-table {
+    width: 100%;
+    border-collapse: collapse;
+    animation: fadeIn 1s ease-in;
+  }
+  
+  .interviewer-table th, .interviewer-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .interviewer-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .interviewer-table tbody tr:hover {
+    background-color: #e2e2e2;
+  }
+  
+  .action-icon {
+    margin-right: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    color: #012740b6;
+  }
+  
+  .action-icon:hover {
+    color: #007bff;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  

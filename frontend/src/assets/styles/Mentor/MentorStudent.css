@@ -1,0 +1,85 @@
+.mentor-student-container {
+  padding: 20px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.mentor-student-title {
+  margin-bottom: 20px;
+}
+
+.mentor-student-filters {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.mentor-student-search {
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+.mentor-student-filter {
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+.mentor-student-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.mentor-student-input {
+  width: 200px;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+.mentor-student-add-button {
+  padding: 10px 20px;
+  border-radius: 3px;
+  border: none;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+}
+
+.mentor-student-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mentor-student-table th, .mentor-student-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.mentor-student-action-icon {
+  margin-right: 10px;
+  cursor: pointer;
+  color: #02375ab6;
+
+}
+
+.mentor-student-form input {
+  width: 200px;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+.mentor-student-action-icon:hover {
+  color: #02375ab6;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

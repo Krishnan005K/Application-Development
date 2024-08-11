@@ -1,0 +1,101 @@
+/* ScheduleAdminDashboard.css */
+
+/* Main Container */
+.schedule-admin-container {
+  background-color: #f4f4f4e3;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.schedule-admin-container h2 {
+  color: #333333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Schedule Cards */
+.schedule-admin-cards {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.schedule-admin-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+  margin: 10px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.schedule-admin-card:hover {
+  transform: scale(1.05);
+}
+
+.schedule-admin-card h3 {
+  margin: 0;
+  color: #002F6C;
+}
+
+.schedule-admin-card p {
+  margin: 10px 0;
+  color: #333333;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+/* Schedule Details */
+.schedule-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.schedule-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+  margin: 10px;
+  transition: transform 0.3s ease;
+}
+
+.schedule-card:hover {
+  transform: scale(1.05);
+}
+
+.schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #F2BB9B;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.schedule-header h3 {
+  margin: 0;
+  color: #333333;
+}
+
+.schedule-card p {
+  margin: 10px 0;
+  color: #333333;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

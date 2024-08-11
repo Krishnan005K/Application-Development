@@ -1,0 +1,120 @@
+.head-view {
+  padding: 20px;
+  background-color: #f7f7f7; /* Mild grey background color */
+  transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+.filters {
+  margin-bottom: 20px;
+}
+
+.head-form-container {
+  margin-bottom: 20px;
+}
+
+.head-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+  transition: opacity 0.3s ease; /* Smooth form appearance */
+}
+
+.head-form input {
+  width: 200px; /* Fixed width to ensure consistency */
+  height: 40px; /* Fixed height for consistent input size */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Ensure padding and border are included in the width */
+  transition: border-color 0.3s ease; /* Smooth border color transition */
+}
+
+.head-form input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.add-head-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #02375ab6;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  width: 130px;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth button transition */
+  animation: zoomInOut 2s infinite; /* Continuous zoom-in and zoom-out effect */
+}
+
+.add-head-button:hover {
+  background-color: rgb(13, 44, 77); /* Updated hover color */
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  height: 20px; /* Fixed height to avoid layout shift */
+  line-height: 20px; /* Center text vertically */
+  margin: 0; /* Remove default margins */
+  display: block; /* Ensure it takes up space and aligns correctly */
+}
+
+.error-container {
+  width: 200px; /* Ensure the container width matches input width */
+  height: 20px; /* Fixed height for consistency */
+}
+
+.head-table {
+  width: 100%;
+  border-collapse: collapse;
+  transition: opacity 0.3s ease; /* Smooth table appearance */
+}
+
+.head-table th,
+.head-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.head-table th {
+  background-color: #f4f4f4;
+}
+
+.head-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.head-table tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.head-table tr:hover {
+  background-color: #f1f1f1; /* Highlight row on hover */
+}
+
+.action-icon {
+  margin: 0 5px;
+  cursor: pointer;
+  transition: color 0.3s ease; /* Smooth icon color transition */
+  color: #012740b6;
+}
+
+.action-icon:hover {
+  color: #007bff;
+}
+
+/* Animation for button zoom effect */
+@keyframes zoomInOut {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
