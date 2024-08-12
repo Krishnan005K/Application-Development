@@ -40,8 +40,6 @@ function MentorStudent() {
     setViewDetails(null);
   };
 
-
-
   const renderPieChart = (ratings) => {
     const data = {
       labels: ['Ratings'],
@@ -55,19 +53,24 @@ function MentorStudent() {
       ]
     };
 
-    return <Pie data={data} />;
+    return (
+      <div className="chart-container">
+        <Pie data={data} />
+      </div>
+    );
   };
 
   return (
     <div className="student-view">
-      <h2>Student Management</h2>
+      <h2 className="mentor-student-title">Student Management</h2>
       <input
         type="text"
         placeholder="Search by ID, Name, or Email..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        className="mentor-student-search"
       />
-      <table className="student-table">
+      <table className="mentor-student-table">
         <thead>
           <tr>
             <th>Register No</th>
@@ -93,7 +96,7 @@ function MentorStudent() {
               <td>{student.ratings}</td>
               <td>{student.contact}</td>
               <td>
-                <FontAwesomeIcon icon={faEye} onClick={() => handleViewDetails(student)} />
+                <FontAwesomeIcon icon={faEye} className="mentor-student-action-icon" onClick={() => handleViewDetails(student)} />
               </td>
             </tr>
           ))}

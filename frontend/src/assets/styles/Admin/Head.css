@@ -1,17 +1,23 @@
+/* Head View */
 .head-view {
   padding: 20px;
-  background-color: #f7f7f7; /* Mild grey background color */
+  background-color: #ffffff; /* Light background for consistency with form */
+  border-radius: 10px; /* Rounded corners for a polished look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow for a professional appearance */
   transition: background-color 0.3s ease; /* Smooth background transition */
 }
 
+/* Filters */
 .filters {
   margin-bottom: 20px;
 }
 
+/* Head Form Container */
 .head-form-container {
   margin-bottom: 20px;
 }
 
+/* Head Form */
 .head-form {
   display: flex;
   flex-wrap: wrap;
@@ -20,30 +26,32 @@
   transition: opacity 0.3s ease; /* Smooth form appearance */
 }
 
+/* Input Fields in Head Form */
 .head-form input {
-  width: 200px; /* Fixed width to ensure consistency */
-  height: 40px; /* Fixed height for consistent input size */
+  width: 200px; /* Fixed width for consistency */
+  height: 40px; /* Fixed height for consistency */
   padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #ddd; /* Lighter border for a softer look */
+  border-radius: 5px; /* Rounded corners */
   box-sizing: border-box; /* Ensure padding and border are included in the width */
   transition: border-color 0.3s ease; /* Smooth border color transition */
 }
 
 .head-form input:focus {
-  border-color: #007bff;
+  border-color: #2f65ad; /* Updated border color */
   outline: none;
 }
 
+/* Add Head Button */
 .add-head-button {
   padding: 8px 12px;
   border: none;
-  border-radius: 4px;
-  background-color: #02375ab6;
+  border-radius: 5px;
+  background-color: #2f65ad; /* Base color */
   color: white;
   cursor: pointer;
   display: flex;
-  width: 130px;
+  width: 150px; /* Adjusted width for better alignment */
   align-items: center;
   gap: 5px;
   transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth button transition */
@@ -51,12 +59,13 @@
 }
 
 .add-head-button:hover {
-  background-color: rgb(13, 44, 77); /* Updated hover color */
+  background-color: #1d4b80; /* Darker shade on hover */
   transform: scale(1.05); /* Slight zoom effect on hover */
 }
 
+/* Error Message */
 .error-message {
-  color: red;
+  color: #ff4d4d; /* Updated color for better visibility */
   font-size: 12px;
   height: 20px; /* Fixed height to avoid layout shift */
   line-height: 20px; /* Center text vertically */
@@ -64,11 +73,13 @@
   display: block; /* Ensure it takes up space and aligns correctly */
 }
 
+/* Error Container */
 .error-container {
   width: 200px; /* Ensure the container width matches input width */
   height: 20px; /* Fixed height for consistency */
 }
 
+/* Head Table */
 .head-table {
   width: 100%;
   border-collapse: collapse;
@@ -83,33 +94,35 @@
 }
 
 .head-table th {
-  background-color: #f4f4f4;
+  background-color: #f4f4f4; /* Light background for headers */
+  color: #2f65ad; /* Heading text color */
 }
 
 .head-table tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #f9f9f9; /* Alternating row color */
 }
 
 .head-table tr:nth-child(odd) {
-  background-color: #fff;
+  background-color: #ffffff; /* White background for odd rows */
 }
 
 .head-table tr:hover {
   background-color: #f1f1f1; /* Highlight row on hover */
 }
 
+/* Action Icon */
 .action-icon {
   margin: 0 5px;
   cursor: pointer;
   transition: color 0.3s ease; /* Smooth icon color transition */
-  color: #012740b6;
+  color: #2f65ad; /* Icon color */
 }
 
 .action-icon:hover {
-  color: #007bff;
+  color: #007bff; /* Hover color */
 }
 
-/* Animation for button zoom effect */
+/* Animation for Button Zoom Effect */
 @keyframes zoomInOut {
   0%, 100% {
     transform: scale(1);

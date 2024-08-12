@@ -1,12 +1,19 @@
+/* MentorStudent.css */
+
+/* General container for the MentorStudent component */
 .mentor-student-container {
   padding: 20px;
   animation: fadeIn 1s ease-in-out;
 }
 
+/* Title for the MentorStudent section */
 .mentor-student-title {
   margin-bottom: 20px;
+  font-size: 1.5em;
+  color: #2f65ad; /* Match the primary color */
 }
 
+/* Filters and search input styling */
 .mentor-student-filters {
   margin-bottom: 20px;
   display: flex;
@@ -17,6 +24,7 @@
   padding: 5px;
   border-radius: 3px;
   border: 1px solid #ccc;
+  width: 100%;
 }
 
 .mentor-student-filter {
@@ -25,6 +33,7 @@
   border: 1px solid #ccc;
 }
 
+/* Form styling */
 .mentor-student-form {
   display: flex;
   flex-wrap: wrap;
@@ -48,12 +57,14 @@
   cursor: pointer;
 }
 
+/* Table styling */
 .mentor-student-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.mentor-student-table th, .mentor-student-table td {
+.mentor-student-table th,
+.mentor-student-table td {
   padding: 10px;
   border: 1px solid #ddd;
 }
@@ -62,17 +73,58 @@
   margin-right: 10px;
   cursor: pointer;
   color: #02375ab6;
-
 }
 
-.mentor-student-form input {
-  width: 200px;
-  padding: 5px;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-}
 .mentor-student-action-icon:hover {
   color: #02375ab6;
+}
+
+/* Popup styling */
+.student-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff; /* Background color for the popup */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  max-width: 100%;
+  min-width: 40%;
+  max-height: 80%;
+  overflow-y: auto;
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+.student-popup h3 {
+  margin-top: 0;
+  color: #2f65ad; /* Match the primary color */
+}
+
+.student-popup p {
+  margin: 10px 0;
+}
+
+.student-popup button {
+  background-color: #ff4b5c; /* Button color for closing */
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  float: right;
+}
+
+.student-popup button:hover {
+  background-color: #ff1c1c; /* Darker shade for hover effect */
+}
+
+/* Styling for the Pie chart */
+.student-popup .chart-container {
+  width: 100%;
+  max-width: 300px; /* Set maximum width for the chart */
+  height: 200px; /* Set height for the chart */
+  margin: 20px auto; /* Center align the chart */
 }
 
 @keyframes fadeIn {

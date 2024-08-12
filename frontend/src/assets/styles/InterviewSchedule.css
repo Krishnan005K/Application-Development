@@ -1,112 +1,134 @@
-.interview-create {
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.37);
-    border: 10px solid rgba(255, 255, 255, 0.5);
+/* Interviews Manager */
+.interviews-manager {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.95); /* Slightly less opaque for a cleaner look */
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Filters */
+.filters {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Interview Form Container */
+.interview-form-container {
+  margin-bottom: 20px;
+}
+
+/* Interview Form Input */
+.interview-form input {
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid #ddd; /* Lighter border */
+  border-radius: 5px; /* Rounded corners */
+  transition: border-color 0.3s ease;
+}
+
+.interview-form input:focus {
+  border-color: #2f65ad; /* Updated border color on focus */
+  outline: none;
+}
+
+/* Add Interview Button */
+.add-interview-button {
+  padding: 10px 20px;
+  background-color: #2f65ad; /* Primary color */
+  color: #fff;
+  border: none;
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.add-interview-button:hover {
+  background-color: #1d4b80; /* Darker shade on hover */
+  transform: scale(1.05);
+}
+
+.add-interview-button:active {
+  background-color: #004080; /* Even darker shade on active */
+  transform: scale(0.95);
+}
+
+/* Interview Table */
+.interview-table {
+  width: 100%;
+  border-collapse: collapse;
+  animation: slideUp 0.8s ease-out;
+}
+
+.interview-table th,
+.interview-table td {
+  border: 1px solid #ddd; /* Lighter border */
+  padding: 12px; /* Increased padding for better readability */
+  text-align: left;
+  transition: background-color 0.3s ease;
+}
+
+.interview-table th {
+  background-color: #2f65ad; /* Primary color for headers */
+  color: white;
+}
+
+.interview-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Alternating row color */
+}
+
+.interview-table tbody tr:hover {
+  background-color: #f1f1f1; /* Highlight row on hover */
+}
+
+/* Action Icon */
+.action-icon {
+  margin: 0 5px;
+  cursor: pointer;
+  color: #2f65ad; /* Primary color for icons */
+  transition: color 0.3s ease;
+}
+
+.action-icon:hover {
+  color: #007bff; /* Hover color */
+}
+
+/* Popup */
+.popup {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: #ffffff;
+  border: 1px solid #ddd; /* Lighter border */
+  padding: 10px;
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow for a professional appearance */
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.popup-icon {
+  margin-right: 10px;
+  color: #2f65ad; /* Primary color for icons */
+}
+
+.popup-message {
+  display: inline;
+  color: #333; /* Darker text color for readability */
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  
-  .interview-create h2 {
-    margin-top: 0;
-    color: #333;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .schedule-form,
-  .question-form {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .schedule-form input,
-  .schedule-form select,
-  .question-form select,
-  .question-form input,
-  .question-form textarea {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin: 5px;
-    flex: 1 1 48%;
-  }
-  
-  .schedule-form input[readOnly] {
-    background-color: #f0f0f0;
-    cursor: not-allowed;
-  }
-  
-  .schedule-form button,
-  .question-form button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #2f65ad;
-    color: #fff;
-    cursor: pointer;
-    margin: 5px;
-    max-width: 180px; /* Slightly reduced the width */
-  }
-  
-  .options .option-input {
-    display: flex;
-    align-items: center;
-    margin-top: 5px;
-  }
-  
-  .options .option-input input[type="text"] {
-    flex: 1;
-    margin-left: 10px; /* Space between button and text */
-  }
-  
-  .questions-list {
-    margin-top: 20px;
-  }
-  
-  .questions-list h3 {
-    color: #333;
-  }
-  
-  .questions-list ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .questions-list li {
-    background-color: #f9f9f9;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 5px;
-  }
-  
-  .questions-list li ul {
-    padding-left: 20px;
-  }
-  
-  .questions-list li ul li {
-    background-color: transparent;
-    padding: 0;
-    border: none;
-    margin-bottom: 0;
-  }
-  
-  .option-display {
-    display: flex;
-    align-items: center;
-  }
-  
-  .option-display input {
-    margin-right: 10px; /* Space between button and text */
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

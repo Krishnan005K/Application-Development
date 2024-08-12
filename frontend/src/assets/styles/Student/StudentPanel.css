@@ -1,0 +1,136 @@
+/* Main Container */
+body::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .dashboard-container {
+    display: flex;
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  /* Side Panel */
+  .side-panel {
+    width: 220px;
+    background-color: #2c3e50;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.37);
+    border: 10px solid rgba(255, 255, 255, 0.5);
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.5s ease-in-out;
+    margin-top: -4%;
+  }
+  
+  .side-panel .profile-link {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .side-panel .profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ecf0f1;
+  }
+  
+  .side-panel h2 {
+    margin-top: 0;
+    color: #f3f7f7;
+    cursor: pointer;
+  }
+  
+  .side-panel h2 .admin-panel-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .side-panel nav ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .side-panel nav ul li {
+    margin: 15px 0;
+    position: relative;
+  }
+  
+  .side-panel nav ul li a {
+    color: #eaecef;
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+    border-radius: 5px;
+  }
+  
+  .side-panel nav ul li a:hover {
+    color: #f1f1f1; /* Light grey text color */
+    background-color: rgba(255, 255, 255, 0.5); /* Bright blue background */
+    transform: scale(1.1); /* Slightly increase the scaling effect */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    transition: all 0.3s ease; /* Smooth transition */
+    border-radius: 5px; /* Slightly rounded corners */
+  }
+  
+  .side-panel nav ul li a::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 4px;
+    height: 0;
+    background-color: #F2A950;
+    transition: height 0.3s ease;
+    transform: translateY(-50%);
+  }
+  
+  .side-panel nav ul li a:hover::before {
+    height: 100%;
+  }
+  
+  /* Main Content Area */
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  /* Animations */
+  @keyframes slideIn {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .dashboard-container {
+      flex-direction: column;
+    }
+  
+    .side-panel {
+      width: 100%;
+      height: auto;
+      box-shadow: none;
+    }
+  
+    .main-content {
+      padding: 10px;
+    }
+  }
+  

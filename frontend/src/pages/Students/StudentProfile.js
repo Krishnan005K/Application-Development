@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import HeadProfileImg from '../../assets/images/attend-interview-image.png';
+import '../../assets/styles/Admin/AdminProfile.css';
+import AdminProfileImg from '../../assets/images/attend-interview-image.png';
+// import AdminCharts from './AdminCharts';
 
-const HeadProfile = () => {
-  const [headData, setHeadData] = useState({
+const ProfileAdmin = () => {
+  const [studentData, setStudentData] = useState({
     name: '',
     email: '',
     password: '',
-    contact: '',
-    dept: '',
-    roles: '',
+    phoneNumber: '',
+    qualification: '',
+    role: '',
     experience: '',
   });
 
@@ -20,13 +22,13 @@ const HeadProfile = () => {
 
   useEffect(() => {
     if (email) {
-      fetchHeadData();
+      fetchStudentData();
     } else {
       console.error("No email found in localStorage");
     }
   }, [email]);
 
-  const fetchHeadData = async () => {
+  const fetchStudentData = async () => {
     if (!email) {
       console.error("No email provided for fetching data.");
       return;
@@ -41,20 +43,19 @@ const HeadProfile = () => {
         },
       };
 
-      const response = await axios.get(`http://localhost:8080/api/heads/${email}`, config);
+      const response = await axios.get(`http://127.0.0.1:8080/students/email/${email}`, config);
 
-      setHeadData({
+      setStudentData({
         name: response.data.name || '',
         email: response.data.email || '',
         password: response.data.password || '',
-        contact: response.data.contact || '',
-        dept: response.data.dept || '',
-        roles: response.data.roles || '',
+        phoneNumber: response.data.phoneNumber || '',
+        qualification: response.data.qualification || '',
+        role: response.data.role || '',
         experience: response.data.experience || '',
-        departmentratings: response.data.departmentratings || '',
       });
     } catch (error) {
-      console.error('Error fetching head data:', error);
+      console.error('Error fetching student data:', error);
     }
   };
 
@@ -63,7 +64,7 @@ const HeadProfile = () => {
   };
 
   const handleSaveClick = () => {
-    const emptyFields = Object.values(headData).some(field => field === '');
+    const emptyFields = Object.values(studentData).some(field => field === '');
     if (emptyFields) {
       alert('Fields cannot be empty');
       return;
@@ -81,12 +82,12 @@ const HeadProfile = () => {
         },
       };
 
-      await axios.put(`http://localhost:8080/api/head/${email}`, headData, config);
+      await axios.put(`http://127.0.0.1:8080/students/updateByEmail/${email}`, studentData, config);
       setShowConfirmation(false);
       setIsEditing(false);
       alert('Data saved successfully');
     } catch (error) {
-      console.error('Error saving head data:', error);
+      console.error('Error saving student data:', error);
     }
   };
 
@@ -95,23 +96,23 @@ const HeadProfile = () => {
   };
 
   const handleChange = (e) => {
-    setHeadData({ ...headData, [e.target.name]: e.target.value });
+    setStudentData({ ...studentData, [e.target.name]: e.target.value });
   };
 
   return (
-    <div className='profile-head-whole-container'>
-      <div className="profile-head-container">
+    <div className='profile-admin-whole-container'>
+      <div className="profile-admin-container">
         <div className="profile-image-container">
-          <img src={HeadProfileImg} alt="Head" className="profile-image" />
+          <img src={AdminProfileImg} alt="Admin" className="profile-image" />
         </div>
-        <h2>Head Profile</h2>
+        <h2>Student Profile</h2>
         <form className="profile-form">
           <div className="form-group">
-            <label>Name:</label>
+            <label>Username:</label>
             <input
               type="text"
               name="name"
-              value={headData.name}
+              value={studentData.name}
               onChange={handleChange}
               disabled={!isEditing} 
             />
@@ -121,7 +122,7 @@ const HeadProfile = () => {
             <input 
               type="email" 
               name="email" 
-              value={headData.email} 
+              value={studentData.email} 
               onChange={handleChange} 
               disabled
             />
@@ -131,27 +132,27 @@ const HeadProfile = () => {
             <input 
               type="password" 
               name="password" 
-              value={headData.password} 
+              value={studentData.password} 
               onChange={handleChange} 
               disabled={!isEditing} 
             />
           </div>
           <div className="form-group">
-            <label>Contact:</label>
+            <label>Phone Number:</label>
             <input 
               type="text" 
-              name="contact" 
-              value={headData.contact} 
+              name="phoneNumber" 
+              value={studentData.phoneNumber} 
               onChange={handleChange} 
               disabled={!isEditing} 
             />
           </div>
           <div className="form-group">
-            <label>Department:</label>
+            <label>Qualification:</label>
             <input 
               type="text" 
-              name="dept" 
-              value={headData.dept} 
+              name="qualification" 
+              value={studentData.qualification} 
               onChange={handleChange} 
               disabled={!isEditing} 
             />
@@ -160,9 +161,8 @@ const HeadProfile = () => {
             <label>Role:</label>
             <input 
               type="text" 
-              name="roles"
-              value={headData.roles} 
-              onChange={handleChange} 
+              name="role" 
+              value={studentData.role} 
               disabled 
             />
           </div>
@@ -171,7 +171,7 @@ const HeadProfile = () => {
             <input 
               type="text" 
               name="experience" 
-              value={headData.experience} 
+              value={studentData.experience} 
               onChange={handleChange} 
               disabled={!isEditing} 
             />
@@ -195,8 +195,9 @@ const HeadProfile = () => {
           </div>
         </div>
       )}
+      {/* <AdminCharts /> */}
     </div>
   );
 };
 
-export default HeadProfile;
+export default ProfileAdmin;

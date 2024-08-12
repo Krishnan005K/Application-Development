@@ -1,10 +1,14 @@
+/* Interviewer View */
 .interviewer-view {
   padding: 20px;
   font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
+  background-color: #ffffff; /* Light background for consistency */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow for a professional appearance */
   animation: fadeIn 1s ease-in;
 }
 
+/* Filters */
 .filters {
   margin-bottom: 20px;
   animation: slideIn 1s ease-out;
@@ -14,16 +18,17 @@
   padding: 8px;
   width: 300px;
   margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #ddd; /* Lighter border for a softer look */
+  border-radius: 5px; /* Rounded corners */
   transition: border-color 0.3s ease;
 }
 
 .filters input:focus {
-  border-color: #007bff;
+  border-color: #2f65ad; /* Updated border color */
   outline: none;
 }
 
+/* Interviewer Form */
 .interviewer-form {
   display: flex;
   flex-wrap: wrap;
@@ -36,34 +41,35 @@
   flex: 1 1 200px; /* Ensures all input fields have the same minimum width */
   padding: 8px;
   box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #ddd; /* Lighter border */
+  border-radius: 5px; /* Rounded corners */
   transition: border-color 0.3s ease;
 }
 
 .interviewer-form input:focus {
-  border-color: #007bff;
+  border-color: #2f65ad; /* Updated border color */
 }
 
+/* Add Interviewer Button */
 .add-interviewer-button {
-  background-color: #02375ab6;
+  background-color: #2f65ad; /* Base color */
   color: white;
   border: none;
   padding: 10px 15px;
   cursor: pointer;
-  width: 170px;
-  border-radius: 4px;
+  width: 170px; /* Adjusted width for consistency */
+  border-radius: 5px; /* Rounded corners */
   transition: background-color 0.3s ease, transform 0.3s ease;
   animation: blink 2s infinite;
 }
 
 .add-interviewer-button:hover {
-  background-color: rgb(13, 44, 77);
+  background-color: #1d4b80; /* Darker shade on hover */
   transform: scale(1.05);
 }
 
 .add-interviewer-button:active {
-  background-color: #004080;
+  background-color: #004080; /* Even darker shade on active */
   transform: scale(0.95);
 }
 
@@ -73,6 +79,7 @@
   margin-bottom: 20px;
 }
 
+/* Interviewer Table */
 .interviewer-table {
   width: 100%;
   border-collapse: collapse;
@@ -80,30 +87,33 @@
 }
 
 .interviewer-table th, .interviewer-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  border: 1px solid #ddd; /* Lighter border */
+  padding: 12px; /* Slightly more padding for better readability */
   transition: background-color 0.3s ease;
 }
 
 .interviewer-table th {
-  background-color: #f4f4f4;
+  background-color: #f4f4f4; /* Light background for headers */
+  color: #2f65ad; /* Updated heading color */
 }
 
 .interviewer-table tbody tr:hover {
-  background-color: #e2e2e2;
+  background-color: #f1f1f1; /* Highlight row on hover */
 }
 
+/* Action Icon */
 .action-icon {
   margin-right: 10px;
   cursor: pointer;
   transition: color 0.3s ease;
-  color: #012740b6;
+  color: #2f65ad; /* Icon color */
 }
 
 .action-icon:hover {
-  color: #007bff;
+  color: #007bff; /* Hover color */
 }
 
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -115,6 +125,6 @@
 }
 
 @keyframes blink {
-  0%, 100% { background-color: #02375ab6; }
-  50% { background-color: #004080; }
+  0%, 100% { background-color: #2f65ad; }
+  50% { background-color: #1d4b80; }
 }

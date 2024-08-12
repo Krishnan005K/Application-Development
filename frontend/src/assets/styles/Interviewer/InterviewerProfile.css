@@ -1,11 +1,11 @@
-.profile-head-whole-container {
+.profile-interviewer-whole-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
-}
+  }
   
-.profile-head-container {
+  .profile-interviewer-container {
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.37);
@@ -15,81 +15,81 @@
     margin: auto;
     text-align: center;
     animation: fadeIn 1s ease-in-out;
-}
+  }
   
-@keyframes fadeIn {
+  @keyframes fadeIn {
     from {
-        opacity: 0;
-        transform: translateY(-20px);
+      opacity: 0;
+      transform: translateY(-20px);
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
-}
+  }
   
-.profile-image-container {
+  .profile-image-container {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
-}
+  }
   
-.profile-image {
+  .profile-image {
     width: 150px;
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-}
+  }
   
-h2 {
+  h2 {
     color: #002F6C;
     margin-bottom: 20px;
-}
+  }
   
-.profile-form {
+  .profile-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
+  }
   
-.form-group {
+  .form-group {
     display: flex;
     flex-direction: column;
     text-align: left;
-}
+  }
   
-label {
+  label {
     font-weight: bold;
     color: #333;
     margin-bottom: 5px;
-}
+  }
   
-input {
+  input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     transition: border-color 0.3s ease;
-}
+  }
   
-input:disabled {
+  input:disabled {
     background-color: #e9ecef;
     color: #6c757d;
-}
+  }
   
-input:not(:disabled):focus {
+  input:not(:disabled):focus {
     border-color: #F2A950;
-}
+  }
   
-.form-actions {
+  .form-actions {
     display: flex;
     justify-content: space-between;
-}
+  }
   
-.profile-save-button,
-.profile-cancel-button,
-.profile-edit-button,
-.confirm-yes-button,
-.confirm-no-button {
+  .profile-save-button,
+  .profile-cancel-button,
+  .profile-edit-button,
+  .confirm-yes-button,
+  .confirm-no-button {
     padding: 10px 20px;
     background-color: #F2A950;
     border: none;
@@ -97,22 +97,22 @@ input:not(:disabled):focus {
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s ease;
-}
-
-.profile-edit-button {
+  }
+  
+  .profile-edit-button {
     max-width: 90%;
     margin-left: 5%;
-}
-
-.profile-save-button:hover,
-.profile-cancel-button:hover,
-.profile-edit-button:hover,
-.confirm-yes-button:hover,
-.confirm-no-button:hover {
-    background-color: #e59428;
-}
+  }
   
-.confirmation-dialog {
+  .profile-save-button:hover,
+  .profile-cancel-button:hover,
+  .profile-edit-button:hover,
+  .confirm-yes-button:hover,
+  .confirm-no-button:hover {
+    background-color: #e59428;
+  }
+  
+  .confirmation-dialog {
     margin-top: 20px;
     background-color: #fff;
     border: 1px solid #ccc;
@@ -120,10 +120,36 @@ input:not(:disabled):focus {
     padding: 20px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     animation: slideIn 0.5s ease-in-out;
-}
+  }
   
-.confirmation-actions {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-}
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .confirmation-dialog p {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .confirmation-dialog button {
+    margin: 0 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .profile-interviewer-container {
+      width: 90%;
+    }
+  
+    .profile-image {
+      width: 100px;
+      height: 100px;
+    }
+  }
+  

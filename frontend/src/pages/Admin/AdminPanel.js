@@ -81,14 +81,14 @@ const handleLogout = () => {
                 Reports
               </Link>
             </li>
-            <Link onClick={handleLogout}>
+            
             <li onClick={handleLogout} >
-              
+            <Link onClick={handleLogout}>
                 <i className="fas fa-sign-out-alt nav-icon"></i>
                 Logout
-             
+                </Link>
             </li>
-            </Link>
+            
             
           </ul>
         </nav>

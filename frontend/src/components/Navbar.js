@@ -37,11 +37,16 @@ const Navbar = () => {
   return (
     <nav>
       <div className="navbar-logo">
-        <img src={logo} style={{ width: '120px', height: '60px' }} alt="Logo" />
+      {isAuthenticated ? (
+          <div className="navbar-avatar-container">
+          </div>
+        ) : (
+          <img src={logo} style={{ width: '120px', height: '60px' }} alt="Logo" />
+        )}
+       
       </div>
       <div className={`navbar-links-container ${isMenuOpen ? 'open' : ''}`}>
-        <Link to="/" className="navbar-link">Home</Link>
-        <Link to="/" className="navbar-link">Notifications</Link>
+
         {isAuthenticated ? (
           <div className="navbar-avatar-container">
             <FaUserCircle size={30} onClick={toggleDropdown} />
@@ -54,7 +59,7 @@ const Navbar = () => {
           </div>
         ) : (
           <button className="primary-button" style={{ width: '110px' }}>
-            <Link to="/login" className="navbar-link">Login</Link>
+            <Link to="/" className="navbar-link">Login</Link>
           </button>
         )}
         <div className="navbar-theme-toggle" onClick={toggleTheme}>

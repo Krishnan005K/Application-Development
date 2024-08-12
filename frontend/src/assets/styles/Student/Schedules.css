@@ -1,0 +1,36 @@
+.schedules-container {
+    padding: 20px;
+  }
+  
+  .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-title {
+    font-size: 1.5em;
+    color: #2f65ad;
+    margin-bottom: 10px;
+  }
+  
+  .card-date, .card-time {
+    font-size: 1em;
+    margin-bottom: 8px;
+  }
+  
+  .card-description {
+    font-size: 0.9em;
+    color: #555;
+  }
+  

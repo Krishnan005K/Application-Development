@@ -1,0 +1,114 @@
+/* Interviewees View */
+.interviewees-view {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.95); /* Slightly less opaque for a cleaner look */
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border: 2px solid #2f65ad; /* Updated to use primary color */
+  animation: fadeIn 1s ease-in-out;
+}
+
+.interviewees-view h2 {
+  margin-top: 0;
+  color: #2f65ad; /* Use primary color for headings */
+}
+
+/* Filters */
+.interviewees-filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.interviewees-filters input,
+.interviewees-filters select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd; /* Lighter border */
+  margin-right: 10px;
+  transition: border-color 0.3s ease;
+}
+
+.interviewees-filters input:focus,
+.interviewees-filters select:focus {
+  border-color: #2f65ad; /* Updated border color on focus */
+  outline: none;
+}
+
+/* Card Container */
+.interviewees-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* Interviewee Card */
+.interviewees-card {
+  background-color: #ffffff; /* Light background for consistency */
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow for a professional appearance */
+  margin-bottom: 20px;
+}
+
+/* Full Row Card */
+.interviewees-card.full-row-card {
+  flex: 1 1 100%;
+  margin-bottom: 20px; /* Increased margin for better separation */
+}
+
+/* Count Circle */
+.interviewees-count-circle {
+  background-color: #2f65ad; /* Primary color */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  color: #fff;
+  font-size: 18px;
+  margin: 20px auto;
+}
+
+/* Interviewees Table */
+.interviewees-table {
+  width: 100%;
+  border-collapse: collapse;
+  animation: slideUp 0.8s ease-out;
+}
+
+.interviewees-table th,
+.interviewees-table td {
+  border: 1px solid #ddd; /* Lighter border */
+  padding: 10px;
+  text-align: left;
+  transition: background-color 0.3s ease;
+}
+
+.interviewees-table th {
+  background-color: #f4f4f4; /* Light background for headers */
+  color: #2f65ad; /* Updated heading color */
+}
+
+.interviewees-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Alternating row color */
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

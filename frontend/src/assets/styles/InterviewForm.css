@@ -1,0 +1,160 @@
+/* InterviewForm.css */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .interview-form {
+    background-color: #ffffff;
+    padding: 20px;
+    max-width: 800px;
+    margin: 50px auto;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #1a73e8;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-input:focus,
+  .form-textarea:focus,
+  .form-select:focus {
+    border-color: #1a73e8;
+    outline: none;
+    box-shadow: 0 0 8px rgba(26, 115, 232, 0.2);
+  }
+  
+  .form-textarea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  .questions-section {
+    margin-top: 30px;
+  }
+  
+  .questions-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+    position: relative;
+  }
+  
+  .questions-heading::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: #1a73e8;
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+  }
+  
+  .question-item {
+    margin-bottom: 20px;
+    background-color: #f9fafb;
+    padding: 15px;
+    border-left: 4px solid #1a73e8;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .question-item:hover {
+    background-color: #f1f3f4;
+  }
+  
+  .question-input,
+  .question-options,
+  .question-correct-option,
+  .question-keywords {
+    margin-bottom: 10px;
+  }
+  
+  .btn-add,
+  .btn-remove,
+  .btn-submit {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #1a73e8;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+  }
+  
+  .btn-add:hover,
+  .btn-remove:hover,
+  .btn-submit:hover {
+    background-color: #0c54b0;
+  }
+  
+  .btn-remove {
+    background-color: #e8453c;
+  }
+  
+  .btn-remove:hover {
+    background-color: #c53030;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Adding some unexpected elements */
+  .question-input::placeholder,
+  .question-options::placeholder,
+  .question-correct-option::placeholder,
+  .question-keywords::placeholder {
+    font-style: italic;
+    color: #888;
+  }
+  
+  .btn-submit::after {
+    content: ' →';
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+    transform: translateX(-10px);
+  }
+  
+  .btn-submit:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+  }

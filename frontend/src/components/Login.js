@@ -65,7 +65,7 @@ function Login() {
         {
           login({ email, role: 'ROLE_STUDENT' });
           
-          navigate("/mock-interview");
+          navigate("/student-dashboard");
         }
         else if(role==='ROLE_MENTOR')
         {
@@ -80,7 +80,7 @@ function Login() {
         else if(role==='ROLE_INTERVIEWER')
         {
           login({ email, role: 'ROLE_INTERVIEWER' });
-          navigate("/interview-form");
+          navigate("/interviewer-dashboard");
         }
        
       }
@@ -123,9 +123,7 @@ function Login() {
               <button type="submit">Login</button>
               <div className="links">
                 
-                <p>
-                  Don't have an account? <Link to="/register">Sign Up</Link>
-                </p>
+                
               </div>
             </form>
           </div>

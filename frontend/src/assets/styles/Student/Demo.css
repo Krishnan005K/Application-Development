@@ -42,7 +42,7 @@
 }
 
 .video-preview {
-    width: 500px; /* Smaller size for the recorded video */
+    width: 400px; /* Smaller size for the recorded video */
     height: auto;
     border: 2px solid #ccc;
     margin: 0 auto; /* Center align */

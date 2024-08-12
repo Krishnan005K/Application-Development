@@ -1,0 +1,102 @@
+/* Overall Form Container */
+.interview-form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Form Group */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #2f65ad;
+  }
+  
+  .form-input,
+  .form-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .form-textarea {
+    height: 100px;
+    resize: vertical;
+  }
+  
+  /* Questions Section */
+  .questions-section {
+    margin-top: 20px;
+  }
+  
+  .questions-heading {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #2f65ad;
+  }
+  
+  /* Question Item */
+  .question-item {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .question-item input,
+  .question-item select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .question-item button {
+    background-color: #2f65ad;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .question-item button:hover {
+    background-color: #1d4b80;
+  }
+  
+  /* Action Buttons */
+  .btn-add,
+  .btn-remove,
+  .btn-submit {
+    background-color: #2f65ad;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-add:hover,
+  .btn-remove:hover,
+  .btn-submit:hover {
+    background-color: #1d4b80;
+  }
+  

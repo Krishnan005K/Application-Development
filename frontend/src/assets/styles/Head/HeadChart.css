@@ -1,0 +1,27 @@
+.head-chart {
+    padding: 20px;
+  }
+  
+  .filters {
+    margin-bottom: 20px;
+  }
+  
+  .filters select {
+    margin-right: 10px;
+  }
+  
+  .charts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .chart {
+    flex: 1 1 calc(50% - 20px);
+    box-sizing: border-box;
+  }
+  
+  .chart h3 {
+    text-align: center;
+  }
+  

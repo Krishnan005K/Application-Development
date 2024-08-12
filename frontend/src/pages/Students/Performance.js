@@ -20,7 +20,7 @@ import axios from 'axios';
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-function StudentDashboard() {
+function Performance() {
   const [studentData, setStudentData] = useState(null);
   const [feedbackData, setFeedbackData] = useState([]);
   const [displayedFeedback, setDisplayedFeedback] = useState([]);
@@ -103,24 +103,11 @@ function StudentDashboard() {
 
   return (
     <Container>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6">Student Dashboard</Typography>
-        </Toolbar>
-      </AppBar>
-
+      
       <Box my={4}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Card>
-              <Box p={3} display="flex" alignItems="center">
-                <Avatar src={studentData.profilePicture} alt={studentData.name} />
-                <Box ml={2}>
-                  <Typography variant="h5">{studentData.name}</Typography>
-                  <Typography variant="subtitle1">{studentData.email}</Typography>
-                </Box>
-              </Box>
-            </Card>
+           
           </Grid>
 
           <Grid item xs={12} md={6}>
@@ -155,17 +142,11 @@ function StudentDashboard() {
             </Paper>
           </Grid>
 
-          <Grid item xs={12}>
-            <Button variant="contained" color="primary" fullWidth>
-              <Link to='/mock-interview' style={{ color: '#fff', textDecoration: 'none' }}>
-                Attend Mock Interview
-              </Link>
-            </Button>
-          </Grid>
+          
         </Grid>
       </Box>
     </Container>
   );
 }
 
-export default StudentDashboard;
+export default Performance;

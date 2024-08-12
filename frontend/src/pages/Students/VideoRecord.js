@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import '../assets/styles/VideoRecord.css';
-import MetricsChart from './MetricChart';
+import '../../assets/styles/VideoRecord.css';
+import MetricsChart from './MetricsChart';
+import { toast } from 'react-toastify';
 
-const Demo = () => {
+const VideoRecord = () => {
     const [questions, setQuestions] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState('');
     const [keywords, setKeywords] = useState([]);
@@ -22,7 +23,7 @@ const Demo = () => {
     const questionIndex = useRef(0);
     const speechRecognitionRef = useRef(null);
 
-    // Fetch JWT token from local storage (or any other secure storage method you're using)
+    // Fetch JWT token from local storage
     const jwtToken = localStorage.getItem('token');
     const studentId = localStorage.getItem('userId');
 
@@ -100,10 +101,10 @@ const Demo = () => {
             };
 
             speechRecognitionRef.current.onerror = (event) => {
-                console.error('Speech recognition error', event);
+                toast.error('Speech recognition error', event);
             };
         } else {
-            console.error('Speech Recognition API not supported in this browser.');
+            toast.error('Speech Recognition API not supported in this browser.');
         }
     }, []);
 
@@ -195,7 +196,7 @@ const Demo = () => {
             })
             .catch(error => {
                 console.log(feedbackData);
-                console.error("There was an error saving the feedback!", error);
+                toast.error("There was an error saving the feedback!", error);
             });
     };
 
@@ -220,19 +221,13 @@ const Demo = () => {
                             <p>{currentQuestion}</p>
                         </div>
                     )}
-                    {transcription && (
-                        <div className="transcription-container">
-                            <h2>Transcription:</h2>
-                            <p>{transcription}</p>
-                        </div>
-                    )}
                 </>
             ) : (
                 <div className="video-preview-container">
                     {videoURL && (
                         <>
                             <h2>Recorded Video:</h2>
-                            <video src={videoURL} width="400" controls className="video-preview" />
+                            <video src={videoURL} width="400"   controls className="video-preview" />
                         </>
                     )}
                     {feedback && (
@@ -258,4 +253,4 @@ const Demo = () => {
     );
 }
 
-export default Demo;
+export default VideoRecord;

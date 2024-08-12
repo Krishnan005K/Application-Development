@@ -1,32 +1,58 @@
+/* Student View */
 .student-view {
   padding: 20px;
-  background-color: #f7f7f7; /* Mild grey background color */
+  background-color: #ffffff; /* Light background for consistency */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow for a professional appearance */
   animation: fadeIn 1s ease-in-out;
 }
 
+/* Filters */
 .filters {
   margin-bottom: 20px;
   display: flex;
   gap: 10px;
 }
 
+.filters input {
+  padding: 8px;
+  width: 300px; /* Consistent width for inputs */
+  border: 1px solid #ddd; /* Lighter border */
+  border-radius: 5px; /* Rounded corners */
+  transition: border-color 0.3s ease;
+}
+
+.filters input:focus {
+  border-color: #2f65ad; /* Updated border color */
+  outline: none;
+}
+
+/* Add Student Button */
 .add-student-button {
   display: block;
   width: 150px;
   margin: 10px auto;
-  padding: 5px 10px;
-  background-color: #02375ab6;
+  padding: 10px;
+  background-color: #2f65ad; /* Base color */
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 5px; /* Rounded corners */
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
   animation: blink 2s infinite;
 }
 
 .add-student-button:hover {
-  background-color: rgb(13, 44, 77);
+  background-color: #1d4b80; /* Darker shade on hover */
+  transform: scale(1.05);
 }
 
+.add-student-button:active {
+  background-color: #004080; /* Even darker shade on active */
+  transform: scale(0.95);
+}
+
+/* Student Form */
 .student-form {
   display: flex;
   flex-wrap: wrap;
@@ -35,12 +61,18 @@
 }
 
 .student-form input {
-  width: 200px;
-  padding: 5px;
-  border-radius: 3px;
-  border: 1px solid #ccc;
+  flex: 1 1 200px; /* Ensures all input fields have the same minimum width */
+  padding: 8px;
+  border-radius: 5px; /* Rounded corners */
+  border: 1px solid #ddd; /* Lighter border */
+  transition: border-color 0.3s ease;
 }
 
+.student-form input:focus {
+  border-color: #2f65ad; /* Updated border color */
+}
+
+/* Student Table */
 .student-table {
   width: 100%;
   border-collapse: collapse;
@@ -48,21 +80,75 @@
 }
 
 .student-table th, .student-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  border: 1px solid #ddd; /* Lighter border */
+  padding: 12px; /* Increased padding for better readability */
   text-align: center;
+  transition: background-color 0.3s ease;
 }
 
 .student-table th {
-  background-color: #f2f2f2;
+  background-color: #f4f4f4; /* Light background for headers */
+  color: #2f65ad; /* Updated heading color */
 }
 
+.student-table tbody tr:hover {
+  background-color: #f1f1f1; /* Highlight row on hover */
+}
+
+/* Action Icon */
 .action-icon {
   margin: 0 5px;
   cursor: pointer;
-  color: #012740b6;
+  color: #2f65ad; /* Updated icon color */
+  transition: color 0.3s ease;
 }
 
+.action-icon:hover {
+  color: #007bff; /* Hover color */
+}
+
+/* Popup Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup Content */
+.popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px; /* Rounded corners */
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
+}
+
+/* Close Button */
+.close-button {
+  margin-top: 20px;
+  background-color: #2f65ad; /* Base color */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+  background-color: #1d4b80; /* Darker shade on hover */
+}
+
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -71,4 +157,10 @@
 @keyframes slideUp {
   from { transform: translateY(20px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
+}
+
+/* Blinking animation without fading */
+@keyframes blink {
+  0%, 100% { background-color: #2f65ad; }
+  50% { background-color: #1d4b80; }
 }

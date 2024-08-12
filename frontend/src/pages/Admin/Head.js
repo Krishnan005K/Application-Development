@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/styles/Admin/Head.css';
 
 function Head() {
@@ -12,7 +14,6 @@ function Head() {
   const [editingIndex, setEditingIndex] = useState(null);
   const [tempData, setTempData] = useState(null);
   const [errors, setErrors] = useState({});
-  const [popup, setPopup] = useState({ show: false, message: '', icon: null });
 
   const token = localStorage.getItem('token');
   const apiUrl = 'http://127.0.0.1:8080/api/admin/heads';
@@ -30,10 +31,9 @@ function Head() {
   const filteredHeads = heads.filter(head =>
     (head.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
      head.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-     String(head.id).includes(searchTerm)) && // Convert head.id to string
+     String(head.id).includes(searchTerm)) &&
     (deptFilter === '' || head.dept === deptFilter)
   );
-  
 
   const handleInputChange = (e, index = null) => {
     if (index !== null) {
@@ -63,13 +63,6 @@ function Head() {
     return isValid;
   };
 
-  const showPopup = (message, icon) => {
-    setPopup({ show: true, message, icon });
-    setTimeout(() => {
-      setPopup({ show: false, message: '', icon: null });
-    }, 5000);
-  };
-
   const handleAddOrEdit = async () => {
     if (validateFields(formData)) {
       if (editingIndex !== null) {
@@ -82,19 +75,21 @@ function Head() {
           setHeads(updatedHeads);
           setEditingIndex(null);
           setFormData({ id: '', name: '', email: '', password: '', contact: '', dept: '', roles: 'ROLE_HEAD' });
-          showPopup('Head updated successfully!', faCheck);
+          toast.success('Head updated successfully!');
         }).catch((error) => {
           console.log(error);
+          toast.error('Failed to update head.');
         });
       } else {
         await axios.post(apiUrl, formData, {
           headers: { Authorization: `Bearer ${token}` }
         }).then((response) => {
           setHeads([...heads, response.data]);
-          setFormData({ id: '', name: '', email: '', password: '', contact: '', dept: '' });
-          showPopup('Head added successfully!', faCheck);
+          setFormData({ id: '', name: '', email: '', password: '', contact: '', dept: '', roles: 'ROLE_HEAD' });
+          toast.success('Head added successfully!');
         }).catch((error) => {
           console.log(error);
+          toast.error('Failed to add head.');
         });
       }
     }
@@ -123,19 +118,18 @@ function Head() {
     if (window.confirm("Are you sure you want to delete this head?")) {
       const headToDelete = heads[index];
       await axios.delete(`${apiUrl}/${headToDelete.id}`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       }).then(() => {
         const updatedHeads = heads.filter((_, i) => i !== index);
         setHeads(updatedHeads);
-        showPopup('Head deleted successfully!', faTrash);
+        toast.success('Head deleted successfully!');
       }).catch((error) => {
         console.log(error);
+        toast.error('Failed to delete head.');
       });
     }
   };
 
- 
-  
   return (
     <div className="head-view">
       <h2>Head Management</h2>
@@ -217,12 +211,8 @@ function Head() {
         </tbody>
       </table>
 
-      {popup.show && (
-        <div className="popup">
-          <FontAwesomeIcon icon={popup.icon} className="popup-icon" />
-          <p className="popup-message">{popup.message}</p>
-        </div>
-      )}
+      {/* Toast container for notifications */}
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </div>
   );
 }

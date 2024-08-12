@@ -1,170 +1,166 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash, faPlus, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
-import '../../assets/styles/Head/HeadMentor.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function HeadMentor() {
-  const [mentors, setMentors] = useState([
-    { id: '1', name: 'Alice Johnson', email: 'alice@example.com', password: '*****', contact: '123-456-7890', dept: 'CSE', classBeingMentored: 'A' },
-    { id: '2', name: 'Bob Brown', email: 'bob@example.com', password: '*****', contact: '987-654-3210', dept: 'IT', classBeingMentored: 'B' },
-    // More mentor data here...
-  ]);
+  const [mentors, setMentors] = useState([]);
+  const [dept, setDept] = useState('');
+  const [filters, setFilters] = useState({
+    name: '',
+    email: '',
+    dept: '',
+    batch: '',
+    sec: '',
+    experience: '',
+    overallratings: '',
+  });
+  const [filteredMentors, setFilteredMentors] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showToast, setShowToast] = useState('');
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchDept, setSearchDept] = useState('');
-  const [searchBatch, setSearchBatch] = useState('');
-  const [formData, setFormData] = useState({ id: '', name: '', email: '', password: '', contact: '', dept: '', classBeingMentored: '' });
-  const [editingIndex, setEditingIndex] = useState(null);
-  const [editFormData, setEditFormData] = useState({ id: '', name: '', email: '', password: '', contact: '', dept: '', classBeingMentored: '' });
-
-  // Filter mentors based on search terms and dropdown selections
-  const filteredMentors = mentors.filter(mentor =>
-    (mentor.id.includes(searchTerm) || 
-    mentor.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    mentor.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
-    (searchDept ? mentor.dept === searchDept : true) &&
-    (searchBatch ? mentor.classBeingMentored === searchBatch : true)
-  );
-
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleEditInputChange = (e) => {
-    setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
-  };
-
-  const handleAddOrEdit = () => {
-    const { id, name, email, password, contact, dept, classBeingMentored } = formData;
-    if (id && name && email && password && contact && dept && classBeingMentored) {
-      if (editingIndex !== null) {
-        const updatedMentors = [...mentors];
-        updatedMentors[editingIndex] = formData;
-        setMentors(updatedMentors);
-        setEditingIndex(null);
-      } else {
-        setMentors([...mentors, formData]);
+  // Fetch the head's department based on email
+  const email = localStorage.getItem('email');
+  const token = localStorage.getItem("token");
+  useEffect(() => {
+      const fetchHeadDetails = async () => {
+          try {
+              setIsLoading(true);
+              const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await axios.get(`http://localhost:8080/api/heads/${email}`, config);
+        setDept(response.data.dept); // Assuming the API returns the department
+        console.log('Department fetched:', response.data.dept); // Debugging line
+      } catch (error) {
+        console.error('Error fetching head details:', error);
+        setShowToast('Error fetching department details');
+      } finally {
+        setIsLoading(false);
       }
-      setFormData({ id: '', name: '', email: '', password: '', contact: '', dept: '', classBeingMentored: '' });
-    } else {
-      alert('All fields must be filled out.');
+    };
+
+    if (email) {
+      fetchHeadDetails();
     }
-  };
+  }, [email]);
 
-  const handleEditClick = (index) => {
-    setEditingIndex(index);
-    setEditFormData(mentors[index]);
-  };
+  // Fetch mentors based on the department
+  useEffect(() => {
+    const fetchMentorsByDept = async () => {
+      if (dept) {
+        try {
+          setIsLoading(true);
+          const config = {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          };
+          const response = await axios.get(`http://localhost:8080/api/mentors/department/${dept}`, config);
+          setMentors(response.data);
+          console.log('Mentors fetched:', response.data); // Debugging line
+        } catch (error) {
+          console.error('Error fetching mentors:', error);
+          setShowToast('Error fetching mentor details');
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        setMentors([]); // Clear mentors if no department is set
+      }
+    };
 
-  const handleSaveClick = (index) => {
-    const updatedMentors = [...mentors];
-    updatedMentors[index] = editFormData;
-    setMentors(updatedMentors);
-    setEditingIndex(null);
-  };
+    fetchMentorsByDept();
+  }, [dept]);
 
-  const handleCancelClick = () => {
-    setEditingIndex(null);
-  };
+  // Filter mentors
+  useEffect(() => {
+    const applyFilters = () => {
+      const filtered = mentors.filter((mentor) => {
+        return (
+          (!filters.name || mentor.name.toLowerCase().includes(filters.name.toLowerCase())) &&
+          (!filters.email || mentor.email.toLowerCase().includes(filters.email.toLowerCase())) &&
+          (!filters.department || mentor.department.toLowerCase().includes(filters.department.toLowerCase())) &&
+          (!filters.batch || mentor.batch.toLowerCase().includes(filters.batch.toLowerCase())) &&
+          (!filters.sec || mentor.sec.toLowerCase().includes(filters.section.toLowerCase())) &&
+          (!filters.experience || mentor.experience.toString() === filters.experience) &&
+          (!filters.overallratings || mentor.overallratings.toString() === filters.overallratings)
+        );
+      });
+      setFilteredMentors(filtered);
+      console.log('Filtered Mentors:', filtered); // Debugging line
+    };
 
-  const handleDelete = (index) => {
-    if (window.confirm("Are you sure you want to delete this mentor?")) {
-      const updatedMentors = mentors.filter((_, i) => i !== index);
-      setMentors(updatedMentors);
-    }
+    applyFilters();
+  }, [filters, mentors]);
+
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters({ ...filters, [name]: value });
   };
 
   return (
-    <div className="mentor-view">
-      <h2>Mentor Management</h2>
-      <div className="filters">
-        <input
-          type="text"
-          placeholder="Search by ID, name, or email..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <select value={searchDept} onChange={(e) => setSearchDept(e.target.value)}>
-          <option value="">All Departments</option>
-          <option value="CSE">CSE</option>
-          <option value="IT">IT</option>
-          <option value="CIVIL">CIVIL</option>
-          <option value="MECH">MECH</option>
-          <option value="EEE">EEE</option>
-          <option value="ECE">ECE</option>
-        </select>
-        <select value={searchBatch} onChange={(e) => setSearchBatch(e.target.value)}>
-          <option value="">All Classes</option>
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
-        </select>
+    <div className='admin-mentor'>
+      {isLoading && <p>Loading...</p>}
+      {showToast && <p>{showToast}</p>}
+      
+      <div className="admin-mentor-filters">
+        {/* Filter inputs */}
+        {Object.keys(filters).filter(key => key !== 'dept').map(key => (
+          <div className="admin-mentor-filter-group" key={key}>
+            <label htmlFor={`${key}-filter`}>{key.charAt(0).toUpperCase() + key.slice(1)}:</label>
+            <input
+              type={key === 'experience' || key === 'overallratings' ? 'number' : 'text'}
+              id={`${key}-filter`}
+              name={key}
+              placeholder={`Enter ${key}`}
+              value={filters[key]}
+              onChange={handleFilterChange}
+            />
+          </div>
+        ))}
       </div>
-
-      <div className="mentor-form">
-        <input type="text" name="id" placeholder="ID" value={formData.id} onChange={handleInputChange} />
-        <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleInputChange} />
-        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleInputChange} />
-        <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleInputChange} />
-        <input type="text" name="contact" placeholder="Contact" value={formData.contact} onChange={handleInputChange} />
-        <input type="text" name="dept" placeholder="Department" value={formData.dept} onChange={handleInputChange} />
-        <input type="text" name="classBeingMentored" placeholder="Class Being Mentored" value={formData.classBeingMentored} onChange={handleInputChange} />
-        <div className="add-mentor-button-container">
-          <button className="add-mentor-button" onClick={handleAddOrEdit}>
-            <FontAwesomeIcon icon={faPlus} /> {editingIndex !== null ? 'Update Mentor' : 'Add Mentor'}
-          </button>
+      
+      <div className="admin-mentor-container">
+        <h2>Mentor Details</h2>
+        <div className="card-container">
+          <div className="card full-row-card">
+            <h3>Total Mentors</h3>
+            <div className="count-circle">{filteredMentors.length}</div>
+          </div>
         </div>
-      </div>
 
-      <table className="mentor-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Password</th>
-            <th>Contact</th>
-            <th>Department</th>
-            <th>Class</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredMentors.map((mentor, index) => (
-            <tr key={index}>
-              {editingIndex === index ? (
-                <>
-                  <td><input type="text" name="id" value={editFormData.id} onChange={handleEditInputChange} disabled /></td>
-                  <td><input type="text" name="name" value={editFormData.name} onChange={handleEditInputChange} /></td>
-                  <td><input type="email" name="email" value={editFormData.email} onChange={handleEditInputChange} /></td>
-                  <td><input type="password" name="password" value={editFormData.password} onChange={handleEditInputChange} /></td>
-                  <td><input type="text" name="contact" value={editFormData.contact} onChange={handleEditInputChange} /></td>
-                  <td><input type="text" name="dept" value={editFormData.dept} onChange={handleEditInputChange} /></td>
-                  <td><input type="text" name="classBeingMentored" value={editFormData.classBeingMentored} onChange={handleEditInputChange} /></td>
-                  <td>
-                    <FontAwesomeIcon icon={faCheck} onClick={() => handleSaveClick(index)} className="action-icon" />
-                    <FontAwesomeIcon icon={faTimes} onClick={handleCancelClick} className="action-icon" />
-                  </td>
-                </>
-              ) : (
-                <>
-                  <td>{mentor.id}</td>
+        <div className="admin-mentor-table-wrapper">
+          <table className="admin-mentor-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Batch</th>
+                <th>Section</th>
+                <th>Years of Experience</th>
+                <th>Overall Ratings</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredMentors.map((mentor) => (
+                <tr key={mentor.email}>
                   <td>{mentor.name}</td>
                   <td>{mentor.email}</td>
-                  <td>{mentor.password}</td>
-                  <td>{mentor.contact}</td>
                   <td>{mentor.dept}</td>
-                  <td>{mentor.classBeingMentored}</td>
-                  <td>
-                    <FontAwesomeIcon icon={faEdit} onClick={() => handleEditClick(index)} className="action-icon" />
-                    <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(index)} className="action-icon" />
-                  </td>
-                </>
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                  <td>{mentor.batch}</td>
+                  <td>{mentor.sec}</td>
+                  <td>{mentor.experience}</td>
+                  <td>{mentor.overallratings}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }
