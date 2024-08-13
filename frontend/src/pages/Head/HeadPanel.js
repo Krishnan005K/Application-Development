@@ -12,6 +12,7 @@ import HeadMentor from './HeadMentor';
 import '../../assets/styles/Admin/AdminPanel.css';
 import HeadStudent from './HeadStudent';
 import HeadChart from './HeadChart';
+import HeadSchedule from './HeadSchedule';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
@@ -80,7 +81,7 @@ function HeadDashboard() {
               </Link>
             </li> */}
             <li>
-              <Link to="/head-dashboard/head-schedules">
+              <Link to="/head-dashboard/schedules">
                 <i className="fas fa-calendar nav-icon"></i>
                 Schedules
               </Link>
@@ -104,7 +105,7 @@ function HeadDashboard() {
           <Route path="" element={<HeadChart />} />
           <Route path="student-details" element={<HeadStudent />} />
           <Route path="mentor-details" element={<HeadMentor />} />
-          
+          <Route path='schedules' element={<HeadSchedule />} />
           {/* <Route path="feedback" element={<FeedbackHeadDash />} /> */}
           {/* <Route path="head-schedules" element={<ScheduleHeadDashboard />} />
           <Route path="reports" element={<Reports />} />

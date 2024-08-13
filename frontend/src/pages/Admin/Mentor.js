@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash, faPlus, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/styles/Admin/Mentor.css';
 
 function Mentor() {
@@ -9,21 +11,15 @@ function Mentor() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchDept, setSearchDept] = useState('');
   const [searchBatch, setSearchBatch] = useState('');
-  const [formData, setFormData] = useState({
-    id: '', name: '', email: '', password: '', contact: '', dept: '', classBeingMentored: ''
-  });
-  const [editingMentorId, setEditingMentorId] = useState(null);
-  const [editFormData, setEditFormData] = useState({
-    id: '', name: '', email: '', password: '', contact: '', dept: '', classBeingMentored: ''
-  });
+  const [editFormData, setEditFormData] = useState(null);
+  const [originalData, setOriginalData] = useState(null);
 
   useEffect(() => {
-    // Retrieve the user role from local storage
     const userRole = localStorage.getItem('role');
     if (userRole === 'ROLE_ADMIN' || userRole === 'ROLE_HEAD') {
       fetchMentors();
     } else {
-      alert('You do not have permission to view this page.');
+      toast.error('You do not have permission to view this page.');
     }
   }, []);
 
@@ -37,74 +33,51 @@ function Mentor() {
       setMentors(response.data);
     } catch (error) {
       console.error('Error fetching mentors:', error);
+      toast.error('Error fetching mentors.');
     }
   };
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleEditInputChange = (e) => {
-    setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
-  };
-
-  const handleAddOrEdit = async () => {
-    const { id, name, email, password, contact, dept, classBeingMentored } = formData;
-    if (name && email && password && contact && dept && classBeingMentored) {
-      try {
-        if (editingMentorId) {
-          // Update existing mentor
-          await axios.put(`http://127.0.0.1:8080/api/admin/mentors/${id}`, formData, {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-          });
-          const updatedMentors = mentors.map(mentor => mentor.id === id ? formData : mentor);
-          setMentors(updatedMentors);
-        } else {
-          // Add new mentor
-          await axios.post('http://127.0.0.1:8080/api/admin/mentors', formData, {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`,
-              'Content-Type': 'application/json'
-            }
-          });
-          setMentors([...mentors, formData]);
-        }
-        setFormData({
-          id: '', name: '', email: '', password: '', contact: '', dept: '', classBeingMentored: ''
-        });
-        setEditingMentorId(null);
-      } catch (error) {
-        console.error('Error adding or updating mentor:', error);
+  const handleInputChange = (e, field, mentorId) => {
+    setEditFormData(prevData => ({
+      ...prevData,
+      [mentorId]: {
+        ...prevData[mentorId],
+        [field]: e.target.value
       }
-    } else {
-      alert('All fields must be filled out.');
-    }
+    }));
   };
 
-  const handleEditClick = (mentor) => {
-    setEditingMentorId(mentor.id);
-    setEditFormData(mentor);
-  };
-
-  const handleSaveClick = async () => {
+  const handleSaveClick = async (mentorId) => {
+    const updatedData = editFormData[mentorId];
     try {
-      await axios.put(`http://127.0.0.1:8080/api/admin/mentors/${editFormData.id}`, editFormData, {
+      await axios.put(`http://127.0.0.1:8080/api/admin/mentors/${mentorId}`, updatedData, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       });
-      const updatedMentors = mentors.map(mentor => mentor.id === editFormData.id ? editFormData : mentor);
-      setMentors(updatedMentors);
-      setEditingMentorId(null);
+      setMentors(prevMentors =>
+        prevMentors.map(mentor =>
+          mentor.id === mentorId ? { ...mentor, ...updatedData } : mentor
+        )
+      );
+      setEditFormData(prevData => {
+        const newData = { ...prevData };
+        delete newData[mentorId];
+        return newData;
+      });
+      toast.success('Mentor updated successfully.');
     } catch (error) {
       console.error('Error updating mentor:', error);
+      toast.error('Error updating mentor.');
     }
   };
 
-  const handleCancelClick = () => {
-    setEditingMentorId(null);
+  const handleCancelClick = (mentorId) => {
+    setEditFormData(prevData => {
+      const newData = { ...prevData };
+      delete newData[mentorId];
+      return newData;
+    });
   };
 
   const handleDelete = async (mentor) => {
@@ -115,12 +88,18 @@ function Mentor() {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         });
-        const updatedMentors = mentors.filter(m => m.id !== mentor.id);
-        setMentors(updatedMentors);
+        setMentors(mentors.filter(m => m.id !== mentor.id));
+        toast.success('Mentor deleted successfully.');
       } catch (error) {
         console.error('Error deleting mentor:', error);
+        toast.error('Error deleting mentor.');
       }
     }
+  };
+
+  const startEditing = (mentor) => {
+    setEditFormData({ [mentor.id]: mentor });
+    setOriginalData(mentor);
   };
 
   const filteredMentors = mentors.filter(mentor =>
@@ -133,44 +112,29 @@ function Mentor() {
 
   return (
     <div className="mentor-view">
+      <ToastContainer />
       <h2>Mentor Management</h2>
       <div className="filters">
         <input
           type="text"
-          placeholder="Search by ID, name, or email..."
+          placeholder="Search..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <select value={searchDept} onChange={(e) => setSearchDept(e.target.value)}>
           <option value="">All Departments</option>
           <option value="CSE">CSE</option>
-          <option value="IT">IT</option>
-          <option value="CIVIL">CIVIL</option>
-          <option value="MECH">MECH</option>
-          <option value="EEE">EEE</option>
           <option value="ECE">ECE</option>
+          <option value="EEE">EEE</option>
+          <option value="IT">IT</option>
         </select>
         <select value={searchBatch} onChange={(e) => setSearchBatch(e.target.value)}>
           <option value="">All Classes</option>
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
+          <option value="1">Class 1</option>
+          <option value="2">Class 2</option>
+          <option value="3">Class 3</option>
+          <option value="4">Class 4</option>
         </select>
-      </div>
-
-      <div className="mentor-form">
-        <input type="text" name="id" placeholder="ID" value={formData.id} onChange={handleInputChange} />
-        <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleInputChange} />
-        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleInputChange} />
-        <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleInputChange} />
-        <input type="text" name="contact" placeholder="Contact" value={formData.contact} onChange={handleInputChange} />
-        <input type="text" name="dept" placeholder="Department" value={formData.dept} onChange={handleInputChange} />
-        <input type="text" name="classBeingMentored" placeholder="Class Being Mentored" value={formData.classBeingMentored} onChange={handleInputChange} />
-        <div className="add-mentor-button-container">
-          <button className="add-mentor-button" onClick={handleAddOrEdit}>
-            <FontAwesomeIcon icon={faPlus} /> {editingMentorId ? 'Update Mentor' : 'Add Mentor'}
-          </button>
-        </div>
       </div>
 
       <table className="mentor-table">
@@ -182,41 +146,94 @@ function Mentor() {
             <th>Password</th>
             <th>Contact</th>
             <th>Department</th>
-            <th>Class</th>
+            <th>Class Being Mentored</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filteredMentors.map((mentor) => (
+          {filteredMentors.map(mentor => (
             <tr key={mentor.id}>
-              {editingMentorId === mentor.id ? (
-                <>
-                  <td><input type="text" name="name" value={editFormData.name} onChange={handleEditInputChange} /></td>
-                  <td><input type="email" name="email" value={editFormData.email} onChange={handleEditInputChange} /></td>
-                  <td><input type="password" name="password" value={editFormData.password} onChange={handleEditInputChange} /></td>
-                  <td><input type="text" name="contact" value={editFormData.contact} onChange={handleEditInputChange} /></td>
-                  <td><input type="text" name="dept" value={editFormData.dept} onChange={handleEditInputChange} /></td>
-                  <td><input type="text" name="classBeingMentored" value={editFormData.classBeingMentored} onChange={handleEditInputChange} /></td>
-                  <td>
-                    <FontAwesomeIcon icon={faEdit} onClick={() => handleSaveClick} className="action-icon" />
-                    <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete} className="action-icon" />
-                  </td>
-                </>
-              ) : (
-                <>
-                  <td>{mentor.id}</td>
-                  <td>{mentor.name}</td>
-                  <td>{mentor.email}</td>
-                  <td>{mentor.password}</td>
-                  <td>{mentor.contact}</td>
-                  <td>{mentor.dept}</td>
-                  <td>{mentor.classBeingMentored}</td>
-                  <td>
-                    <FontAwesomeIcon icon={faEdit} onClick={() => handleEditClick(mentor)} className='action-icon' />
-                    <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(mentor)} className='action-icon'/>
-                  </td>
-                </>
-              )}
+              <td>{mentor.id}</td>
+              <td className="editable-cell">
+                {editFormData && editFormData[mentor.id] ?
+                  <input
+                    type="text"
+                    value={editFormData[mentor.id].name}
+                    onChange={(e) => handleInputChange(e, 'name', mentor.id)}
+                  /> :
+                  mentor.name
+                }
+              </td>
+              <td className="editable-cell">
+                {editFormData && editFormData[mentor.id] ?
+                  <input
+                    type="email"
+                    value={editFormData[mentor.id].email}
+                    onChange={(e) => handleInputChange(e, 'email', mentor.id)}
+                  /> :
+                  mentor.email
+                }
+              </td>
+              <td className="editable-cell">
+                {editFormData && editFormData[mentor.id] ?
+                  <input
+                    type="password"
+                    value={editFormData[mentor.id].password}
+                    onChange={(e) => handleInputChange(e, 'password', mentor.id)}
+                  /> :
+                  mentor.password
+                }
+              </td>
+              <td className="editable-cell">
+                {editFormData && editFormData[mentor.id] ?
+                  <input
+                    type="text"
+                    value={editFormData[mentor.id].contact}
+                    onChange={(e) => handleInputChange(e, 'contact', mentor.id)}
+                  /> :
+                  mentor.contact
+                }
+              </td>
+              <td className="editable-cell">
+                {editFormData && editFormData[mentor.id] ?
+                  <input
+                    type="text"
+                    value={editFormData[mentor.id].dept}
+                    onChange={(e) => handleInputChange(e, 'dept', mentor.id)}
+                  /> :
+                  mentor.dept
+                }
+              </td>
+              <td className="editable-cell">
+                {editFormData && editFormData[mentor.id] ?
+                  <input
+                    type="text"
+                    value={editFormData[mentor.id].classBeingMentored}
+                    onChange={(e) => handleInputChange(e, 'classBeingMentored', mentor.id)}
+                  /> :
+                  mentor.classBeingMentored
+                }
+              </td>
+              <td className="action-buttons">
+                {editFormData && editFormData[mentor.id] ?
+                  <>
+                    <button onClick={() => handleSaveClick(mentor.id)}>
+                      <FontAwesomeIcon icon={faSave} /> Save
+                    </button>
+                    <button className="cancel-button" onClick={() => handleCancelClick(mentor.id)}>
+                      <FontAwesomeIcon icon={faTimes} /> Cancel
+                    </button>
+                  </> :
+                  <>
+                    <button onClick={() => startEditing(mentor)}>
+                      <FontAwesomeIcon icon={faEdit} />
+                    </button>
+                    <button onClick={() => handleDelete(mentor)}>
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </>
+                }
+              </td>
             </tr>
           ))}
         </tbody>

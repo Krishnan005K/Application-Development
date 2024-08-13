@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import 'D:/sem5-project1/Fullstack-project1/frontend/src/Assets/Styles/HeadCss/HeadSchedule.css';
+import '../../assets/styles/Head/HeadSchedule.css';
 
 function HeadSchedule() {
   const [schedules, setSchedules] = useState([]);

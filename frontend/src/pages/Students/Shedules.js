@@ -8,7 +8,7 @@ function Schedules() {
   useEffect(() => {
     const fetchUpcomingInterviews = async () => {
       try {
-        const response = await axios.get("http:localhost:8080/api/interviews/upcoming");
+        const response = await axios.get("http://localhost:8080/api/interviews/upcoming");
         setUpcomingInterviews(response.data);
       } catch (error) {
         console.error("Error fetching upcoming interviews:", error);

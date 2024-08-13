@@ -141,3 +141,41 @@
   0%, 100% { background-color: #2f65ad; }
   50% { background-color: #1d4b80; }
 }
+/* Existing styles... */
+
+.editable-cell {
+  position: relative;
+}
+
+.editable-cell input {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.editable-cell button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #2f65ad;
+  font-size: 14px;
+}
+
+
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.action-buttons button {
+  color: rgb(32, 30, 30);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
+

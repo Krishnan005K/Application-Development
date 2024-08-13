@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/styles/Admin/Interviewer.css';
 
 function Interviewer() {
   const [interviewers, setInterviewers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [formData, setFormData] = useState({ id: '', name: '', email: '', password: '', contact: '',roles:'ROLE_INTERVIEWER' });
+  const [formData, setFormData] = useState({ id: '', name: '', email: '', password: '', contact: '', roles: 'ROLE_INTERVIEWER' });
   const [editingIndex, setEditingIndex] = useState(null);
   const [editFormData, setEditFormData] = useState({ id: '', name: '', email: '', password: '', contact: '' });
-  const [popup, setPopup] = useState({ show: false, message: '', icon: null });
 
   const token = localStorage.getItem('token');
   const apiUrl = 'http://127.0.0.1:8080/api/admin/interviewers';
@@ -30,7 +31,6 @@ function Interviewer() {
     String(interviewer.name).toLowerCase().includes(searchTerm.toLowerCase()) ||
     String(interviewer.email).toLowerCase().includes(searchTerm.toLowerCase()))
   );
-  
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -40,11 +40,12 @@ function Interviewer() {
     setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
   };
 
-  const showPopup = (message, icon) => {
-    setPopup({ show: true, message, icon });
-    setTimeout(() => {
-      setPopup({ show: false, message: '', icon: null });
-    }, 5000);
+  const showToast = (message, type) => {
+    if (type === 'success') {
+      toast.success(message);
+    } else if (type === 'error') {
+      toast.error(message);
+    }
   };
 
   const handleAddOrEdit = async () => {
@@ -60,9 +61,10 @@ function Interviewer() {
           setInterviewers(updatedInterviewers);
           setEditingIndex(null);
           setFormData({ id: '', name: '', email: '', password: '', contact: '' });
-          showPopup('Interviewer updated successfully!', faCheck);
+          showToast('Interviewer updated successfully!', 'success');
         }).catch((error) => {
           console.log(error);
+          showToast('Failed to update interviewer.', 'error');
         });
       } else {
         // Add new interviewer
@@ -71,13 +73,14 @@ function Interviewer() {
         }).then((response) => {
           setInterviewers([...interviewers, response.data]);
           setFormData({ id: '', name: '', email: '', password: '', contact: '' });
-          showPopup('Interviewer added successfully!', faCheck);
+          showToast('Interviewer added successfully!', 'success');
         }).catch((error) => {
           console.log(error);
+          showToast('Failed to add interviewer.', 'error');
         });
       }
     } else {
-      showPopup('All fields must be filled out.', faTimes);
+      showToast('All fields must be filled out.', 'error');
     }
   };
 
@@ -95,9 +98,10 @@ function Interviewer() {
       setInterviewers(updatedInterviewers);
       setEditingIndex(null);
       setEditFormData({ id: '', name: '', email: '', password: '', contact: '' });
-      showPopup('Interviewer updated successfully!', faCheck);
+      showToast('Interviewer updated successfully!', 'success');
     }).catch((error) => {
       console.log(error);
+      showToast('Failed to update interviewer.', 'error');
     });
   };
 
@@ -114,9 +118,10 @@ function Interviewer() {
       }).then(() => {
         const updatedInterviewers = interviewers.filter((_, i) => i !== index);
         setInterviewers(updatedInterviewers);
-        showPopup('Interviewer deleted successfully!', faTrash);
+        showToast('Interviewer deleted successfully!', 'success');
       }).catch((error) => {
         console.log(error);
+        showToast('Failed to delete interviewer.', 'error');
       });
     }
   };
@@ -190,17 +195,7 @@ function Interviewer() {
         </tbody>
       </table>
 
-      {popup.show && (
-        <div className="popup-overlay">
-          <div className="popup">
-            <FontAwesomeIcon icon={popup.icon} className="popup-icon" />
-            <p className="popup-message">{popup.message}</p>
-            <button className="popup-close-button" onClick={() => setPopup({ show: false, message: '', icon: null })}>
-              &times;
-            </button>
-          </div>
-        </div>
-      )}
+      <ToastContainer />
     </div>
   );
 }

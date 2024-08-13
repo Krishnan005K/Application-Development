@@ -34,9 +34,8 @@ function HeadChart() {
     section: '',
   });
 
-  const email = localStorage.getItem('email');
   const token = localStorage.getItem('token');
-
+  const userId = localStorage.getItem('userId');
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -47,7 +46,7 @@ function HeadChart() {
   // Fetch head details to get the department
   const fetchHeadDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/heads/${email}`, config);
+      const response = await axios.get(`http://localhost:8080/api/heads/id/${userId}`, config);
       setDepartment(response.data.dept);
     } catch (error) {
       console.error('Error fetching head details:', error);
@@ -61,8 +60,8 @@ function HeadChart() {
       const [departmentResponse, studentsResponse, batchResponse, ratingsResponse] = await Promise.all([
         axios.get(`http://localhost:8080/api/heads/ratings/department/${department}`, config),
         axios.get(`http://localhost:8080/api/heads/ratings/students/dept/${department}/section/${filters.section}`, config),
-        axios.get(`http://localhost:8080/api/heads/ratings/students/dept/${department}/section/${filters.section}/batch/${filters.batch}`, config),
-        axios.get(`http://localhost:8080/api/heads/ratings/department/${department}`, config),
+        // axios.get(`http://localhost:8080/api/heads/ratings/students/dept/${department}/section/${filters.section}/batch/${filters.batch}`, config),
+        // axios.get(`http://localhost:8080/api/heads/ratings/department/${department}`, config),
       ]);
 
       setDepartmentData(departmentResponse.data);
@@ -76,7 +75,7 @@ function HeadChart() {
 
   useEffect(() => {
     fetchHeadDetails();
-  }, [email]);
+  }, [userId]);
 
   useEffect(() => {
     fetchData();
@@ -151,7 +150,7 @@ function HeadChart() {
           <h3>Batch-wise Performance</h3>
           <Bar
             data={{
-              labels: batchData.map(item => item.batch),
+              labels: batchData.map(item => item.label),
               datasets: [
                 {
                   label: 'Performance',

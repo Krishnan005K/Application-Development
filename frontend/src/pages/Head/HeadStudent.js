@@ -19,12 +19,12 @@ function HeadStudent() {
 
   useEffect(() => {
     // Fetch department of the head
-    axios.get(`${apiUrl}/dept/${userId}`, {
+    axios.get(`${apiUrl}/id/${userId}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then((response) => {
         setDept(response.data);
-        return axios.get(`http://localhost:8080/students/dept/${response.data}`, {
+        return axios.get(`http://localhost:8080/students/dept/${response.data.dept}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
       })

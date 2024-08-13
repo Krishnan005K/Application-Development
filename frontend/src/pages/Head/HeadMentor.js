@@ -1,166 +1,123 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { Pie } from 'react-chartjs-2';
+import 'chart.js/auto';
+import '../../assets/styles/Mentor/MentorStudent.css'; // Assuming you have similar styles for mentors
+
+const apiUrl = 'http://localhost:8080/api/heads';
 
 function HeadMentor() {
   const [mentors, setMentors] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [viewDetails, setViewDetails] = useState(null);
   const [dept, setDept] = useState('');
-  const [filters, setFilters] = useState({
-    name: '',
-    email: '',
-    dept: '',
-    batch: '',
-    sec: '',
-    experience: '',
-    overallratings: '',
-  });
-  const [filteredMentors, setFilteredMentors] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showToast, setShowToast] = useState('');
 
-  // Fetch the head's department based on email
-  const email = localStorage.getItem('email');
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
+
   useEffect(() => {
-      const fetchHeadDetails = async () => {
-          try {
-              setIsLoading(true);
-              const config = {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        const response = await axios.get(`http://localhost:8080/api/heads/${email}`, config);
-        setDept(response.data.dept); // Assuming the API returns the department
-        console.log('Department fetched:', response.data.dept); // Debugging line
-      } catch (error) {
-        console.error('Error fetching head details:', error);
-        setShowToast('Error fetching department details');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    if (email) {
-      fetchHeadDetails();
-    }
-  }, [email]);
-
-  // Fetch mentors based on the department
-  useEffect(() => {
-    const fetchMentorsByDept = async () => {
-      if (dept) {
-        try {
-          setIsLoading(true);
-          const config = {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          };
-          const response = await axios.get(`http://localhost:8080/api/mentors/department/${dept}`, config);
-          setMentors(response.data);
-          console.log('Mentors fetched:', response.data); // Debugging line
-        } catch (error) {
-          console.error('Error fetching mentors:', error);
-          setShowToast('Error fetching mentor details');
-        } finally {
-          setIsLoading(false);
-        }
-      } else {
-        setMentors([]); // Clear mentors if no department is set
-      }
-    };
-
-    fetchMentorsByDept();
-  }, [dept]);
-
-  // Filter mentors
-  useEffect(() => {
-    const applyFilters = () => {
-      const filtered = mentors.filter((mentor) => {
-        return (
-          (!filters.name || mentor.name.toLowerCase().includes(filters.name.toLowerCase())) &&
-          (!filters.email || mentor.email.toLowerCase().includes(filters.email.toLowerCase())) &&
-          (!filters.department || mentor.department.toLowerCase().includes(filters.department.toLowerCase())) &&
-          (!filters.batch || mentor.batch.toLowerCase().includes(filters.batch.toLowerCase())) &&
-          (!filters.sec || mentor.sec.toLowerCase().includes(filters.section.toLowerCase())) &&
-          (!filters.experience || mentor.experience.toString() === filters.experience) &&
-          (!filters.overallratings || mentor.overallratings.toString() === filters.overallratings)
-        );
+    // Fetch department of the head
+    axios.get(`${apiUrl}/id/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then((response) => {
+        setDept(response.data.dept); // Assuming response.data has dept field
+        return axios.get(`http://localhost:8080/api/mentors/dept/${response.data.dept}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+      })
+      .then((response) => {
+        setMentors(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-      setFilteredMentors(filtered);
-      console.log('Filtered Mentors:', filtered); // Debugging line
+  }, [token, userId]);
+
+  const filteredMentors = mentors.filter(mentor =>
+    mentor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    mentor.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleViewDetails = (mentor) => {
+    setViewDetails(mentor);
+  };
+
+  const handleClosePopup = () => {
+    setViewDetails(null);
+  };
+
+  const renderPieChart = (ratings) => {
+    const data = {
+      labels: ['Ratings', 'Remaining'],
+      datasets: [
+        {
+          label: 'Mentor Ratings',
+          data: [ratings, 10 - ratings], // Assuming the maximum rating is 10
+          backgroundColor: ['#36A2EB', '#FF6384'],
+          hoverBackgroundColor: ['#36A2EB', '#FF6384']
+        }
+      ]
     };
 
-    applyFilters();
-  }, [filters, mentors]);
-
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters({ ...filters, [name]: value });
+    return (
+      <div className="chart-container">
+        <Pie data={data} />
+      </div>
+    );
   };
 
   return (
-    <div className='admin-mentor'>
-      {isLoading && <p>Loading...</p>}
-      {showToast && <p>{showToast}</p>}
-      
-      <div className="admin-mentor-filters">
-        {/* Filter inputs */}
-        {Object.keys(filters).filter(key => key !== 'dept').map(key => (
-          <div className="admin-mentor-filter-group" key={key}>
-            <label htmlFor={`${key}-filter`}>{key.charAt(0).toUpperCase() + key.slice(1)}:</label>
-            <input
-              type={key === 'experience' || key === 'overallratings' ? 'number' : 'text'}
-              id={`${key}-filter`}
-              name={key}
-              placeholder={`Enter ${key}`}
-              value={filters[key]}
-              onChange={handleFilterChange}
-            />
-          </div>
-        ))}
-      </div>
-      
-      <div className="admin-mentor-container">
-        <h2>Mentor Details</h2>
-        <div className="card-container">
-          <div className="card full-row-card">
-            <h3>Total Mentors</h3>
-            <div className="count-circle">{filteredMentors.length}</div>
-          </div>
-        </div>
+    <div className="mentor-view">
+      <h2 className="mentor-title">Mentor Management</h2>
+      <input
+        type="text"
+        placeholder="Search by Name or Email..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="mentor-search"
+      />
+      <table className="mentor-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Dept</th>
+            <th>Class Mentoring</th>
+            <th>Ratings</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredMentors.map((mentor) => (
+            <tr key={mentor.email}>
+              <td>{mentor.name}</td>
+              <td>{mentor.email}</td>
+              <td>{mentor.dept}</td>
+              <td>{mentor.classBeingMentored}</td>
+              <td>{mentor.overallRatings}</td>
+              <td>
+                <FontAwesomeIcon icon={faEye} className="mentor-action-icon" onClick={() => handleViewDetails(mentor)} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-        <div className="admin-mentor-table-wrapper">
-          <table className="admin-mentor-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Department</th>
-                <th>Batch</th>
-                <th>Section</th>
-                <th>Years of Experience</th>
-                <th>Overall Ratings</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredMentors.map((mentor) => (
-                <tr key={mentor.email}>
-                  <td>{mentor.name}</td>
-                  <td>{mentor.email}</td>
-                  <td>{mentor.dept}</td>
-                  <td>{mentor.batch}</td>
-                  <td>{mentor.sec}</td>
-                  <td>{mentor.experience}</td>
-                  <td>{mentor.overallratings}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {viewDetails && (
+        <div className="mentor-popup">
+          <h3>Mentor Details</h3>
+          <p><strong>Name:</strong> {viewDetails.name}</p>
+          <p><strong>Email:</strong> {viewDetails.email}</p>
+          <p><strong>Department:</strong> {viewDetails.dept}</p>
+          <p><strong>Class Mentoring:</strong> {viewDetails.classBeingMentored}</p>
+          <p><strong>Ratings:</strong> {viewDetails.overallRatings}</p>
+          {renderPieChart(viewDetails.overallRatings)}
+          <button onClick={handleClosePopup}>Close</button>
         </div>
-      </div>
+      )}
     </div>
   );
 }

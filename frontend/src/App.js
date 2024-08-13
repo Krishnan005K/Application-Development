@@ -32,6 +32,7 @@ const App = () => {
       {/* <ProfilePage/> */}
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path='/login' element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path='/admindashboard/*' element={<AdminDashboard />} />
           <Route path='/profile' element={<ProfilePage />} />

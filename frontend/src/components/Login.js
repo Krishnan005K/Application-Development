@@ -75,6 +75,7 @@ function Login() {
         else if(role==='ROLE_HEAD')
         {
           login({ email, role: 'ROLE_HEAD' });
+          localStorage.setItem('deptId', response.data.dept);
           navigate("/head-dashboard");
         }
         else if(role==='ROLE_INTERVIEWER')
