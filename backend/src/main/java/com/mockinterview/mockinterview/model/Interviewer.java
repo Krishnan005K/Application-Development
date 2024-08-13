@@ -1,4 +1,3 @@
-// Interviewer.java
 package com.mockinterview.mockinterview.model;
 
 import jakarta.persistence.Entity;
@@ -17,10 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Interviewer extends User {
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "interviewer")
-    private List<Feedback> feedbacks;
-
+    private String photo;
     @JsonIgnore
     @OneToMany(mappedBy = "interviewer")
     private List<Interview> interviews;

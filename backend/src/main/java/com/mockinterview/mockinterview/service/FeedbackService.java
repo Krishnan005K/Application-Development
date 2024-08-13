@@ -4,6 +4,9 @@ import com.mockinterview.mockinterview.model.Feedback;
 import com.mockinterview.mockinterview.model.Student;
 import com.mockinterview.mockinterview.repository.FeedbackRepository;
 import com.mockinterview.mockinterview.repository.StudentRepository;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,13 +60,12 @@ public class FeedbackService {
     }
 
     // Get all Feedbacks for a specific Student
+    
     public List<Feedback> getFeedbacksByStudentId(Long studentId) {
-        Optional<Student> optionalStudent = studentRepository.findById(studentId);
-        if (optionalStudent.isPresent()) {
-            return feedbackRepository.findByStudent(optionalStudent.get());
-        } else {
-            throw new RuntimeException("Student not found");
-        }
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Student with ID " + studentId + " not found"));
+        
+        return feedbackRepository.findByStudent(student);
     }
 
     // Get a Feedback by ID

@@ -32,6 +32,8 @@ public class AdminService {
     private InterviewerRepository interviewerRepository; // Assuming this exists
 
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private PasswordEncoder passwordEncoder;
     
     // Get all students grouped by department
@@ -168,6 +170,7 @@ public class AdminService {
     }
 
     public Admin updateAdmin(Long id, Admin admin) {
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         admin.setId(id);
         return adminRepository.save(admin);
     }
@@ -178,6 +181,9 @@ public class AdminService {
 
     // CRUD operations for Student
     public Student saveStudent(Student student) {
+        student.setPassword(passwordEncoder.encode(student.getPassword()));
+        student.setRoles("ROLE_STUDENT");
+        userRepository.save(student);
         return studentRepository.save(student);
     }
 
@@ -187,10 +193,11 @@ public class AdminService {
 
     public Student updateStudent(Long id, Student student) {
         student.setId(id);
+        student.setPassword(passwordEncoder.encode(student.getPassword()));
         return studentRepository.save(student);
     }
 
-    public void deleteStudent(Long id) {
+    public void deleteStudentById(Long id) {
         studentRepository.deleteById(id);
     }
 
@@ -198,16 +205,13 @@ public class AdminService {
         return studentRepository.findByRatingsGreaterThanEqual(ratings);
     }
 
-    // public List<Student> getStudentsByDeptAndName(String dept, String name) {
-    //     return studentRepository.findByDeptAndName(dept, name);
-    // }
 
-    // public List<Student> getStudentsByDeptAndEmail(String dept, String email) {
-    //     return studentRepository.findByDeptAndEmail(dept, email);
-    // }
 
     // CRUD operations for Mentor
     public Mentor saveMentor(Mentor mentor) {
+        mentor.setPassword(passwordEncoder.encode(mentor.getPassword()));
+        mentor.setRoles("ROLE_MENTOR");
+        userRepository.save(mentor);
         return mentorRepository.save(mentor);
     }
 
@@ -230,15 +234,19 @@ public class AdminService {
 
     public Mentor updateMentor(Long id, Mentor mentor) {
         mentor.setId(id);
+        mentor.setPassword(passwordEncoder.encode(mentor.getPassword()));
         return mentorRepository.save(mentor);
     }
 
-    public void deleteMentor(Long id) {
+    public void deleteMentorById(Long id) {
         mentorRepository.deleteById(id);
     }
 
     // CRUD operations for Head
     public Head saveHead(Head head) {
+        head.setPassword(passwordEncoder.encode(head.getPassword()));
+        head.setRoles("ROLE_HEAD");
+        userRepository.save(head);
         return headRepository.save(head);
     }
 
@@ -248,10 +256,11 @@ public class AdminService {
 
     public Head updateHead(Long id, Head head) {
         head.setId(id);
+        head.setPassword(passwordEncoder.encode(head.getPassword()));
         return headRepository.save(head);
     }
 
-    public void deleteHead(Long id) {
+    public void deleteHeadById(Long id) {
         headRepository.deleteById(id);
     }
 
@@ -264,7 +273,22 @@ public class AdminService {
         }
     }
 
-    // New methods for Interview and Interviewer
+    public Interviewer saveInterviewer(Interviewer interviewer) {
+        interviewer.setPassword(passwordEncoder.encode(interviewer.getPassword()));
+        interviewer.setRoles("ROLE_INTERVIEWER");
+        userRepository.save(interviewer);
+        return interviewerRepository.save(interviewer);
+    }
+    
+    public void deleteInterviewerById(Long id) {
+        interviewerRepository.deleteById(id);
+    }
+    public Interviewer updateInterviewerById(Long id, Interviewer interviewer) {
+        interviewer.setId(id);
+        interviewer.setPassword(passwordEncoder.encode(interviewer.getPassword()));
+        return interviewerRepository.save(interviewer);
+
+    }    // New methods for Interview and Interviewer
     public List<Interview> getAllInterviews() {
         return interviewRepository.findAll();
     }
@@ -276,8 +300,7 @@ public class AdminService {
     public List<Interviewer> getInterviewerByEmail(String email) {
         return interviewerRepository.findByEmail(email);
     }
-
-
+  
     public List<Mentor> getMentorsByDeptAndclassBeingMentored(String dept, String classBeingMentored) {
         return mentorRepository.findByDeptAndClassBeingMentored(dept, classBeingMentored);
     }

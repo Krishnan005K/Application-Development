@@ -1,5 +1,6 @@
 package com.mockinterview.mockinterview.controller;
 
+import com.mockinterview.mockinterview.dto.StudentDTO;
 import com.mockinterview.mockinterview.model.*;
 import com.mockinterview.mockinterview.service.InterviewerService;
 import com.mockinterview.mockinterview.service.StudentService;
@@ -23,6 +24,7 @@ public class InterviewerController {
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Interviewer> addInterviewer(@RequestBody Interviewer interviewer) {
+        
         Interviewer createdInterviewer = interviewerService.addInterviewer(interviewer);
         return ResponseEntity.ok(createdInterviewer);
     }
@@ -78,8 +80,8 @@ public class InterviewerController {
 
     @GetMapping("/dept/{dept}/section/{section}")
     @PreAuthorize("hasAnyAuthority('ROLE_INTERVIEWER', 'ROLE_MENTOR', 'ROLE_HEAD')")
-    public ResponseEntity<List<Student>> getStudentsByDeptAndSection(@PathVariable String dept, @PathVariable String section) {
-        List<Student> students = studentService.getStudentsByDeptAndSection(dept, section);
+    public ResponseEntity<List<StudentDTO>> getStudentsByDeptAndSection(@PathVariable String dept, @PathVariable String section) {
+        List<StudentDTO> students = studentService.getStudentsByDeptAndSection(dept, section);
         return ResponseEntity.ok(students);
     }
 

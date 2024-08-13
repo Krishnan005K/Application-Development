@@ -18,7 +18,6 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private String photo;
     
     @Column(name = "role")
     private String roles;

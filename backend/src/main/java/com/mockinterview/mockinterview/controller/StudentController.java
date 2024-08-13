@@ -1,11 +1,14 @@
 package com.mockinterview.mockinterview.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import com.mockinterview.mockinterview.dto.StudentDTO;
 import com.mockinterview.mockinterview.model.Student;
+import com.mockinterview.mockinterview.service.HeadService;
 import com.mockinterview.mockinterview.service.StudentService;
 
 @RestController
@@ -15,27 +18,39 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private HeadService headService;
     @GetMapping("/all")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD','string')")
-    public List<Student> getAllStudents() {
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_HEAD')")
+    public List<StudentDTO> getAllStudents() {
         return studentService.getAllStudents();
     }
+    @GetMapping("/{StudentId}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD', 'ROLE_STUDENT')")
+    public StudentDTO getStudentById(@PathVariable Long StudentId) {
+        return studentService.getStudentById(StudentId);
+    }
 
+    @GetMapping("/mentor/mentorId/{mentorId}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD')")
+    public List<Student> getStudentByMentorId(@PathVariable Long mentorId) {
+        return studentService.getStudentByMentorId(mentorId);
+    }
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public Student createStudent(@RequestBody Student student) {
-        return studentService.addStudent(student);
+    public StudentDTO createStudent(@RequestBody StudentDTO studentDTO) {
+        return studentService.addStudent(studentDTO);
     }
 
     @PutMapping("/updateByRegisterNo/{registerNo}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public Student updateStudentByRegisterNo(@PathVariable String registerNo, @RequestBody Student studentDetails) {
+    public StudentDTO updateStudentByRegisterNo(@PathVariable String registerNo, @RequestBody StudentDTO studentDetails) {
         return studentService.updateStudentByRegisterNo(registerNo, studentDetails);
     }
 
     @PutMapping("/updateByEmail/{email}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public Student updateStudentByEmail(@PathVariable String email, @RequestBody Student studentDetails) {
+    public StudentDTO updateStudentByEmail(@PathVariable String email, @RequestBody StudentDTO studentDetails) {
         return studentService.updateStudentByEmail(email, studentDetails);
     }
 
@@ -47,10 +62,17 @@ public class StudentController {
 
     @GetMapping("/email/{email}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD')")
-    public List<Student> getStudentsByEmail(@PathVariable String email) {
+    public List<StudentDTO> getStudentsByEmail(@PathVariable String email) {
         return studentService.getStudentsByEmail(email);
     }
 
+    
+    @GetMapping("/dept/head/{headId}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD')")
+    public List<Student> getStudentsByDept(@PathVariable Long headId) {
+        String dept =headService.getDeptById(headId);
+        return studentService.getStudentsByDept(dept);
+    }
     @GetMapping("/dept/{dept}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD')")
     public List<Student> getStudentsByDept(@PathVariable String dept) {
@@ -59,37 +81,37 @@ public class StudentController {
 
     @GetMapping("/ratings/{ratings}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD')")
-    public List<Student> getStudentsByRatings(@PathVariable double ratings) {
+    public List<StudentDTO> getStudentsByRatings(@PathVariable double ratings) {
         return studentService.getStudentsByRatings(ratings);
     }
 
     @GetMapping("/batch/{batch}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD')")
-    public List<Student> getStudentsByBatch(@PathVariable String batch) {
+    public List<StudentDTO> getStudentsByBatch(@PathVariable String batch) {
         return studentService.getStudentsByBatch(batch);
     }
 
     @GetMapping("/name/{name}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD')")
-    public List<Student> getStudentsByName(@PathVariable String name) {
+    public List<StudentDTO> getStudentsByName(@PathVariable String name) {
         return studentService.getStudentsByName(name);
     }
 
     @GetMapping("/dept/{dept}/name/{name}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD')")
-    public List<Student> getStudentsByDeptAndName(@PathVariable String dept, @PathVariable String name) {
+    public List<StudentDTO> getStudentsByDeptAndName(@PathVariable String dept, @PathVariable String name) {
         return studentService.getStudentsByDeptAndName(dept, name);
     }
 
     @GetMapping("/dept/{dept}/sec/{sec}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD')")
-    public List<Student> getStudentsByDeptAndSection(@PathVariable String dept, @PathVariable String sec) {
+    public List<StudentDTO> getStudentsByDeptAndSection(@PathVariable String dept, @PathVariable String sec) {
         return studentService.getStudentsByDeptAndSection(dept, sec);
     }
 
     @GetMapping("/registerNo/{registerNo}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD')")
-    public List<Student> getStudentsByRegisterNo(@PathVariable String registerNo) {
+    public List<StudentDTO> getStudentsByRegisterNo(@PathVariable String registerNo) {
         return studentService.getStudentsByRegisterNo(registerNo);
     }
 

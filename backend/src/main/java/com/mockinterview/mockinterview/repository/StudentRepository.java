@@ -27,5 +27,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findByBatchAndDeptAndSection(String batch, String dept, String section);
     List<Student> findByMentorEmail(String mentorEmail);
     void deleteByName(String name);
+    
     void deleteByEmail(String email);
 }

@@ -18,7 +18,6 @@ public class FeedbackController {
 
     // Add a new Feedback
     @PostMapping("/students/{studentId}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Feedback> addFeedback(@PathVariable Long studentId, @RequestBody Feedback feedback) {
         Feedback newFeedback = feedbackService.addFeedback(studentId, feedback);
         return ResponseEntity.ok(newFeedback);

@@ -32,12 +32,12 @@ public class Interview {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate scheduleDate;
 
-    @JsonFormat(pattern = "HH:mm")
-    private LocalTime scheduleTime;
+    private String assignedBatch;
 
-    @JsonIgnore
+    
     @OneToMany(mappedBy = "interview", cascade = CascadeType.ALL)
     private List<Question> questions;
+
 
     @JsonIgnore
     @ManyToOne

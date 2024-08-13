@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mockinterview.mockinterview.model.Head;
@@ -25,9 +26,17 @@ public class HeadService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     // Add a new Head
     public Head addHead(Head head) {
+        head.setPassword(passwordEncoder.encode(head.getPassword()));
         return headRepository.save(head);
+    }
+
+    public String getDeptById(Long id) {
+        return headRepository.getDeptById(id);
     }
 
     // Update an existing Head
@@ -35,9 +44,10 @@ public class HeadService {
         Optional<Head> optionalHead = headRepository.findByEmail(email);
         if (optionalHead.isPresent()) {
             Head head = optionalHead.get();
+            head.setEmail(headDetails.getEmail());
+            head.setPassword(passwordEncoder.encode(headDetails.getPassword()));
             head.setName(headDetails.getName());
             head.setDept(headDetails.getDept());
-            head.setPassword(headDetails.getPassword());
             head.setPhoto(headDetails.getPhoto());
             return headRepository.save(head);
         } else {
@@ -60,17 +70,23 @@ public class HeadService {
         return headRepository.findByEmail(email).orElse(null);
     }
 
+    // Get a Head by ID
+    public Head getHeadById(Long id) {
+        return headRepository.findById(id).orElse(null);
+    }
+
     // Get all Heads
     public List<Head> getAllHeads() {
         return headRepository.findAll();
     }
 
-    // Get overall ratings
+    // Get overall ratings by department and section
     public double getOverallRatingByDepartmentAndSection(String dept, String section) {
         List<Student> students = studentRepository.findBySection(section);
         return calculateOverallRating(students);
     }
 
+    // Get overall ratings by class being mentored
     public double getOverallRatingByClass(String classBeingMentored) {
         List<Mentor> mentors = mentorRepository.findByClassBeingMentored(classBeingMentored);
         double totalRating = 0;
@@ -83,11 +99,13 @@ public class HeadService {
         return count == 0 ? 0 : totalRating / count;
     }
 
+    // Get overall ratings by department
     public double getOverallRatingByDept(String dept) {
         List<Student> students = studentRepository.findByDept(dept);
         return calculateOverallRating(students);
     }
 
+    // Get overall ratings by batch
     public double getOverallRatingByBatch(String batch) {
         List<Student> students = studentRepository.findByBatch(batch);
         return calculateOverallRating(students);
@@ -126,10 +144,6 @@ public class HeadService {
             mentorRepository.delete(optionalMentor.get());
         }
     }
-  
-    public List<Student> getStudentsByBatch(String batch) {
-        return studentRepository.findByBatch(batch);
-    }
 
     public Mentor getMentorById(Long id) {
         return mentorRepository.findById(id).orElse(null);
@@ -138,7 +152,7 @@ public class HeadService {
     public Mentor getMentorByEmail(String email) {
         List<Mentor> mentors = mentorRepository.findByEmail(email);
         if (!mentors.isEmpty()) {
-            return mentors.get(0);  // Assuming you want the first mentor in the list
+            return mentors.get(0); // Assuming you want the first mentor in the list
         } else {
             return null;
         }
@@ -156,7 +170,6 @@ public class HeadService {
     public Student updateStudentById(Long id, Student studentDetails) {
         Optional<Student> optionalStudent = studentRepository.findById(id);
         if (optionalStudent.isPresent()) {
-            // Student student = optionalStudent.get();
             Student existingStudent = optionalStudent.get();
             existingStudent.setName(studentDetails.getName());
             existingStudent.setEmail(studentDetails.getEmail());
@@ -185,13 +198,9 @@ public class HeadService {
         return studentRepository.findById(id).orElse(null);
     }
 
-    // public Student getStudentByEmail(String email) {
-    //     return studentRepository.findByEmail(email).orElse(null);
-    // }
-
-    // public List<Student> getStudentsByMentorEmail(String mentorEmail) {
-    //     return studentRepository.findByMentorEmail(mentorEmail);
-    // }
+    public Student getStudentByEmail(String email) {
+        return headRepository.findStudentByEmail(email).orElse(null);
+    }
 
     public List<Student> getStudentsByDept(String dept) {
         return studentRepository.findByDept(dept);
@@ -200,10 +209,18 @@ public class HeadService {
     public List<Student> getStudentsByMentorEmail(String mentorEmail) {
         List<Mentor> mentors = mentorRepository.findByEmail(mentorEmail);
         if (!mentors.isEmpty()) {
-            return studentRepository.findByMentor(mentors.get(0));  // Assuming you want the first mentor in the list
+            return studentRepository.findByMentor(mentors.get(0)); // Assuming you want the first mentor in the list
         } else {
             return List.of();
         }
+    }
+
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll();
+    }
+
+    public List<Mentor> getAllMentors() {
+        return mentorRepository.findAll();
     }
 
     // Helper method to calculate overall rating
@@ -235,20 +252,5 @@ public class HeadService {
         public double getOverallRating() {
             return overallRating;
         }
-    }
-    public Student getStudentByEmail(String email) {
-        return headRepository.findStudentByEmail(email).orElse(null);
-    }
-    // public Student getStudentByBatchAndDeptAndSection(String batch, String dept, String section) {
-    //     return headRepository.findByBatchAndDeptAndSection(batch, dept, section).orElse(null);
-    // }
-
-
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
-    }
-
-    public List<Mentor> getAllMentors() {
-        return mentorRepository.findAll();
     }
 }

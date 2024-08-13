@@ -38,9 +38,19 @@ public class AdminController {
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         return ResponseEntity.ok(adminService.saveStudent(student));
     }
-
+    @PutMapping("/students/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) {
+        return ResponseEntity.ok(adminService.updateStudent(id, student));
+    }
+    @DeleteMapping("/students/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteStudentById(@PathVariable Long id) {
+        adminService.deleteStudentById(id);
+        return ResponseEntity.noContent().build();
+    }
     @GetMapping("/students")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MENTOR') or hasRole('ROLE_HEAD')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MENTOR') or hasRole('ROLE_HEAD') or hasRole('ROLE_INTERVIEWER')")
     public ResponseEntity<List<Student>> getAllStudents() {
         List<Student> students = adminService.getAllStudents();
         return ResponseEntity.ok(students);
@@ -51,10 +61,11 @@ public class AdminController {
     public List<Student> getStudentsByRatings(@PathVariable double ratings) {
         return adminService.getStudentsByRatings(ratings);
     }
-    
+
     @GetMapping("/mentors/{dept}/{classBeingMentored}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_HEAD')")
-    public List<Mentor> getMentorsByDeptAndclassBeingMentored(@PathVariable String dept, @PathVariable String classBeingMentored) {
+    public List<Mentor> getMentorsByDeptAndclassBeingMentored(@PathVariable String dept,
+            @PathVariable String classBeingMentored) {
         return adminService.getMentorsByDeptAndclassBeingMentored(dept, classBeingMentored);
     }
 
@@ -91,6 +102,13 @@ public class AdminController {
         return ResponseEntity.ok(mentors);
     }
 
+    @DeleteMapping("/mentors/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteMentorById(@PathVariable Long id) {
+        adminService.deleteMentorById(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/mentors/email/{email}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_HEAD')")
     public ResponseEntity<Mentor> getMentorByEmail(@PathVariable String email) {
@@ -98,18 +116,32 @@ public class AdminController {
         return mentor != null ? ResponseEntity.ok(mentor) : ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/mentors/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Mentor> updateMentor(@PathVariable Long id, @RequestBody Mentor mentor) {
+        return ResponseEntity.ok(adminService.updateMentor(id, mentor));
+    }
+
     // CRUD operations for Head
     @PostMapping("/heads")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Head> createHead(@RequestBody Head head) {
+    
         return ResponseEntity.ok(adminService.saveHead(head));
     }
 
     @GetMapping("/heads")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Head>> getAllHeads() {
         List<Head> heads = adminService.getAllHeads();
         return ResponseEntity.ok(heads);
+    }
+
+    @DeleteMapping("/heads/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteHeadById(@PathVariable Long id) {
+        adminService.deleteHeadById(id);
+        return ResponseEntity.noContent().build();
     }
 
     // CRUD operations for Interviewer
@@ -128,6 +160,25 @@ public class AdminController {
             return null; // or throw an exception if preferred
         }
         return interviewers.get(0); // return the first interviewer in the list
+    }
+
+    @PostMapping("/interviewer")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_HEAD')")
+    public ResponseEntity<Interviewer> createInterviewer(@RequestBody Interviewer interviewer) {
+        return ResponseEntity.ok(adminService.saveInterviewer(interviewer));
+    }
+
+    @PutMapping("/interviewers/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Interviewer> updateInterviewer(@PathVariable Long id, @RequestBody Interviewer interviewer) {
+        return ResponseEntity.ok(adminService.updateInterviewerById(id, interviewer));
+    }
+
+    @DeleteMapping("/interviewers/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteInterviewerById(@PathVariable Long id) {
+        adminService.deleteInterviewerById(id);
+        return ResponseEntity.noContent().build();
     }
 
     // CRUD operations for Interview

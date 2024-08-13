@@ -1,4 +1,4 @@
-package com.mockinterview.mockinterview.model;
+package com.mockinterview.mockinterview.dto;
 
 public class AuthenticationResponse {
     private final String jwt;

@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Head extends User {
     private String dept;
-
+    private String photo;
     @JsonIgnore
     @OneToMany(mappedBy = "head")
     private List<Mentor> mentors;

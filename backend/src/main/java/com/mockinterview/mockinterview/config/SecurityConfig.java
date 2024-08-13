@@ -47,7 +47,7 @@ public class SecurityConfig {
                                                 request -> request.requestMatchers(
                                                                 "/api/users/createUser",
                                                                 "/api/auth/home",
-                                                                "/api/auth/authenticate").permitAll())
+                                                                "/api/login").permitAll())
                                 .authorizeHttpRequests(request -> request
                                                 .requestMatchers(
                                                                 "/v3/api-docs/**",
@@ -58,9 +58,12 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(requests -> requests
                                                 .requestMatchers(
                                                                 "/api/users/**",
-                                                                "/api/auth/**",
-                                                                "/api/course/**",
-                                                                "/api/enrollments/**")
+                                                                "/api/mentor/**",
+                                                                "/api/feedback/**",
+                                                                "/api/interview/**",
+                                                                "/api/student/**",
+                                                                "/api/head/**",
+                                                                "/api/interviewer/**")
                                                 .authenticated())
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

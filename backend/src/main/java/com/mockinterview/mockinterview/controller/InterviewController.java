@@ -20,7 +20,7 @@ public class InterviewController {
     private InterviewService interviewService;
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ROLE_INTERVIEWER', 'ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD')")
+    @PreAuthorize("hasAnyAuthority('ROLE_INTERVIEWER')")
     public ResponseEntity<Interview> addInterview(@RequestBody Interview interview) {
         return ResponseEntity.ok(interviewService.addInterview(interview));
     }
@@ -69,16 +69,7 @@ public class InterviewController {
         return ResponseEntity.ok(interviewService.getAllInterviews());
     }
 
-    @GetMapping("/time/{scheduleTime}")
-    @PreAuthorize("hasAnyAuthority('ROLE_STUDENT', 'ROLE_INTERVIEWER', 'ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD')")
-    public ResponseEntity<List<Interview>> getInterviewsByScheduleTime(@PathVariable String scheduleTime) {
-        try {
-            LocalTime localTime = parseCustomTimeFormat(scheduleTime);
-            return ResponseEntity.ok(interviewService.getInterviewsByScheduleTime(localTime));
-        } catch (DateTimeParseException e) {
-            return ResponseEntity.badRequest().body(null); // Handle the error appropriately
-        }
-    }
+
 
     @PutMapping("/scheduled-date/{date}")
     @PreAuthorize("hasAnyAuthority('ROLE_INTERVIEWER', 'ROLE_ADMIN', 'ROLE_MENTOR', 'ROLE_HEAD')")
@@ -111,9 +102,5 @@ public class InterviewController {
         return ResponseEntity.noContent().build();
     }
 
-    // Utility method to parse custom time format
-    private LocalTime parseCustomTimeFormat(String time) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        return LocalTime.parse(time, formatter);
-    }
+
 }

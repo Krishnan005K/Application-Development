@@ -107,7 +107,6 @@ public class InterviewerService {
     public Feedback addFeedback(Long interviewerId, Feedback feedback) {
         Optional<Interviewer> optionalInterviewer = interviewerRepository.findById(interviewerId);
         if (optionalInterviewer.isPresent()) {
-            feedback.setInterviewer(optionalInterviewer.get());
             return feedbackRepository.save(feedback);
         } else {
             return null;

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +22,6 @@ public class InterviewService {
 
     public Interview addInterview(Interview interview) {
         // Save the interview
-        interview.setScheduleTime(interview.getScheduleTime().truncatedTo(ChronoUnit.MINUTES));
         Interview savedInterview = interviewRepository.save(interview);
         
         // Save each question and set its interview reference
@@ -43,7 +41,6 @@ public class InterviewService {
             interview.setDescription(interviewDetails.getDescription());
             interview.setRoundName(interviewDetails.getRoundName());
             interview.setScheduleDate(interviewDetails.getScheduleDate());
-            interview.setScheduleTime(interviewDetails.getScheduleTime().truncatedTo(ChronoUnit.MINUTES));
             
             // Update questions
             for (Question question : interviewDetails.getQuestions()) {
@@ -89,9 +86,6 @@ public class InterviewService {
         return interviewRepository.findByScheduleDate(date);
     }
 
-    public List<Interview> getInterviewsByScheduleTime(LocalTime scheduleTime) {
-        return interviewRepository.findByScheduleTime(scheduleTime);
-    }
 
     public Interview updateInterviewByDate(LocalDate date, Interview interviewDetails) {
         List<Interview> interviews = interviewRepository.findByScheduleDate(date);
@@ -101,7 +95,6 @@ public class InterviewService {
             interview.setDescription(interviewDetails.getDescription());
             interview.setRoundName(interviewDetails.getRoundName());
             interview.setScheduleDate(interviewDetails.getScheduleDate());
-            interview.setScheduleTime(interviewDetails.getScheduleTime());
             
             // Update questions
             for (Question question : interviewDetails.getQuestions()) {
@@ -122,7 +115,6 @@ public class InterviewService {
             interview.setDescription(interviewDetails.getDescription());
             interview.setRoundName(interviewDetails.getRoundName());
             interview.setScheduleDate(interviewDetails.getScheduleDate());
-            interview.setScheduleTime(interviewDetails.getScheduleTime());
             
             // Update questions
             for (Question question : interviewDetails.getQuestions()) {

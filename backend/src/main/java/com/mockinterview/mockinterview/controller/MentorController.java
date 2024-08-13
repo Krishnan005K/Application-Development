@@ -1,7 +1,10 @@
 package com.mockinterview.mockinterview.controller;
 
 import com.mockinterview.mockinterview.model.Mentor;
+import com.mockinterview.mockinterview.model.Student;
 import com.mockinterview.mockinterview.service.MentorService;
+import com.mockinterview.mockinterview.service.StudentService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +19,8 @@ public class MentorController {
     @Autowired
     private MentorService mentorService;
 
+    @Autowired
+    private StudentService studentService;
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_HEAD', 'ROLE_INTERVIEWER')")
     public ResponseEntity<List<Mentor>> getAllMentors() {
@@ -37,12 +42,8 @@ public class MentorController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/department/{dept}")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_HEAD', 'ROLE_INTERVIEWER')")
-    public ResponseEntity<List<Mentor>> getMentorsByDept(@PathVariable String dept) {
-        List<Mentor> mentors = mentorService.getMentorsByDept(dept);
-        return ResponseEntity.ok(mentors);
-    }
+
+    
 
     @GetMapping("/email/{email}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_HEAD', 'ROLE_INTERVIEWER')")
@@ -50,7 +51,13 @@ public class MentorController {
         List<Mentor> mentors = mentorService.getMentorsByEmail(email);
         return ResponseEntity.ok(mentors);
     }
-
+    @GetMapping("/dept/{dept}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_HEAD')")
+    public ResponseEntity<List<Mentor>> getMentorsByDept(@PathVariable String dept) {
+        List<Mentor> mentors = mentorService.getMentorsByDept(dept);
+        return ResponseEntity.ok(mentors);
+    }
+  
     @GetMapping("/dept/{dept}/class/{classBeingMentored}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_HEAD', 'ROLE_INTERVIEWER')")
     public ResponseEntity<List<Mentor>> getMentorsByDeptAndClassBeingMentored(@PathVariable String dept, @PathVariable String classBeingMentored) {

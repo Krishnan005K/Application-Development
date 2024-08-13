@@ -1,5 +1,6 @@
 package com.mockinterview.mockinterview.controller;
 
+import com.mockinterview.mockinterview.model.Head;
 import com.mockinterview.mockinterview.model.Mentor;
 import com.mockinterview.mockinterview.model.Student;
 import com.mockinterview.mockinterview.service.HeadService;
@@ -19,7 +20,7 @@ public class HeadController {
 
     // Mentor endpoints
     @PostMapping("/mentors")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN','string')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Mentor> addMentor(@RequestBody Mentor mentor) {
         Mentor createdMentor = headService.addMentor(mentor);
         return ResponseEntity.ok(createdMentor);
@@ -29,14 +30,9 @@ public class HeadController {
     @PreAuthorize("hasAuthority('ROLE_HEAD')")
     public ResponseEntity<Mentor> getMentorByEmail(@PathVariable String email) {
         Mentor mentor = headService.getMentorByEmail(email);
-        if (mentor != null) {
-            return ResponseEntity.ok(mentor);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return mentor != null ? ResponseEntity.ok(mentor) : ResponseEntity.notFound().build();
     }
 
-    // Endpoint to get mentors by class being mentored
     @GetMapping("/mentors/class/{classBeingMentored}")
     @PreAuthorize("hasAuthority('ROLE_HEAD')")
     public ResponseEntity<List<Mentor>> getMentorsByClassBeingMentored(@PathVariable String classBeingMentored) {
@@ -70,11 +66,7 @@ public class HeadController {
     @PreAuthorize("hasAuthority('ROLE_HEAD')")
     public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
         Student student = headService.getStudentById(id);
-        if (student != null) {
-            return ResponseEntity.ok(student);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return student != null ? ResponseEntity.ok(student) : ResponseEntity.notFound().build();
     }
 
     @GetMapping("/students/all")
@@ -88,11 +80,7 @@ public class HeadController {
     @PreAuthorize("hasAuthority('ROLE_HEAD')")
     public ResponseEntity<Student> getStudentByEmail(@PathVariable String email) {
         Student student = headService.getStudentByEmail(email);
-        if (student != null) {
-            return ResponseEntity.ok(student);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return student != null ? ResponseEntity.ok(student) : ResponseEntity.notFound().build();
     }
 
     @GetMapping("/students/department/{dept}")
@@ -101,7 +89,6 @@ public class HeadController {
         List<Student> students = headService.getStudentsByDept(dept);
         return ResponseEntity.ok(students);
     }
-
     @GetMapping("/ratings/students/dept/{dept}/section/{section}")
     @PreAuthorize("hasAuthority('ROLE_HEAD')")
     public ResponseEntity<Double> getOverallRatingByDepartmentAndSection(
@@ -110,18 +97,23 @@ public class HeadController {
         double rating = headService.getOverallRatingByDepartmentAndSection(dept, section);
         return ResponseEntity.ok(rating);
     }
-
     @GetMapping("/ratings/class/{classBeingMentored}")
     @PreAuthorize("hasAuthority('ROLE_HEAD')")
     public ResponseEntity<Double> getOverallRatingByClass(@PathVariable String classBeingMentored) {
         double rating = headService.getOverallRatingByClass(classBeingMentored);
         return ResponseEntity.ok(rating);
     }
-
     @GetMapping("/ratings/department/{dept}")
     @PreAuthorize("hasAuthority('ROLE_HEAD')")
     public ResponseEntity<Double> getOverallRatingByDept(@PathVariable String dept) {
         double rating = headService.getOverallRatingByDept(dept);
         return ResponseEntity.ok(rating);
+    }
+            
+    @GetMapping("/id/{id}")
+    @PreAuthorize("hasAuthority('ROLE_HEAD')")
+    public ResponseEntity<Head> getHeadById(@PathVariable Long id) {
+        Head head = headService.getHeadById(id);
+        return head != null ? ResponseEntity.ok(head) : ResponseEntity.notFound().build();
     }
 }

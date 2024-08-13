@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.mockinterview.mockinterview.dto.StudentDTO;
 import com.mockinterview.mockinterview.model.Student;
 import com.mockinterview.mockinterview.repository.StudentRepository;
 
@@ -17,35 +18,43 @@ public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
-     @Autowired
+    @Autowired
     private PasswordEncoder passwordEncoder;
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+
+    public List<StudentDTO> getAllStudents() {
+        return studentRepository.findAll().stream().map(this::convertToDTO).toList();
     }
 
-    public Student addStudent(Student student) {
+    public StudentDTO addStudent(StudentDTO studentDTO) {
+        Student student = convertToEntity(studentDTO);
         if (student.getRatings() == null) {
             student.setRatings(0.0); // or any other default value
         }
         student.setPassword(passwordEncoder.encode(student.getPassword()));
-        return studentRepository.save(student);
+        Student savedStudent = studentRepository.save(student);
+        return convertToDTO(savedStudent);
     }
 
+    public List<Student> getStudentByMentorId(Long mentorId) {
+        List<Student> students = studentRepository.findByMentorId(mentorId);
+       return students;
+    }
 
-    public Student updateStudent(Student studentDetails) {
-        Optional<Student> studentOptional = studentRepository.findById(studentDetails.getId());
+    public StudentDTO updateStudent(StudentDTO studentDTO) {
+        Optional<Student> studentOptional = studentRepository.findById(studentDTO.getId());
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
-            student.setName(studentDetails.getName());
-            student.setEmail(studentDetails.getEmail());
-            student.setPassword(studentDetails.getPassword());
-            student.setContact(studentDetails.getContact());
-            student.setPhoto(studentDetails.getPhoto());
-            student.setRatings(studentDetails.getRatings());
-            student.setDept(studentDetails.getDept());
-            student.setBatch(studentDetails.getBatch());
-            student.setSection(studentDetails.getSection());
-            return studentRepository.save(student);
+            student.setName(studentDTO.getName());
+            student.setEmail(studentDTO.getEmail());
+            student.setPassword(passwordEncoder.encode(studentDTO.getPassword()));
+            student.setContact(studentDTO.getContact());
+            student.setPhoto(studentDTO.getPhoto());
+            student.setRatings(studentDTO.getRatings());
+            student.setDept(studentDTO.getDept());
+            student.setBatch(studentDTO.getBatch());
+            student.setSection(studentDTO.getSection());
+            Student updatedStudent = studentRepository.save(student);
+            return convertToDTO(updatedStudent);
         }
         return null;
     }
@@ -54,38 +63,41 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    public List<Student> getStudentsByEmail(String email) {
-        return studentRepository.findByEmail(email);
+    public StudentDTO getStudentById(Long id) {
+        Optional<Student> studentOptional = studentRepository.findById(id);
+        if (studentOptional.isPresent()) {
+            Student student = studentOptional.get();
+            return convertToDTO(student);
+        }
+        throw new EntityNotFoundException("Student not found with id: " + id);
+    }
+
+    public List<StudentDTO> getStudentsByEmail(String email) {
+        return studentRepository.findByEmail(email).stream().map(this::convertToDTO).toList();
     }
 
     public List<Student> getStudentsByDept(String dept) {
         return studentRepository.findByDept(dept);
     }
 
-
-
-    public List<Student> getStudentsByRatings(double ratings) {
-        return studentRepository.findByRatings(ratings);
+    public List<StudentDTO> getStudentsByRatings(double ratings) {
+        return studentRepository.findByRatings(ratings).stream().map(this::convertToDTO).toList();
     }
 
-    public List<Student> getStudentsByBatch(String batch) {
-        return studentRepository.findByBatch(batch);
+    public List<StudentDTO> getStudentsByBatch(String batch) {
+        return studentRepository.findByBatch(batch).stream().map(this::convertToDTO).toList();
     }
 
-    public List<Student> getStudentsByName(String name) {
-        return studentRepository.findByName(name);
+    public List<StudentDTO> getStudentsByName(String name) {
+        return studentRepository.findByName(name).stream().map(this::convertToDTO).toList();
     }
 
-    public List<Student> getStudentsByDeptAndName(String dept, String name) {
-        return studentRepository.findByDeptAndName(dept, name);
+    public List<StudentDTO> getStudentsByDeptAndName(String dept, String name) {
+        return studentRepository.findByDeptAndName(dept, name).stream().map(this::convertToDTO).toList();
     }
 
-    // public List<Student> getStudentsByDeptAndId(String dept, Long id) {
-    //     return studentRepository.findByDeptAndId(dept, id);
-    // }
-
-    public List<Student> getStudentsByDeptAndSection(String dept, String sec) {
-        return studentRepository.findByDeptAndSection(dept, sec);
+    public List<StudentDTO> getStudentsByDeptAndSection(String dept, String sec) {
+        return studentRepository.findByDeptAndSection(dept, sec).stream().map(this::convertToDTO).toList();
     }
 
     public void deleteStudentByName(String name) {
@@ -101,62 +113,85 @@ public class StudentService {
             studentRepository.delete(students.get(0)); // Assuming email is unique
         }
     }
-    public List<Student> getStudentsByRegisterNo(String registerNo) {
-        return studentRepository.findByRegisterNo(registerNo);
+
+    public List<StudentDTO> getStudentsByRegisterNo(String registerNo) {
+        return studentRepository.findByRegisterNo(registerNo).stream().map(this::convertToDTO).toList();
     }
 
-    public Student updateStudentByRegisterNo(String registerNo, Student studentDetails) {
+    public StudentDTO updateStudentByRegisterNo(String registerNo, StudentDTO studentDTO) {
         List<Student> students = studentRepository.findByRegisterNo(registerNo);
         if (!students.isEmpty()) {
             Student existingStudent = students.get(0);
-            existingStudent.setName(studentDetails.getName());
-            existingStudent.setEmail(studentDetails.getEmail());
-            existingStudent.setPassword(studentDetails.getPassword());
-            existingStudent.setPhoto(studentDetails.getPhoto());
-            existingStudent.setContact(studentDetails.getContact());
-            existingStudent.setRatings(studentDetails.getRatings());
-            existingStudent.setDept(studentDetails.getDept());
-            existingStudent.setBatch(studentDetails.getBatch());
-            existingStudent.setSection(studentDetails.getSection());
-            existingStudent.setRegisterNo(studentDetails.getRegisterNo());
-            return studentRepository.save(existingStudent);
+            existingStudent.setName(studentDTO.getName());
+            existingStudent.setEmail(studentDTO.getEmail());
+            existingStudent.setPassword(passwordEncoder.encode(studentDTO.getPassword()));
+            existingStudent.setPhoto(studentDTO.getPhoto());
+            existingStudent.setContact(studentDTO.getContact());
+            existingStudent.setRatings(studentDTO.getRatings());
+            existingStudent.setDept(studentDTO.getDept());
+            existingStudent.setBatch(studentDTO.getBatch());
+            existingStudent.setSection(studentDTO.getSection());
+            existingStudent.setRegisterNo(studentDTO.getRegisterNo());
+            return convertToDTO(studentRepository.save(existingStudent));
         } else {
             throw new EntityNotFoundException("Student with registerNo " + registerNo + " not found");
         }
     }
-    
-    
 
-    // public Student addStudent(Student student) {
-    //     // Ensure ratings is handled properly, possibly set a default if not provided
-    //     if (student.getRatings() == null) {
-    //         student.setRatings(0.0); // or any other default value
-    //     }
-    //     return studentRepository.save(student);
-    // }
-    
-    public Student updateStudentByEmail(String email, Student studentDetails) {
+    public StudentDTO updateStudentByEmail(String email, StudentDTO studentDTO) {
         List<Student> students = studentRepository.findByEmail(email);
         if (!students.isEmpty()) {
             Student existingStudent = students.get(0);
-            existingStudent.setName(studentDetails.getName());
-            existingStudent.setEmail(studentDetails.getEmail());
-            existingStudent.setPassword(studentDetails.getPassword());
-            existingStudent.setPhoto(studentDetails.getPhoto());
-            existingStudent.setContact(studentDetails.getContact());
-            existingStudent.setRatings(studentDetails.getRatings());
-            existingStudent.setDept(studentDetails.getDept());
-            existingStudent.setBatch(studentDetails.getBatch());
-            existingStudent.setSection(studentDetails.getSection());
-            existingStudent.setRegisterNo(studentDetails.getRegisterNo());
-            return studentRepository.save(existingStudent);
+            existingStudent.setName(studentDTO.getName());
+            existingStudent.setEmail(studentDTO.getEmail());
+            existingStudent.setPassword(passwordEncoder.encode(studentDTO.getPassword()));
+            existingStudent.setPhoto(studentDTO.getPhoto());
+            existingStudent.setContact(studentDTO.getContact());
+            existingStudent.setRatings(studentDTO.getRatings());
+            existingStudent.setDept(studentDTO.getDept());
+            existingStudent.setBatch(studentDTO.getBatch());
+            existingStudent.setSection(studentDTO.getSection());
+            existingStudent.setRegisterNo(studentDTO.getRegisterNo());
+            return convertToDTO(studentRepository.save(existingStudent));
         } else {
             throw new EntityNotFoundException("Student with email " + email + " not found");
         }
     }
 
-    public List<Student> getStudentsByBatchDeptAndSection(String batch, String dept, String section) {
-        return studentRepository.findByBatchAndDeptAndSection(batch, dept, section);
+    public List<StudentDTO> getStudentsByBatchDeptAndSection(String batch, String dept, String section) {
+        return studentRepository.findByBatchAndDeptAndSection(batch, dept, section).stream().map(this::convertToDTO)
+                .toList();
     }
-    
+
+    private StudentDTO convertToDTO(Student student) {
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setId(student.getId());
+        studentDTO.setName(student.getName());
+        studentDTO.setEmail(student.getEmail());
+        studentDTO.setPassword(student.getPassword());
+        studentDTO.setPhoto(student.getPhoto());
+        studentDTO.setContact(student.getContact());
+        studentDTO.setRatings(student.getRatings());
+        studentDTO.setDept(student.getDept());
+        studentDTO.setBatch(student.getBatch());
+        studentDTO.setSection(student.getSection());
+        studentDTO.setRegisterNo(student.getRegisterNo());
+        return studentDTO;
+    }
+
+    private Student convertToEntity(StudentDTO studentDTO) {
+        Student student = new Student();
+        student.setId(studentDTO.getId());
+        student.setName(studentDTO.getName());
+        student.setEmail(studentDTO.getEmail());
+        student.setPassword(studentDTO.getPassword());
+        student.setPhoto(studentDTO.getPhoto());
+        student.setContact(studentDTO.getContact());
+        student.setRatings(studentDTO.getRatings());
+        student.setDept(studentDTO.getDept());
+        student.setBatch(studentDTO.getBatch());
+        student.setSection(studentDTO.getSection());
+        student.setRegisterNo(studentDTO.getRegisterNo());
+        return student;
+    }
 }

@@ -21,8 +21,8 @@ public class Mentor extends User {
     private String contact;
     private String dept;
     private String classBeingMentored;
-
-    @JsonIgnore
+    private String photo;
+    
     @ManyToOne
     @JoinColumn(name = "head_id")
     private Head head;
