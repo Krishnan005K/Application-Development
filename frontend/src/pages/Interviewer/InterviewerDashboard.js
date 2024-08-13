@@ -40,12 +40,12 @@ function InterviewerDashboard() {
                 Students
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/interviewer-dashboard/reports">
                 <i className="fas fa-user nav-icon"></i>
                 Reports
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/">
                 <i className="fas fa-sign-out-alt nav-icon"></i>

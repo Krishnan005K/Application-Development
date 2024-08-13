@@ -40,7 +40,7 @@ const handleLogout = () => {
                 Reports
               </Link>
             </li>
-            <li>
+            
             <Link onClick={handleLogout}>
             <li onClick={handleLogout} style={{ cursor: 'pointer' ,color:"white", fontWeight:"bold", marginLeft:"10px", marginTop:"30px", marginBottom:"30px"}}>
               
@@ -49,7 +49,7 @@ const handleLogout = () => {
              
             </li>
             </Link>
-            </li>
+           
           </ul>
         </nav>
       </div>

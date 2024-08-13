@@ -26,8 +26,8 @@ const StudentInterviews = () => {
           </button>
         </div>
         <div className="card">
-          <h3>HR Round</h3>
-          <p>Prepare for the HR round with behavioral and situational questions.</p>
+          <h3>Interview Round</h3>
+          <p>Prepare for this round with behavioral and situational questions.</p>
           <button onClick={() => handleTakeTest('Mock Interview')} className="take-test-button">
             Take Test
           </button>
