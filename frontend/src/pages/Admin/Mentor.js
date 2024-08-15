@@ -130,21 +130,17 @@ function Mentor() {
         </select>
         <select value={searchBatch} onChange={(e) => setSearchBatch(e.target.value)}>
           <option value="">All Classes</option>
-          <option value="1">Class 1</option>
-          <option value="2">Class 2</option>
-          <option value="3">Class 3</option>
-          <option value="4">Class 4</option>
+          
         </select>
       </div>
 
       <table className="mentor-table">
         <thead>
           <tr>
-            <th>ID</th>
+            
             <th>Name</th>
             <th>Email</th>
-            <th>Password</th>
-            <th>Contact</th>
+            
             <th>Department</th>
             <th>Class Being Mentored</th>
             <th>Actions</th>
@@ -153,7 +149,7 @@ function Mentor() {
         <tbody>
           {filteredMentors.map(mentor => (
             <tr key={mentor.id}>
-              <td>{mentor.id}</td>
+              
               <td className="editable-cell">
                 {editFormData && editFormData[mentor.id] ?
                   <input
@@ -174,26 +170,7 @@ function Mentor() {
                   mentor.email
                 }
               </td>
-              <td className="editable-cell">
-                {editFormData && editFormData[mentor.id] ?
-                  <input
-                    type="password"
-                    value={editFormData[mentor.id].password}
-                    onChange={(e) => handleInputChange(e, 'password', mentor.id)}
-                  /> :
-                  mentor.password
-                }
-              </td>
-              <td className="editable-cell">
-                {editFormData && editFormData[mentor.id] ?
-                  <input
-                    type="text"
-                    value={editFormData[mentor.id].contact}
-                    onChange={(e) => handleInputChange(e, 'contact', mentor.id)}
-                  /> :
-                  mentor.contact
-                }
-              </td>
+              
               <td className="editable-cell">
                 {editFormData && editFormData[mentor.id] ?
                   <input

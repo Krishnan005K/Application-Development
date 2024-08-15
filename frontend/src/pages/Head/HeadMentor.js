@@ -86,7 +86,6 @@ function HeadMentor() {
             <th>Email</th>
             <th>Dept</th>
             <th>Class Mentoring</th>
-            <th>Ratings</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -97,7 +96,6 @@ function HeadMentor() {
               <td>{mentor.email}</td>
               <td>{mentor.dept}</td>
               <td>{mentor.classBeingMentored}</td>
-              <td>{mentor.overallRatings}</td>
               <td>
                 <FontAwesomeIcon icon={faEye} className="mentor-action-icon" onClick={() => handleViewDetails(mentor)} />
               </td>
@@ -113,8 +111,7 @@ function HeadMentor() {
           <p><strong>Email:</strong> {viewDetails.email}</p>
           <p><strong>Department:</strong> {viewDetails.dept}</p>
           <p><strong>Class Mentoring:</strong> {viewDetails.classBeingMentored}</p>
-          <p><strong>Ratings:</strong> {viewDetails.overallRatings}</p>
-          {renderPieChart(viewDetails.overallRatings)}
+          
           <button onClick={handleClosePopup}>Close</button>
         </div>
       )}

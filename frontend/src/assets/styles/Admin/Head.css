@@ -1,15 +1,36 @@
 /* Head View */
 .head-view {
   padding: 20px;
-  background-color: #ffffff; /* Light background for consistency with form */
-  border-radius: 10px; /* Rounded corners for a polished look */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow for a professional appearance */
-  transition: background-color 0.3s ease; /* Smooth background transition */
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  max-width: 1200px; /* Limit the width for better alignment */
+  margin: 0 auto; /* Center the container */
 }
 
 /* Filters */
 .filters {
+  display: flex;
+  justify-content: space-between; /* Align the filters to the edges */
   margin-bottom: 20px;
+  gap: 10px; /* Add space between filters */
+}
+
+.filters input,
+.filters select {
+  width: 100%; /* Full width within their container */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.filters input:focus,
+.filters select:focus {
+  border-color: #2f65ad;
+  outline: none;
 }
 
 /* Head Form Container */
@@ -23,111 +44,110 @@
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 10px;
-  transition: opacity 0.3s ease; /* Smooth form appearance */
+  transition: opacity 0.3s ease;
+  justify-content: space-between; /* Spread input fields */
 }
 
 /* Input Fields in Head Form */
 .head-form input {
-  width: 200px; /* Fixed width for consistency */
-  height: 40px; /* Fixed height for consistency */
+  flex: 1 1 calc(25% - 10px); /* Responsive width based on available space */
+  height: 40px;
   padding: 8px;
-  border: 1px solid #ddd; /* Lighter border for a softer look */
-  border-radius: 5px; /* Rounded corners */
-  box-sizing: border-box; /* Ensure padding and border are included in the width */
-  transition: border-color 0.3s ease; /* Smooth border color transition */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
 }
 
 .head-form input:focus {
-  border-color: #2f65ad; /* Updated border color */
+  border-color: #2f65ad;
   outline: none;
 }
 
 /* Add Head Button */
 .add-head-button {
-  padding: 8px 12px;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #2f65ad; /* Base color */
+  background-color: #2f65ad;
   color: white;
   cursor: pointer;
   display: flex;
-  width: 150px; /* Adjusted width for better alignment */
   align-items: center;
+  justify-content: center; /* Center the button text */
   gap: 5px;
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth button transition */
-  animation: zoomInOut 2s infinite; /* Continuous zoom-in and zoom-out effect */
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add-head-button:hover {
-  background-color: #1d4b80; /* Darker shade on hover */
-  transform: scale(1.05); /* Slight zoom effect on hover */
+  background-color: #1d4b80;
+  transform: scale(1.05);
+}
+
+.add-head-button:disabled {
+  background-color: #9da5b1; /* Gray out the button when disabled */
+  cursor: not-allowed;
+  transform: none; /* Remove hover effects when disabled */
 }
 
 /* Error Message */
 .error-message {
-  color: #ff4d4d; /* Updated color for better visibility */
+  color: #ff4d4d;
   font-size: 12px;
-  height: 20px; /* Fixed height to avoid layout shift */
-  line-height: 20px; /* Center text vertically */
-  margin: 0; /* Remove default margins */
-  display: block; /* Ensure it takes up space and aligns correctly */
+  height: 20px;
+  line-height: 20px;
+  margin: 0;
+  display: block;
 }
 
 /* Error Container */
 .error-container {
-  width: 200px; /* Ensure the container width matches input width */
-  height: 20px; /* Fixed height for consistency */
+  flex: 1 1 calc(25% - 10px);
+  height: 20px;
 }
 
 /* Head Table */
 .head-table {
   width: 100%;
   border-collapse: collapse;
-  transition: opacity 0.3s ease; /* Smooth table appearance */
+  margin-top: 20px;
+  transition: opacity 0.3s ease;
 }
 
 .head-table th,
 .head-table td {
   padding: 12px;
   border: 1px solid #ddd;
-  transition: background-color 0.3s ease; /* Smooth background color transition */
+  transition: background-color 0.3s ease;
+  text-align: left;
 }
 
 .head-table th {
-  background-color: #f4f4f4; /* Light background for headers */
-  color: #2f65ad; /* Heading text color */
+  background-color: #f4f4f4;
+  color: #2f65ad;
 }
 
 .head-table tr:nth-child(even) {
-  background-color: #f9f9f9; /* Alternating row color */
+  background-color: #f9f9f9;
 }
 
 .head-table tr:nth-child(odd) {
-  background-color: #ffffff; /* White background for odd rows */
+  background-color: #ffffff;
 }
 
+/* Table Hover Effect */
 .head-table tr:hover {
-  background-color: #f1f1f1; /* Highlight row on hover */
+  background-color: #eaeaea;
 }
 
-/* Action Icon */
+/* Action Icons */
 .action-icon {
-  margin: 0 5px;
+  margin-right: 8px;
   cursor: pointer;
-  transition: color 0.3s ease; /* Smooth icon color transition */
-  color: #2f65ad; /* Icon color */
+  transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .action-icon:hover {
-  color: #007bff; /* Hover color */
-}
-
-/* Animation for Button Zoom Effect */
-@keyframes zoomInOut {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
+  color: #2f65ad;
+  transform: scale(1.2);
 }

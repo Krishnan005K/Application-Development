@@ -172,8 +172,6 @@ function Head() {
           <tr>
             <th>Name</th>
             <th>Email</th>
-            <th>Password</th>
-            <th>Contact</th>
             <th>Department</th>
             <th>Actions</th>
           </tr>
@@ -185,8 +183,6 @@ function Head() {
                 <>
                   <td><input type="text" name="name" value={head.name} onChange={(e) => handleInputChange(e, index)} /></td>
                   <td><input type="email" name="email" value={head.email} onChange={(e) => handleInputChange(e, index)} /></td>
-                  <td><input type="password" name="password" value={head.password} onChange={(e) => handleInputChange(e, index)} /></td>
-                  <td><input type="text" name="contact" value={head.contact} onChange={(e) => handleInputChange(e, index)} /></td>
                   <td><input type="text" name="dept" value={head.dept} onChange={(e) => handleInputChange(e, index)} /></td>
                   <td>
                     <FontAwesomeIcon icon={faCheck} onClick={handleSaveClick} className="action-icon" />
@@ -197,8 +193,6 @@ function Head() {
                 <>
                   <td>{head.name}</td>
                   <td>{head.email}</td>
-                  <td>{head.password}</td>
-                  <td>{head.contact}</td>
                   <td>{head.dept}</td>
                   <td>
                     <FontAwesomeIcon icon={faEdit} onClick={() => handleEditClick(index)} className="action-icon" />

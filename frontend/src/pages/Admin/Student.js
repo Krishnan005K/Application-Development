@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/styles/Admin/Student.css';
 
 function Student() {
@@ -23,7 +25,6 @@ function Student() {
   const [editingIndex, setEditingIndex] = useState(null);
   const [tempData, setTempData] = useState(null);
   const [errors, setErrors] = useState({});
-  const [popup, setPopup] = useState({ show: false, message: '', icon: null });
 
   const token = localStorage.getItem('token');
   const apiUrl = 'http://127.0.0.1:8080/api/admin/students'; // Adjust endpoint if needed
@@ -77,11 +78,16 @@ function Student() {
     return isValid;
   };
 
-  const showPopup = (message, icon) => {
-    setPopup({ show: true, message, icon });
-    setTimeout(() => {
-      setPopup({ show: false, message: '', icon: null });
-    }, 5000);
+  const notify = (message, type = 'success') => {
+    toast[type](message, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   const handleAddOrEdit = async () => {
@@ -107,8 +113,9 @@ function Student() {
             ratings: '',
             contact: ''
           });
-          showPopup('Student updated successfully!', faCheck);
+          notify('Student updated successfully!');
         }).catch((error) => {
+          notify('Failed to update student', 'error');
           console.log(error);
         });
       } else {
@@ -128,8 +135,9 @@ function Student() {
             ratings: '',
             contact: ''
           });
-          showPopup('Student added successfully!', faCheck);
+          notify('Student added successfully!');
         }).catch((error) => {
+          notify('Failed to add student', 'error');
           console.log(error);
         });
       }
@@ -163,8 +171,9 @@ function Student() {
       }).then(() => {
         const updatedStudents = students.filter((_, i) => i !== index);
         setStudents(updatedStudents);
-        showPopup('Student deleted successfully!', faTrash);
+        notify('Student deleted successfully!', 'info');
       }).catch((error) => {
+        notify('Failed to delete student', 'error');
         console.log(error);
       });
     }
@@ -217,11 +226,9 @@ function Student() {
             <th>Register No</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Password</th>
             <th>Department</th>
             <th>Batch</th>
             <th>Section</th>
-            <th>Ratings</th>
             <th>Contact</th>
             <th>Actions</th>
           </tr>
@@ -229,50 +236,40 @@ function Student() {
         <tbody>
           {filteredStudents.map((student, index) => (
             <tr key={index}>
-              {editingIndex === index ? (
-                <>
-                  <td><input type="text" name="registerNo" value={student.registerNo} onChange={(e) => handleInputChange(e, index)} /></td>
-                  <td><input type="text" name="name" value={student.name} onChange={(e) => handleInputChange(e, index)} /></td>
-                  <td><input type="email" name="email" value={student.email} onChange={(e) => handleInputChange(e, index)} /></td>
-                  <td><input type="password" name="password" value={student.password} onChange={(e) => handleInputChange(e, index)} /></td>
-                  <td><input type="text" name="dept" value={student.dept} onChange={(e) => handleInputChange(e, index)} /></td>
-                  <td><input type="text" name="batch" value={student.batch} onChange={(e) => handleInputChange(e, index)} /></td>
-                  <td><input type="text" name="section" value={student.section} onChange={(e) => handleInputChange(e, index)} /></td>
-                  <td><input type="number" name="ratings" value={student.ratings} onChange={(e) => handleInputChange(e, index)} /></td>
-                  <td><input type="text" name="contact" value={student.contact} onChange={(e) => handleInputChange(e, index)} /></td>
-                  <td>
-                    <FontAwesomeIcon icon={faCheck} onClick={handleSaveClick} className="action-icon" />
-                    <FontAwesomeIcon icon={faTimes} onClick={handleCancelClick} className="action-icon" />
-                  </td>
-                </>
-              ) : (
-                <>
-                  <td>{student.registerNo}</td>
-                  <td>{student.name}</td>
-                  <td>{student.email}</td>
-                  <td>{student.password}</td>
-                  <td>{student.dept}</td>
-                  <td>{student.batch}</td>
-                  <td>{student.section}</td>
-                  <td>{student.ratings}</td>
-                  <td>{student.contact}</td>
-                  <td>
-                    <FontAwesomeIcon icon={faEdit} onClick={() => handleEditClick(index)} className="action-icon" />
-                    <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(index)} className="action-icon" />
-                  </td>
-                </>
-              )}
+              <td>{student.registerNo}</td>
+              <td>{student.name}</td>
+              <td>{student.email}</td>
+              <td>{student.dept}</td>
+              <td>{student.batch}</td>
+              <td>{student.section}</td>
+              <td>{student.contact}</td>
+              <td className="student-actions">
+                {editingIndex === index ? (
+                  <>
+                    <button className="save-button" onClick={handleSaveClick}>
+                      <FontAwesomeIcon icon={faCheck} /> Save
+                    </button>
+                    <button className="cancel-button" onClick={handleCancelClick}>
+                      <FontAwesomeIcon icon={faTimes} /> Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button className="edit-button" style={{border: 'none',padding: '5px'}} onClick={() => handleEditClick(index)}>
+                      <FontAwesomeIcon icon={faEdit} />
+                    </button>
+                    
+                    <button className="delete-button" style={{border: 'none',padding: '5px'}}  onClick={() => handleDelete(index)}>
+                      <FontAwesomeIcon icon={faTrash} /> 
+                    </button>
+                  </>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      {popup.show && (
-        <div className="popup">
-          <FontAwesomeIcon icon={popup.icon} className="popup-icon" />
-          <p className="popup-message">{popup.message}</p>
-        </div>
-      )}
+      <ToastContainer />
     </div>
   );
 }

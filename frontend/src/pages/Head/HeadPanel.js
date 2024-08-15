@@ -59,19 +59,19 @@ function HeadDashboard() {
             <li>
               <Link to="/head-dashboard">
                 <i className="fas fa-bell nav-icon"></i>
-                Notifications
+                OverAll Performance
               </Link>
             </li>
             <li>
               <Link to="/head-dashboard/student-details">
                 <i className="fas fa-user nav-icon"></i>
-                Student Details
+                Student 
               </Link>
             </li>
             <li>
               <Link to="/head-dashboard/mentor-details">
                 <i className="fas fa-edit nav-icon"></i>
-                Mentor Details
+                Mentors
               </Link>
             </li>
             {/* <li>
