@@ -1,143 +1,107 @@
+import React, { useState } from 'react';
+import '../../assets/styles/Admin/AdminProfile.css';
+import { FiEdit } from "react-icons/fi";
+import { Line } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 
-import React, { useState, useEffect } from 'react';
-import '../../assets/styles/Mentor/MentorProfile.css';
-import AdminProfileImg from '../../assets/images/attend-interview-image.png';
+const ProfileDashboard = () => {
+  // Sample Data for Charts
+  const scoreData = {
+    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    datasets: [
+      {
+        label: "Daily Performance",
+        data: [80, 85, 70, 90, 95, 75, 88],
+        backgroundColor: "#73a2df",
+        borderColor: "#002F6C",
+        borderWidth: 2,
+        tension: 0.3,
+        fill: false,
+      },
+    ],
+  };
 
-const MentorProfile = () => {
-  const [adminData, setAdminData] = useState({
-    username: 'admin_user',
-    email: 'admin@example.com',
-    password: 'password123',
-    phoneNumber: '123-456-7890',
-    qualification: 'Master’s in Computer Science',
-    role: 'Administrator',
-    experience: '10 years',
+  const ratingData = {
+    labels: ["Excellent", "Very Good", "Good", "Average", "Below Average"],
+    datasets: [
+      {
+        data: [40, 30, 20, 5, 5],
+        backgroundColor: ["#004b94", "#0073e6", "#59b2ff", "#9fd3ff", "#c2e2ff"],
+      },
+    ],
+  };
+
+  // Profile State
+  const [profile, setProfile] = useState({
+    name: 'Krishna K',
+    email: 'lingesh@gmail.com',
+    phone: '+198454678',
+    department: 'Computer Science',
+    experience: '82 years',
+    dailyTracking: 'Completed 85% of tasks',
   });
 
   const [isEditing, setIsEditing] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [totalAdmins, setTotalAdmins] = useState(50); // Example total number of admins
 
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
-
-  const handleSaveClick = () => {
-    const emptyFields = Object.values(adminData).some(field => field === '');
-    if (emptyFields) {
-      alert('Fields cannot be empty');
-      return;
-    }
-    setShowConfirmation(true);
-  };
-
-  const confirmSave = () => {
-    setShowConfirmation(false);
-    setIsEditing(false);
-    // Add logic to save updated data
-    alert('Data saved successfully');
-  };
-
-  const handleCancelClick = () => {
-    setIsEditing(false);
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing);
   };
 
   const handleChange = (e) => {
-    setAdminData({ ...adminData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      [name]: value,
+    }));
+  };
+
+  const handleSave = () => {
+    setIsEditing(false);
+    // Here you can add code to save the changes to your backend or database if necessary.
   };
 
   return (
-    <div className='profile-admin-whole-container'>
-      <div className="profile-admin-container">
-        <div className="profile-image-container">
-          <img src={AdminProfileImg} alt="Admin" className="profile-image" />
-        </div>
-        <h2>Admin Profile</h2>
-        <form className="profile-form">
-          <div className="form-group">
-            <label>Username:</label>
-            <input type="text" value={adminData.username} disabled />
-          </div>
-          <div className="form-group">
-            <label>Email:</label>
-            <input 
-              type="email" 
-              name="email" 
-              value={adminData.email} 
-              onChange={handleChange} 
-              disabled={!isEditing} 
-            />
-          </div>
-          <div className="form-group">
-            <label>Password:</label>
-            <input 
-              type="password" 
-              name="password" 
-              value={adminData.password} 
-              onChange={handleChange} 
-              disabled={!isEditing} 
-            />
-          </div>
-          <div className="form-group">
-            <label>Phone Number:</label>
-            <input 
-              type="text" 
-              name="phoneNumber" 
-              value={adminData.phoneNumber} 
-              onChange={handleChange} 
-              disabled={!isEditing} 
-            />
-          </div>
-          <div className="form-group">
-            <label>Qualification:</label>
-            <input 
-              type="text" 
-              name="qualification" 
-              value={adminData.qualification} 
-              onChange={handleChange} 
-              disabled={!isEditing} 
-            />
-          </div>
-          <div className="form-group">
-            <label>Role:</label>
-            <input type="text" value={adminData.role} disabled />
-          </div>
-          <div className="form-group">
-            <label>Years of Experience:</label>
-            <input 
-              type="text" 
-              name="experience" 
-              value={adminData.experience} 
-              onChange={handleChange} 
-              disabled={!isEditing} 
-            />
-          </div>
-          {isEditing ? (
-            <div className="form-actions">
-              <button type="button" className="profile-save-button" onClick={handleSaveClick}>Save</button>
-              <button type="button" className="profile-cancel-button" onClick={handleCancelClick}>Cancel</button>
-            </div>
-          ) : (
-            <button type="button" className="profile-edit-button" onClick={handleEditClick}>Edit</button>
-          )}
-        </form>
-        
-        {showConfirmation && (
-          <div className="confirmation-dialog">
-            <p>Are you sure you want to save the changes?</p>
-            <button type="button" className="confirm-yes-button" onClick={confirmSave}>Yes</button>
-            <button type="button" className="confirm-no-button" onClick={() => setShowConfirmation(false)}>No</button>
-          </div>
-        )}
+    <div className="profile-dashboard">
+      <div className="profile-header">
+        <h2 className="profile-title">Mentor Profile</h2>
+        <button className="edit-button" onClick={handleEditToggle}>
+          {isEditing ? 'Save' : 'Edit Profile'} <FiEdit />
+        </button>
       </div>
-      {/* <div className="total-admin-card">
-        <h3>Total Admins</h3>
-        <div className="circular-progress">
-          <div className="circular-number">{totalAdmins}</div>
+
+      <div className="profile-info-section">
+        {Object.keys(profile).map((key) => (
+          <div className="info-card" key={key}>
+            <h3>{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}:</h3>
+            {isEditing ? (
+              <input
+                type={key === 'password' ? 'password' : 'text'}
+                name={key}
+                value={profile[key]}
+                onChange={handleChange}
+                className="profile-input"
+              />
+            ) : (
+              <p>{profile[key]}</p>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="charts-section">
+        <div className="chart-card">
+          <h3>Daily Performance</h3>
+          <Line data={scoreData} />
         </div>
-      </div> */}
+        <div className="chart-card">
+          <h3>Ratings Breakdown</h3>
+          <Pie data={ratingData} />
+        </div>
+      </div>
+
+      
     </div>
   );
 };
 
-export default MentorProfile;
+export default ProfileDashboard;

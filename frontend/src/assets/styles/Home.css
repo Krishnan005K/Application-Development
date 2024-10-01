@@ -3,6 +3,7 @@
   position: relative;
   display: flex;
   padding-top: 3rem;
+  left: 70px;
 }
 .home-bannerImage-container {
   position: absolute;

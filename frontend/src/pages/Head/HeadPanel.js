@@ -13,27 +13,28 @@ import '../../assets/styles/Admin/AdminPanel.css';
 import HeadStudent from './HeadStudent';
 import HeadChart from './HeadChart';
 import HeadSchedule from './HeadSchedule';
+import Navbar from '../../components/Navbar';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
 function HeadDashboard() {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const handlePopState = () => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('role');
-      localStorage.removeItem('email');
-      navigate('/login', { replace: true });
-      window.history.replaceState(null, "", window.location.origin);
-    };
+  // useEffect(() => {
+  //   const handlePopState = () => {
+  //     localStorage.removeItem('token');
+  //     localStorage.removeItem('role');
+  //     localStorage.removeItem('email');
+  //     navigate('/login', { replace: true });
+  //     window.history.replaceState(null, "", window.location.origin);
+  //   };
 
-    window.addEventListener('popstate', handlePopState);
+  //   window.addEventListener('popstate', handlePopState);
 
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [navigate]);
+  //   return () => {
+  //     window.removeEventListener('popstate', handlePopState);
+  //   };
+  // }, [navigate]);
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -48,9 +49,11 @@ function HeadDashboard() {
   const storedRole = localStorage.getItem('role');
 
   return (
+    <>
+    <Navbar/>
     <div className="dashboard-container">
       <div className="side-panel">
-        <Link to="/headdashboard/profile" className="profile-link">
+        <Link to="/head-dashboard/profile" className="profile-link">
           <img src={HeadProfileImg} alt="Profile" className="profile-image" />
         </Link>
         <h2 style={{ marginLeft: '30px' }}>Head Panel</h2>
@@ -113,6 +116,7 @@ function HeadDashboard() {
         </Routes>
       </div>
     </div>
+    </>
   );
 }
 

@@ -3,17 +3,19 @@ body {
 }
 
 body.dark-mode {
-  background-color: #221b1b;
+  background-color: #1a1a1ad8;
   color: #ffffff;
-  font-color: #ffffff;
 }
 
+/* Navbar */
 nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   min-height: 90px;
   padding: 0 2rem;
+  z-index: 1; /* Ensure the navbar is beneath the side panel when overlapping */
+  position: relative;
 }
 
 .navbar-logo {
@@ -74,16 +76,7 @@ nav {
   z-index: 1000;
 }
 
-.navbar-logout-button {
-  background: none;
-  border: none;
-  color: #333;
-  padding: 10px 20px;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-}
-
+.navbar-logout-button,
 .navbar-profile-button {
   background: none;
   border: none;
@@ -127,7 +120,7 @@ nav {
   }
 
   .navbar-links-container a {
-    margin: 1rem 0;
+    /* margin: 1rem 0; */
     text-align: center;
   }
 

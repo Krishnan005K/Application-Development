@@ -51,3 +51,20 @@
 .tab-switches-count {
     margin-top: 20px;
 }
+
+
+.appvide{
+    position: relative;
+}
+.video{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+.appcanvas{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}

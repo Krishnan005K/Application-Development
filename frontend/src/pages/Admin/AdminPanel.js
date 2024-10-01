@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import AdminProfileImg from '../../assets/images/attend-interview-image.png';
 import '../../assets/styles/Admin/AdminPanel.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell, faUser, faEdit, faPlus, faTrash, faChartBar, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import Head from './Head';
 import Mentor from './Mentor';
 import Student from './Student';
@@ -9,6 +11,7 @@ import ScheduleAdminDashboard from './ScheduleAdmin';
 import AdminReports from './AdminReports';
 import Interviewer from './Interviewer';
 import ProfileAdmin from './AdminProfile';
+import Navbar from '../../components/Navbar';
 
 function AdminDashboard() {
   const navigate=useNavigate();
@@ -25,6 +28,8 @@ const handleLogout = () => {
   navigate('/');
 };
   return (
+    <>
+    <Navbar/>
     <div className="dashboard-container">
       <div className="side-panel">
         <Link to="/admindashboard/profile" className="profile-link">
@@ -35,32 +40,32 @@ const handleLogout = () => {
           <ul>
             <li>
               <Link to="/admindashboard">
-                <i className="fas fa-bell nav-icon"></i>
-                Notifications
+              <FontAwesomeIcon icon={faBell} className="nav-icon" />
+              <p>Notifications</p>
               </Link>
             </li>
             <li>
               <Link to="/admindashboard/head">
-                <i className="fas fa-user nav-icon"></i>
-                Head
+              <FontAwesomeIcon icon={faUser} className="nav-icon" />
+              <p> Head</p>
               </Link>
             </li>
             <li>
               <Link to="/admindashboard/mentor">
-                <i className="fas fa-edit nav-icon"></i>
-                Mentor
+              <FontAwesomeIcon icon={faEdit} className="nav-icon" />
+              <p> Mentor</p>
               </Link>
             </li>
             <li>
               <Link to="/admindashboard/interviewer">
-                <i className="fas fa-plus nav-icon"></i>
-                Interviewers
+              <FontAwesomeIcon icon={faPlus} className="nav-icon" />
+              <p> Interviewers</p>
               </Link>
             </li>
             <li>
               <Link to="/admindashboard/student">
-                <i className="fas fa-trash nav-icon"></i>
-                Students
+              <FontAwesomeIcon icon={faTrash} className="nav-icon" />
+              <p> Students</p>
               </Link>
             </li>
             {/* <li>
@@ -77,15 +82,15 @@ const handleLogout = () => {
             </li> */}
             <li>
               <Link to="/admindashboard/reports">
-                <i className="fas fa-chart-bar nav-icon"></i>
-                Reports
+              <FontAwesomeIcon icon={faChartBar} className="nav-icon" />
+              <p> Reports</p>
               </Link>
             </li>
             
             <li onClick={handleLogout} >
             <Link onClick={handleLogout}>
-                <i className="fas fa-sign-out-alt nav-icon"></i>
-                Logout
+            <FontAwesomeIcon icon={faSignOutAlt} className="nav-icon" />
+            Logout
                 </Link>
             </li>
             
@@ -107,6 +112,7 @@ const handleLogout = () => {
         </Routes>
       </div>
     </div>
+    </>
   );
 }
 

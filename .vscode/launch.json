@@ -9,6 +9,26 @@
             "projectName": "project_backend",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MockinterviewApplication<com.mockinterview-mockinterview>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.mockinterview.mockinterview.MockinterviewApplication",
+            "projectName": "com.mockinterview-mockinterview",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MockinterviewApplication<backend>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.mockinterview.mockinterview.MockinterviewApplication",
+            "projectName": "backend",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

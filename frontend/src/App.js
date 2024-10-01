@@ -22,16 +22,17 @@ import MentorPanel from './pages/Mentors/MentorPanel';
 import HeadDashboard from './pages/Head/HeadPanel';
 import InterviewerDashboard from './pages/Interviewer/InterviewerDashboard';
 import { ToastContainer } from 'react-toastify';
+import Home from './components/Home';
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
   return (
     <Router>
       <div>
-      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-      <Navbar />
+      {/* <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover /> */}
+      {/* <Navbar /> */}
       {/* <ProfilePage/> */}
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path='/admindashboard/*' element={<AdminDashboard />} />

@@ -1,4 +1,3 @@
-/* Main Container */
 body::-webkit-scrollbar {
   display: none;
 }
@@ -6,22 +5,26 @@ body::-webkit-scrollbar {
 .dashboard-container {
   display: flex;
   height: 100vh;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 /* Side Panel */
 .side-panel {
   width: 220px;
-  background-color: #2f65ad; /* Updated base color */
-  border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Softer shadow for a professional look */
-  color: #ffffff; /* Updated text color to match the new base color */
+  background-color: #002F6C; /* Updated background color */
+  color: #FFFFFF; /* White text color for contrast */
+  /* border-radius: 10px; */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.37);
+  border: 10px solid rgba(255, 255, 255, 0.3); /* Lighter border for contrast */
   display: flex;
   flex-direction: column;
   padding: 20px;
-  margin-top: -4%;
+  position: fixed; /* Absolute positioning to overlap the navbar */
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 2; /* Ensure the side panel is above the navbar */
+  animation: slideIn 0.5s ease-in-out;
+  box-sizing: border-box; /* Include padding and border in width/height */
 }
 
 .side-panel .profile-link {
@@ -30,54 +33,99 @@ body::-webkit-scrollbar {
   margin-bottom: 20px;
 }
 
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pie-chart-card,
+.bar-chart-card {
+  background-color: #FFFFFF; /* White background for cards */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pie-chart-card h3,
+.bar-chart-card h3 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #002F6C; /* Heading color matching the side panel */
+}
+
 .side-panel .profile-image {
   width: 100px;
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #ffffff;
+  border: 2px solid #ecf0f1; /* Lighter border for profile image */
 }
 
 .side-panel h2 {
   margin-top: 0;
-  color: #ffffff;
+  color: #F2A950; /* Accent color for headings */
   cursor: pointer;
 }
 
-.side-panel h2 .admin-panel-link {
-  text-decoration: none;
-  color: inherit;
+.side-panel nav {
+  margin-top: 20px;
 }
 
 .side-panel nav ul {
   list-style-type: none;
   padding: 0;
+  margin-top: 0;
+  margin-left: -20%; /* Reset margin */
 }
 
 .side-panel nav ul li {
-  margin: 15px 0;
+  margin: 10px 0; /* Adjusted margin */
+  padding: 5px; /* Reset padding */
   position: relative;
+}
+.side-panel>nav>ul>li>.dasboardlink{
+  padding:10px;
 }
 
 .side-panel nav ul li a {
-  color: #ffffff;
+  color: #FFFFFF; /* Link color for contrast */
   text-decoration: none;
   font-weight: bold;
   display: flex;
   align-items: center;
   padding: 10px;
+  transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
   border-radius: 5px;
-  background-color: transparent; /* Removed hover effects */
+  box-sizing: border-box; /* Include padding and border in width/height */
 }
 
 .side-panel nav ul li a:hover {
-  color: #ffffff;
-  background-color: #23508c; /* Slightly darker shade for hover */
+  color: #002F6C; /* Hover color to match the side panel background */
+  background-color: #FFFFFF; /* Light background on hover */
+  transform: scale(1.05);
+}
+
+.side-panel nav ul li a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 4px;
+  height: 0;
+  background-color: #F2A950; /* Accent color */
+  transition: height 0.3s ease;
+  transform: translateY(-50%);
+}
+
+.side-panel nav ul li a:hover::before {
+  height: 100%;
 }
 
 /* Main Content Area */
 .main-content {
   flex: 1;
+  margin-left: 220px;
   padding: 20px;
   overflow-y: auto;
 }
@@ -89,17 +137,18 @@ body::-webkit-scrollbar {
 }
 
 .card {
-  background-color: #ffffff; /* Light background for contrast */
+  background-color: #FBF9EC; /* Light background for cards */
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow for a professional look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin: 10px;
   flex: 1 1 30%;
+  animation: fadeIn 0.5s ease;
 }
 
 .card h3 {
   margin-top: 0;
-  color: #2f65ad; /* Updated heading color */
+  color: #002F6C; /* Heading color matching the side panel */
 }
 
 .card p {

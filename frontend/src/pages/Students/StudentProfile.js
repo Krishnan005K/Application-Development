@@ -1,203 +1,117 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import '../../assets/styles/Admin/AdminProfile.css';
-import AdminProfileImg from '../../assets/images/attend-interview-image.png';
-// import AdminCharts from './AdminCharts';
+import { FiEdit } from "react-icons/fi";
+import { Line } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 
-const ProfileAdmin = () => {
-  const [studentData, setStudentData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    phoneNumber: '',
-    qualification: '',
-    role: '',
-    experience: '',
+const ProfileDashboard = () => {
+  // Sample Data for Charts
+  const scoreData = {
+    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    datasets: [
+      {
+        label: "Daily Score",
+        data: [80, 85, 70, 90, 95, 75, 88],
+        backgroundColor: "#73a2df",
+        borderColor: "#002F6C",
+        borderWidth: 2,
+        tension: 0.3,
+        fill: false,
+      },
+    ],
+  };
+
+  const ratingData = {
+    labels: ["Excellent", "Very Good", "Good", "Average", "Below Average"],
+    datasets: [
+      {
+        data: [40, 30, 20, 5, 5],
+        backgroundColor: ["#004b94", "#0073e6", "#59b2ff", "#9fd3ff", "#c2e2ff"],
+      },
+    ],
+  };
+
+  // Profile State
+  const [profile, setProfile] = useState({
+    name: 'Krishnan',
+    registerNo: 'CS123',
+    email: 'string@gmail.com',
+    phone: '+123-456-7890',
+    department: 'Computer Science',
+    batch: '2022',
+    dailyStatus: 'Completed 85% of tasks',
   });
 
   const [isEditing, setIsEditing] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const email = localStorage.getItem('email');
-
-  useEffect(() => {
-    if (email) {
-      fetchStudentData();
-    } else {
-      console.error("No email found in localStorage");
-    }
-  }, [email]);
-
-  const fetchStudentData = async () => {
-    if (!email) {
-      console.error("No email provided for fetching data.");
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      const response = await axios.get(`http://127.0.0.1:8080/students/email/${email}`, config);
-
-      setStudentData({
-        name: response.data.name || '',
-        email: response.data.email || '',
-        password: response.data.password || '',
-        phoneNumber: response.data.phoneNumber || '',
-        qualification: response.data.qualification || '',
-        role: response.data.role || '',
-        experience: response.data.experience || '',
-      });
-    } catch (error) {
-      console.error('Error fetching student data:', error);
-    }
-  };
-
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
-
-  const handleSaveClick = () => {
-    const emptyFields = Object.values(studentData).some(field => field === '');
-    if (emptyFields) {
-      alert('Fields cannot be empty');
-      return;
-    }
-    setShowConfirmation(true);
-  };
-
-  const confirmSave = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      await axios.put(`http://127.0.0.1:8080/students/updateByEmail/${email}`, studentData, config);
-      setShowConfirmation(false);
-      setIsEditing(false);
-      alert('Data saved successfully');
-    } catch (error) {
-      console.error('Error saving student data:', error);
-    }
-  };
-
-  const handleCancelClick = () => {
-    setIsEditing(false);
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing);
   };
 
   const handleChange = (e) => {
-    setStudentData({ ...studentData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      [name]: value,
+    }));
+  };
+
+  const handleSave = () => {
+    setIsEditing(false);
+    // Here you can add code to save the changes to your backend or database if necessary.
   };
 
   return (
-    <div className='profile-admin-whole-container'>
-      <div className="profile-admin-container">
-        <div className="profile-image-container">
-          <img src={AdminProfileImg} alt="Admin" className="profile-image" />
-        </div>
-        <h2>Student Profile</h2>
-        <form className="profile-form">
-          <div className="form-group">
-            <label>Username:</label>
-            <input
-              type="text"
-              name="name"
-              value={studentData.name}
-              onChange={handleChange}
-              disabled={!isEditing} 
-            />
-          </div>
-          <div className="form-group">
-            <label>Email:</label>
-            <input 
-              type="email" 
-              name="email" 
-              value={studentData.email} 
-              onChange={handleChange} 
-              disabled
-            />
-          </div>
-          <div className="form-group">
-            <label>Password:</label>
-            <input 
-              type="password" 
-              name="password" 
-              value={studentData.password} 
-              onChange={handleChange} 
-              disabled={!isEditing} 
-            />
-          </div>
-          <div className="form-group">
-            <label>Phone Number:</label>
-            <input 
-              type="text" 
-              name="phoneNumber" 
-              value={studentData.phoneNumber} 
-              onChange={handleChange} 
-              disabled={!isEditing} 
-            />
-          </div>
-          <div className="form-group">
-            <label>Qualification:</label>
-            <input 
-              type="text" 
-              name="qualification" 
-              value={studentData.qualification} 
-              onChange={handleChange} 
-              disabled={!isEditing} 
-            />
-          </div>
-          <div className="form-group">
-            <label>Role:</label>
-            <input 
-              type="text" 
-              name="role" 
-              value={studentData.role} 
-              disabled 
-            />
-          </div>
-          <div className="form-group">
-            <label>Years of Experience:</label>
-            <input 
-              type="text" 
-              name="experience" 
-              value={studentData.experience} 
-              onChange={handleChange} 
-              disabled={!isEditing} 
-            />
-          </div>
-          {isEditing ? (
-            <div className="form-actions">
-              <button type="button" className="profile-save-button" onClick={handleSaveClick}>Save</button>
-              <button type="button" className="profile-cancel-button" onClick={handleCancelClick}>Cancel</button>
-            </div>
-          ) : (
-            <button type="button" className="profile-edit-button" onClick={handleEditClick}>Edit</button>
-          )}
-        </form>
+    <div className="profile-dashboard">
+      <div className="profile-header">
+        <h2 className="profile-title">Student Profile</h2>
+        <button className="edit-button" onClick={handleEditToggle}>
+          {isEditing ? 'Save' : 'Edit Profile'} <FiEdit />
+        </button>
       </div>
-      {showConfirmation && (
-        <div className="confirmation-dialog">
-          <p>Are you sure you want to save the changes?</p>
-          <div className="confirmation-actions">
-            <button className="confirm-button" onClick={confirmSave}>Yes</button>
-            <button className="cancel-button" onClick={() => setShowConfirmation(false)}>No</button>
+
+      <div className="profile-info-section">
+        {Object.keys(profile).map((key) => (
+          <div className="info-card" key={key}>
+            <h3>{key.charAt(0).toUpperCase() + key.slice(1)}:</h3>
+            {isEditing ? (
+              <input
+                type="text"
+                name={key}
+                value={profile[key]}
+                onChange={handleChange}
+                className="profile-input"
+              />
+            ) : (
+              <p>{profile[key]}</p>
+            )}
           </div>
+        ))}
+      </div>
+
+      <div className="charts-section">
+        <div className="chart-card">
+          <h3>Daily Scores</h3>
+          <Line data={scoreData} />
         </div>
-      )}
-      {/* <AdminCharts /> */}
+        <div className="chart-card">
+          <h3>Ratings Breakdown</h3>
+          <Pie data={ratingData} />
+        </div>
+      </div>
+
+      <div className="score-status-section">
+        <div className="info-card">
+          <h3>Total Score:</h3>
+          <p>750/1000</p>
+        </div>
+        <div className="info-card">
+          <h3>Ratings:</h3>
+          <p>4.5/5</p>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default ProfileAdmin;
+export default ProfileDashboard;

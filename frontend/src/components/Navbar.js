@@ -59,7 +59,7 @@ const Navbar = () => {
           </div>
         ) : (
           <button className="primary-button" style={{ width: '110px' }}>
-            <Link to="/" className="navbar-link">Login</Link>
+            <Link to="/login" className="navbar-link">Login</Link>
           </button>
         )}
         <div className="navbar-theme-toggle" onClick={toggleTheme}>

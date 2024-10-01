@@ -10,11 +10,29 @@ import InterviewerProfile from './InterviewerProfile';
 import ViewInterviewees from './ViewInterviewees';
 import InterviewForm from './InterviewForm';
 import InterviewsManager from './InterviewsManager';
+import Navbar from '../../components/Navbar';
+
+import { useNavigate } from 'react-router-dom';
+
 function InterviewerDashboard() {
+  const navigate = useNavigate();
+const logout = () => {
+  localStorage.removeItem('token');
+};
+const handleLogout = () => {
+  logout();
+  localStorage.removeItem('token');
+  localStorage.removeItem('role');
+  localStorage.removeItem('email');
+  localStorage.removeItem('userId');
+  navigate('/');
+};
   return (
+    <>
+    <Navbar/>
     <div className="dashboard-container">
       <div className="side-panel">
-        <Link to="/interviewerdashboard/profile" className="profile-link">
+        <Link to="/interviewer-dashboard/profile" className="profile-link">
           <img src={InterviewerProfileImg} alt="Profile" className="profile-image" />
         </Link>
         <h2 style={{marginLeft:'30px'}}>Interviewer Panel</h2>
@@ -47,7 +65,7 @@ function InterviewerDashboard() {
               </Link>
             </li> */}
             <li>
-              <Link to="/">
+              <Link onClick={handleLogout}>
                 <i className="fas fa-sign-out-alt nav-icon"></i>
                 Logout
               </Link>
@@ -66,6 +84,7 @@ function InterviewerDashboard() {
         </Routes>
       </div>
     </div>
+    </>
   );
 }
 

@@ -9,12 +9,28 @@ import Performance from './Performance';
 import '../../assets/styles/Student/StudentPanel.css'; // Use this CSS file
 import StudentProfile from './StudentProfile';
 import VideoRecord from './VideoRecord';
+import Navbar from '../../components/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 function StudentDashboard() {
+  const navigate = useNavigate();
+const logout = () => {
+  localStorage.removeItem('token');
+};
+const handleLogout = () => {
+  logout();
+  localStorage.removeItem('token');
+  localStorage.removeItem('role');
+  localStorage.removeItem('email');
+  localStorage.removeItem('userId');
+  navigate('/');
+};
   return (
+    <>
+    <Navbar/>
     <div className="dashboard-container">
       <div className="side-panel">
-        <Link to="/studentdashboard/profile" className="profile-link">
+        <Link to="/student-dashboard/profile" className="profile-link">
           <img src={StudentProfileImg} alt="Profile" className="profile-image" />
         </Link>
         <h2 style={{ marginLeft: '30px' }}>Student Panel</h2>
@@ -39,7 +55,7 @@ function StudentDashboard() {
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link onClick={handleLogout}>
                 <i className="fas fa-sign-out-alt nav-icon"></i>
                 Logout
               </Link>
@@ -60,6 +76,7 @@ function StudentDashboard() {
         </Routes>
       </div>
     </div>
+    </>
   );
 }
 
