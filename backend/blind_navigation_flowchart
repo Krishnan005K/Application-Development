@@ -1,0 +1,24 @@
+// Independent Navigation for the Blind
+digraph {
+	A [label="User wears glasses"]
+	B [label=Camera]
+	C [label="Object Recognition"]
+	D [label=OCR]
+	E [label="Obstacle Detection"]
+	F [label="(Optional) Facial Recognition"]
+	G [label="Voice Commands"]
+	H [label="Navigation Assistance"]
+	I [label="Auditory Feedback"]
+	J [label="User adjusts settings via voice commands"]
+	A -> B
+	B -> C
+	C -> D
+	D -> E
+	E -> F
+	E -> H
+	E -> I
+	F -> G
+	G -> H
+	G -> I
+	J -> G
+}
